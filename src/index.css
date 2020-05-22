@@ -13,4 +13,6 @@ h4,
 h5,
 h6 {
   font-family: 'Raleway', sans-serif;
+  font-size: 3.5rem;
+  user-select: none;
 }
