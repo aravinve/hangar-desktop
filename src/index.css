@@ -14,14 +14,3 @@ h5,
 h6 {
   font-family: 'Raleway', sans-serif;
 }
-
-.flex-container {
-  display: flex;
-}
-
-.thumbnail {
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
-  margin-right: 16px;
-}
