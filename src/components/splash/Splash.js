@@ -19,57 +19,77 @@ class Splash extends React.Component {
   };
   showHome = (e) => {
     e.preventDefault();
-    console.log(this.state);
-    ipcRenderer.send('ready-to-show');
+    localStorage.setItem('loginData', JSON.stringify(this.state));
+    ipcRenderer.send('login');
+  };
+  exitApp = () => {
+    const remote = electron.remote;
+    let currentWindow = remote.getCurrentWindow();
+    currentWindow.close();
   };
   render() {
     return (
-      <div
-        className='row justify-content-center align-items-center'
-        style={styleSplash}
-      >
+      <div className='container' style={styleSplash}>
         {this.state.showForm ? (
-          <form className='card m-2' method='POST' onSubmit={this.showHome}>
-            <div className='card-body'>
-              <div className='form-group'>
+          <form
+            className='box center-form-box'
+            method='POST'
+            onSubmit={this.showHome}
+          >
+            <div className='field'>
+              <div className='control'>
                 <input
                   type='text'
-                  className='form-control'
                   id='hangarName'
                   name='hangarName'
                   placeholder='Hangar Name'
                   onChange={this.handleChange}
+                  className='input'
                   required
                 />
               </div>
-              <div className='form-group'>
+            </div>
+            <div className='field'>
+              <div className='control'>
                 <input
                   type='email'
-                  className='form-control'
                   id='hangarEmail'
                   name='hangarEmail'
                   placeholder='Email'
                   onChange={this.handleChange}
+                  className='input'
                   required
                 />
               </div>
-              <div className='form-group'>
+            </div>
+            <div className='field'>
+              <div className='control'>
                 <input
                   type='password'
-                  className='form-control'
                   id='hangarPin'
                   name='hangarPin'
-                  placeholder='Pin'
+                  placeholder='4 Digit Pin'
                   maxLength='4'
                   pattern='[0-9]{4}'
                   onChange={this.handleChange}
+                  className='input'
                   required
                 />
               </div>
-              <div className='form-group'>
+            </div>
+            <div className='field'>
+              <div className='control'>
+                <button
+                  className='button is-dark is-outlined'
+                  onClick={this.toggleForm}
+                  style={{ marginRight: '1.5rem' }}
+                >
+                  Back
+                </button>
                 <button
                   type='submit'
-                  className='btn btn-outline-primary btn-block mt-2'
+                  className='button is-primary is-outlined'
+                  style={{ marginLeft: '1.5rem' }}
                 >
                   Submit
                 </button>
@@ -77,9 +97,15 @@ class Splash extends React.Component {
             </div>
           </form>
         ) : (
-          <button className='btn btn-primary btn-sm' onClick={this.toggleForm}>
-            Setup Hangar
-          </button>
+          <div className='center-box'>
+            <button className='button is-primary' onClick={this.toggleForm}>
+              Setup Hangar
+            </button>
+            <br />
+            <button className='button is-dark' onClick={this.exitApp}>
+              Exit
+            </button>
+          </div>
         )}
       </div>
     );
@@ -87,7 +113,6 @@ class Splash extends React.Component {
 }
 
 const styleSplash = {
-  width: '100%',
   height: '100vh',
   margin: '0px',
   backgroundImage: 'url(' + image + ')',

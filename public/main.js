@@ -60,7 +60,12 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('ready-to-show', () => {
-  splashScreen.destroy();
+ipcMain.on('login', () => {
+  splashScreen.hide();
   mainWindow.show();
+});
+
+ipcMain.on('logout', () => {
+  mainWindow.hide();
+  splashScreen.show();
 });

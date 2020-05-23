@@ -16,3 +16,21 @@ h6 {
   font-size: 3.5rem;
   user-select: none;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.center-box {
+  position: fixed;
+  top: 14.5rem;
+  left: 11.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.center-form-box {
+  position: fixed;
+  top: 8.5rem;
+  left: 7.5rem;
+}
