@@ -3,7 +3,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #ffffff;
 }
 
 h1,
@@ -15,10 +14,6 @@ h6 {
   font-family: 'Raleway', sans-serif;
   font-size: 3.5rem;
   user-select: none;
-}
-
-::-webkit-scrollbar {
-  display: none;
 }
 
 .center-box {
@@ -33,4 +28,9 @@ h6 {
   position: fixed;
   top: 8.5rem;
   left: 7.5rem;
+}
+
+.content-container {
+  overflow-y: hidden;
+  overflow-x: auto;
 }

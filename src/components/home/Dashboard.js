@@ -1,82 +1,100 @@
 import React, { Component } from 'react';
 import image from '../../img/Logo_Hangar.png';
+import { Link } from 'react-router-dom';
+
 const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   showSplash = () => {
     localStorage.clear();
     ipcRenderer.send('logout');
   };
+
+  toggleSettings = () => {
+    this.props.toggleSettings();
+  };
+
+  createStickyNote = () => {
+    this.props.showStickyNote();
+  };
+
   render() {
     return (
       <nav className='navbar is-fixed-bottom' role='navigation'>
         <div className='navbar-brand'>
-          <a className='navbar-item' href='#'>
+          <Link className='navbar-item' to='/home'>
             <img src={image} style={{ maxHeight: '3.75rem' }} />
-          </a>
+          </Link>
         </div>
         <div className='navbar-menu'>
           <div className='navbar-start'>
             <div className='navbar-item has-dropdown has-dropdown-up is-hoverable'>
               <a className='navbar-link'>Explore</a>
               <div className='navbar-dropdown'>
-                <a className='navbar-item' href='#'>
-                  Read
-                </a>
-                <a className='navbar-item' href='#'>
-                  Listen
-                </a>
-                <a className='navbar-item' href='#'>
-                  Watch
-                </a>
-                <a className='navbar-item' href='#'>
+                <Link className='navbar-item' to='/news'>
+                  News
+                </Link>
+                <Link className='navbar-item' to='/music'>
+                  Music
+                </Link>
+                <Link className='navbar-item' to='#'>
+                  Videos
+                </Link>
+                <Link className='navbar-item' to='#'>
                   Cook
-                </a>
-                <a className='navbar-item' href='#'>
+                </Link>
+                <Link className='navbar-item' to='#'>
                   Exercise
-                </a>
-                <a className='navbar-item' href='#'>
+                </Link>
+                <Link className='navbar-item' to='#'>
                   Play
-                </a>
+                </Link>
               </div>
             </div>
             <div className='navbar-item has-dropdown has-dropdown-up is-hoverable'>
               <a className='navbar-link'>Tools</a>
               <div className='navbar-dropdown'>
-                <a className='navbar-item' href='#'>
+                <Link className='navbar-item' to='#'>
                   Calculator
-                </a>
-                <a className='navbar-item' href='#'>
+                </Link>
+                <Link className='navbar-item' to='#'>
                   Calendar
-                </a>
-                <a className='navbar-item' href='#'>
+                </Link>
+                <Link className='navbar-item' to='#'>
                   Clock
-                </a>
-                <a className='navbar-item' href='#'>
+                </Link>
+                <Link className='navbar-item' to='#'>
                   Converter
-                </a>
+                </Link>
+                <Link className='navbar-item' to='/weather'>
+                  Weather
+                </Link>
                 <hr className='navbar-divider' />
-                <a className='navbar-item' href='#'>
+                <Link className='navbar-item' to='#'>
                   Todoist
-                </a>
+                </Link>
               </div>
             </div>
             <div className='navbar-item has-dropdown has-dropdown-up is-hoverable'>
-              <a className='navbar-link'>Social</a>
+              <Link className='navbar-link'>Social</Link>
               <div className='navbar-dropdown'>
-                <a className='navbar-item' href='#'>
+                <Link className='navbar-item' to='/reddit'>
                   Reddit
-                </a>
-                <a className='navbar-item' href='#'>
+                </Link>
+                <Link className='navbar-item' to='#'>
                   Oxford Dictionary
-                </a>
-                <a className='navbar-item' href='#'>
+                </Link>
+                <Link className='navbar-item' to='#'>
                   Wikipedia
-                </a>
-                <a className='navbar-item' href='#'>
+                </Link>
+                <Link className='navbar-item' to='#'>
                   Hacker News
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -84,9 +102,12 @@ export default class Dashboard extends Component {
         <div className='navbar-end'>
           <div className='navbar-item'>
             <div className='buttons'>
-              <a className='button' href='#'>
+              <button className='button' onClick={this.createStickyNote}>
+                <i className='fas fa-sticky-note'></i>
+              </button>
+              <button className='button' onClick={this.toggleSettings}>
                 <i className='fas fa-cog'></i>
-              </a>
+              </button>
               <button className='button' onClick={this.showSplash}>
                 <i className='fas fa-sign-out-alt'></i>
               </button>
@@ -97,3 +118,5 @@ export default class Dashboard extends Component {
     );
   }
 }
+
+export default Dashboard;
