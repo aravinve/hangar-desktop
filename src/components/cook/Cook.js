@@ -6,8 +6,8 @@ import RecipeCard from './RecipeCard';
 class Cook extends Component {
   state = {
     apiUrl: 'https://api.edamam.com/search',
-    appId: 'ef6eebbc',
-    apiKey: '778b371ee0a675774a2105a41e40a51e', // Refer GDocs
+    appId: '',
+    apiKey: '', // Refer GDocs
     recipes: [],
     searchRecipe: '',
   };
@@ -22,7 +22,6 @@ class Cook extends Component {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         this.setState({ recipes: data.hits });
       })
       .catch(function (e) {

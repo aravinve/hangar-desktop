@@ -71,6 +71,9 @@ class Dashboard extends Component {
                 <Link className='navbar-item' to='#'>
                   Converter
                 </Link>
+                <Link className='navbar-item' to='/dictionary'>
+                  Dictionary
+                </Link>
                 <Link className='navbar-item' to='/weather'>
                   Weather
                 </Link>
@@ -85,9 +88,6 @@ class Dashboard extends Component {
               <div className='navbar-dropdown'>
                 <Link className='navbar-item' to='/reddit'>
                   Reddit
-                </Link>
-                <Link className='navbar-item' to='#'>
-                  Oxford Dictionary
                 </Link>
                 <Link className='navbar-item' to='#'>
                   Wikipedia

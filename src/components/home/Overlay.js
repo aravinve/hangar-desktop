@@ -33,7 +33,7 @@ function Overlay(props) {
                 changeSettingsMenu={props.changeSettingsMenu}
               />
             ) : (
-              <h3 className='is-size-3'>{props.clock}</h3>
+              <h3 className='subtitle'>{props.clock}</h3>
             )}
           </div>
         </div>

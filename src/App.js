@@ -9,6 +9,7 @@ import Music from './components/music/Music';
 import Weather from './components/weather/Weather';
 import Calculator from './components/calculator/Calculator';
 import Cook from './components/cook/Cook';
+import Dictionary from './components/dictionary/Dictionary';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route exact path='/home' component={Home} />
         <Route exact path='/news' component={News} />
         <Route exact path='/cook' component={Cook} />
+        <Route exact path='/dictionary' component={Dictionary} />
         <Route exact path='/weather' component={Weather} />
         <Route exact path='/calculator' component={Calculator} />
         <Route exact path='/music' component={Music} />
