@@ -88,7 +88,7 @@ class Splash extends React.Component {
                 </button>
                 <button
                   type='submit'
-                  className='button is-info is-outlined'
+                  className='button is-dark is-outlined'
                   style={{ marginLeft: '1.5rem' }}
                 >
                   Submit
@@ -98,7 +98,7 @@ class Splash extends React.Component {
           </form>
         ) : (
           <div className='center-box'>
-            <button className='button is-info' onClick={this.toggleForm}>
+            <button className='button is-dark' onClick={this.toggleForm}>
               Setup Hangar
             </button>
             <br />

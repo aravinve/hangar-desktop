@@ -7,6 +7,8 @@ import News from './components/news/News';
 import Reddit from './components/reddit/Reddit';
 import Music from './components/music/Music';
 import Weather from './components/weather/Weather';
+import Calculator from './components/calculator/Calculator';
+import Cook from './components/cook/Cook';
 
 function App() {
   return (
@@ -15,7 +17,9 @@ function App() {
         <Route exact path='/' component={Splash} />
         <Route exact path='/home' component={Home} />
         <Route exact path='/news' component={News} />
+        <Route exact path='/cook' component={Cook} />
         <Route exact path='/weather' component={Weather} />
+        <Route exact path='/calculator' component={Calculator} />
         <Route exact path='/music' component={Music} />
         <Route exact path='/reddit' component={Reddit} />
       </Switch>

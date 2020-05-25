@@ -15,6 +15,7 @@ class News extends Component {
     contentData: '',
     contentUrl: '',
   };
+
   componentDidMount() {
     this.loadArticle(this.state.searchArticle, this.state.searchCountry);
   }
@@ -55,13 +56,16 @@ class News extends Component {
   };
 
   render() {
-    const articlesData = this.state.articles.map((article) => (
-      <Article
-        key={article.publishedAt}
-        article={article}
-        activateContentFrame={this.activateContentFrame}
-      />
-    ));
+    const articlesData =
+      this.state.articles != null
+        ? this.state.articles.map((article) => (
+            <Article
+              key={article.publishedAt}
+              article={article}
+              activateContentFrame={this.activateContentFrame}
+            />
+          ))
+        : null;
     return (
       <React.Fragment>
         <div className='columns'>

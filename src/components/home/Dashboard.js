@@ -45,7 +45,7 @@ class Dashboard extends Component {
                 <Link className='navbar-item' to='#'>
                   Videos
                 </Link>
-                <Link className='navbar-item' to='#'>
+                <Link className='navbar-item' to='/cook'>
                   Cook
                 </Link>
                 <Link className='navbar-item' to='#'>
@@ -59,7 +59,7 @@ class Dashboard extends Component {
             <div className='navbar-item has-dropdown has-dropdown-up is-hoverable'>
               <a className='navbar-link'>Tools</a>
               <div className='navbar-dropdown'>
-                <Link className='navbar-item' to='#'>
+                <Link className='navbar-item' to='/calculator'>
                   Calculator
                 </Link>
                 <Link className='navbar-item' to='#'>
