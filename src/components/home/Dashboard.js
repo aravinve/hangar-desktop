@@ -68,7 +68,7 @@ class Dashboard extends Component {
                 <Link className='navbar-item' to='#'>
                   Clock
                 </Link>
-                <Link className='navbar-item' to='#'>
+                <Link className='navbar-item' to='/converter'>
                   Converter
                 </Link>
                 <Link className='navbar-item' to='/dictionary'>

@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "concurrently": "^5.2.0",
+    "convert-units": "^2.3.4",
     "cross-env": "^7.0.2",
     "electron": "^9.0.0",
     "electron-builder": "^22.6.1",

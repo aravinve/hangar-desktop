@@ -12,6 +12,7 @@ import Cook from './components/cook/Cook';
 import Dictionary from './components/dictionary/Dictionary';
 import Covid from './components/covid/Covid';
 import Todoist from './components/todoist/Todoist';
+import Converter from './components/converter/Converter';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route exact path='/weather' component={Weather} />
         <Route exact path='/todoist' component={Todoist} />
         <Route exact path='/calculator' component={Calculator} />
+        <Route exact path='/converter' component={Converter} />
         <Route exact path='/music' component={Music} />
         <Route exact path='/reddit' component={Reddit} />
         <Route exact path='/covid' component={Covid} />
