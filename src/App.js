@@ -11,6 +11,7 @@ import Calculator from './components/calculator/Calculator';
 import Cook from './components/cook/Cook';
 import Dictionary from './components/dictionary/Dictionary';
 import Covid from './components/covid/Covid';
+import Todoist from './components/todoist/Todoist';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route exact path='/cook' component={Cook} />
         <Route exact path='/dictionary' component={Dictionary} />
         <Route exact path='/weather' component={Weather} />
+        <Route exact path='/todoist' component={Todoist} />
         <Route exact path='/calculator' component={Calculator} />
         <Route exact path='/music' component={Music} />
         <Route exact path='/reddit' component={Reddit} />

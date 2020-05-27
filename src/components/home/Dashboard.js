@@ -78,7 +78,7 @@ class Dashboard extends Component {
                   Weather
                 </Link>
                 <hr className='navbar-divider' />
-                <Link className='navbar-item' to='#'>
+                <Link className='navbar-item' to='/todoist'>
                   Todoist
                 </Link>
               </div>
