@@ -10,6 +10,7 @@ import Weather from './components/weather/Weather';
 import Calculator from './components/calculator/Calculator';
 import Cook from './components/cook/Cook';
 import Dictionary from './components/dictionary/Dictionary';
+import Covid from './components/covid/Covid';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route exact path='/calculator' component={Calculator} />
         <Route exact path='/music' component={Music} />
         <Route exact path='/reddit' component={Reddit} />
+        <Route exact path='/covid' component={Covid} />
       </Switch>
     </BrowserRouter>
   );

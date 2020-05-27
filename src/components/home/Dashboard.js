@@ -95,6 +95,10 @@ class Dashboard extends Component {
                 <Link className='navbar-item' to='#'>
                   Hacker News
                 </Link>
+                <hr className='navbar-divider' />
+                <Link className='navbar-item' to='/covid'>
+                  Covid-19 Tracker
+                </Link>
               </div>
             </div>
           </div>
