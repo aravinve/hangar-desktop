@@ -79,7 +79,7 @@ class Converter extends Component {
           <div className='columns'>
             <SidePane loadSelectData={this.loadSelectData} />
             <div
-              className='column is-6'
+              className='column is-7'
               style={{
                 marginTop: '4rem',
                 paddingLeft: '4rem',
@@ -117,13 +117,17 @@ class Converter extends Component {
                 className='column is-3'
                 style={{
                   marginTop: '4rem',
+                  position: 'fixed',
+                  right: '8rem',
                 }}
               >
                 <div
                   className='box has-background-light '
-                  style={{ overflowWrap: 'break-word' }}
+                  style={{ overflowWrap: 'break-word', textAlign: 'center' }}
                 >
-                  <div className='content is-size-5'>
+                  <h4 className='is-size-2'>Result</h4>
+                  <hr className='navbar-divider' />
+                  <div className='is-size-5'>
                     {this.state.result}
                     {this.state.from} = {this.state.convertResult}
                     {this.state.to}

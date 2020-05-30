@@ -80,7 +80,7 @@ class Splash extends React.Component {
             <div className='field'>
               <div className='control'>
                 <button
-                  className='button is-dark is-outlined'
+                  className='button is-h-blue is-outlined'
                   onClick={this.toggleForm}
                   style={{ marginRight: '1.5rem' }}
                 >
@@ -88,7 +88,7 @@ class Splash extends React.Component {
                 </button>
                 <button
                   type='submit'
-                  className='button is-dark is-outlined'
+                  className='button is-h-blue is-outlined'
                   style={{ marginLeft: '1.5rem' }}
                 >
                   Submit
@@ -98,11 +98,11 @@ class Splash extends React.Component {
           </form>
         ) : (
           <div className='center-box'>
-            <button className='button is-dark' onClick={this.toggleForm}>
+            <button className='button is-h-blue' onClick={this.toggleForm}>
               Setup Hangar
             </button>
             <br />
-            <button className='button is-dark' onClick={this.exitApp}>
+            <button className='button is-h-blue' onClick={this.exitApp}>
               Exit
             </button>
           </div>

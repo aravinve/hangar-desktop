@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import Dashboard from '../home/Dashboard';
 
-class Music extends Component {
+class Clock extends Component {
   render() {
     return (
       <React.Fragment>
-        <div>Music</div>
+        <div>Clock</div>
         <Dashboard />
       </React.Fragment>
     );
   }
 }
 
-export default Music;
+export default Clock;

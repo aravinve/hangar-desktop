@@ -42,16 +42,13 @@ class Dashboard extends Component {
                 <Link className='navbar-item' to='/music'>
                   Music
                 </Link>
-                <Link className='navbar-item' to='#'>
+                <Link className='navbar-item' to='/videos'>
                   Videos
                 </Link>
                 <Link className='navbar-item' to='/cook'>
                   Cook
                 </Link>
-                <Link className='navbar-item' to='#'>
-                  Exercise
-                </Link>
-                <Link className='navbar-item' to='#'>
+                <Link className='navbar-item' to='/play'>
                   Play
                 </Link>
               </div>
@@ -62,10 +59,10 @@ class Dashboard extends Component {
                 <Link className='navbar-item' to='/calculator'>
                   Calculator
                 </Link>
-                <Link className='navbar-item' to='#'>
+                <Link className='navbar-item' to='/calendar'>
                   Calendar
                 </Link>
-                <Link className='navbar-item' to='#'>
+                <Link className='navbar-item' to='/clock'>
                   Clock
                 </Link>
                 <Link className='navbar-item' to='/converter'>
@@ -89,10 +86,10 @@ class Dashboard extends Component {
                 <Link className='navbar-item' to='/reddit'>
                   Reddit
                 </Link>
-                <Link className='navbar-item' to='#'>
+                <Link className='navbar-item' to='/wikipedia'>
                   Wikipedia
                 </Link>
-                <Link className='navbar-item' to='#'>
+                <Link className='navbar-item' to='/hackernews'>
                   Hacker News
                 </Link>
                 <hr className='navbar-divider' />
