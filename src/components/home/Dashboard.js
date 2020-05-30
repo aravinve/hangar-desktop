@@ -6,10 +6,6 @@ const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   showSplash = () => {
     localStorage.clear();
     ipcRenderer.send('logout');
@@ -24,6 +20,7 @@ class Dashboard extends Component {
   };
 
   render() {
+    const flag = window.location.href.includes('/home');
     return (
       <nav className='navbar is-fixed-bottom' role='navigation'>
         <div className='navbar-brand'>
@@ -103,12 +100,17 @@ class Dashboard extends Component {
         <div className='navbar-end'>
           <div className='navbar-item'>
             <div className='buttons'>
-              <button className='button' onClick={this.createStickyNote}>
-                <i className='fas fa-sticky-note'></i>
-              </button>
-              <button className='button' onClick={this.toggleSettings}>
-                <i className='fas fa-cog'></i>
-              </button>
+              {flag ? (
+                <React.Fragment>
+                  <button className='button' onClick={this.createStickyNote}>
+                    <i className='fas fa-sticky-note'></i>
+                  </button>
+                  <button className='button' onClick={this.toggleSettings}>
+                    <i className='fas fa-cog'></i>
+                  </button>
+                </React.Fragment>
+              ) : null}
+
               <button className='button' onClick={this.showSplash}>
                 <i className='fas fa-sign-out-alt'></i>
               </button>

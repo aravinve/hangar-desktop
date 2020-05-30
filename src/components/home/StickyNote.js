@@ -11,14 +11,14 @@ function StickyNote() {
         >
           &nbsp;
         </div>
-        <div className='content' style={cardToolStyle}>
+        {/* <div className='content' style={cardToolStyle}>
           <span className=' button is-small card-footer-item'>
             <i className='fas fa-plus'></i>
           </span>
           <span className='button is-small card-footer-item'>
-            <i className='fas fa-times'></i>
+            <i className='fas fa-trash'></i>
           </span>
-        </div>
+        </div> */}
         <div className='card-header-title' contentEditable='true'>
           Notes Title
         </div>
