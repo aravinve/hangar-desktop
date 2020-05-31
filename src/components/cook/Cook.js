@@ -7,7 +7,7 @@ class Cook extends Component {
   state = {
     apiUrl: 'https://api.edamam.com/search',
     appId: '',
-    apiKey: '', // Refer GDocs
+    apiKey: '',
     recipes: [],
     searchRecipe: '',
   };

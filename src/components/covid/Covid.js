@@ -20,7 +20,6 @@ class Covid extends Component {
         return countryResponse.json();
       })
       .then((countryData) => {
-        console.log(countryData);
         this.setState({ countries: countryData.countries });
       });
   }
@@ -63,7 +62,6 @@ class Covid extends Component {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         this.setState({ detailData: data });
       })
       .catch(function (e) {

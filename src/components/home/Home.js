@@ -15,7 +15,7 @@ class Home extends Component {
       searchText: 'mountains',
       amount: 15,
       apiUrl: 'https://pixabay.com/api/',
-      apiKey: '', // Refer GDocs
+      apiKey: '',
       images: [],
       url: '',
       clock: '',
@@ -74,7 +74,6 @@ class Home extends Component {
   };
 
   changeSearchTerm = () => {
-    console.log(this.state.searchText);
     document.getElementById('searchText').value = '';
     this.loadImages(this.state.searchText);
   };

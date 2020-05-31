@@ -21,7 +21,6 @@ class Wikipedia extends Component {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
           this.setState({ articles: data });
         })
         .catch(function (e) {

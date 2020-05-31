@@ -6,7 +6,7 @@ import Dashboard from '../home/Dashboard';
 class Weather extends Component {
   state = {
     apiUrl: 'https://api.openweathermap.org/data/2.5/weather',
-    apiKey: '', // Refer GDocs
+    apiKey: '',
     weatherData: '',
     city: '',
   };
@@ -23,7 +23,6 @@ class Weather extends Component {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         this.setState({ weatherData: data });
       })
       .catch(function (e) {

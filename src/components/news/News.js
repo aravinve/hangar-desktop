@@ -8,7 +8,7 @@ class News extends Component {
   state = {
     apiUrl: 'https://newsapi.org/v2',
     country: 'us',
-    apiKey: '', // Refer GDocs
+    apiKey: '',
     articles: [],
     searchArticle: '',
     searchCountry: 'us',
