@@ -100,13 +100,15 @@ class Home extends Component {
     this.setState({ showSettings: !this.state.showSettings });
   };
 
+  addZero = (n) => (n < 10 ? '0' + n : n);
+
   showClock = () => {
     const dateObject = new Date();
     const date = dateObject.getDate();
     const month = dateObject.getMonth() + 1;
     const year = dateObject.getFullYear();
     const hours = dateObject.getHours();
-    const minutes = dateObject.getMinutes();
+    const minutes = this.addZero(dateObject.getMinutes());
     const timeString = `${date}-${month}-${year}  ${hours}:${minutes}`;
     this.setState({ clock: timeString });
   };

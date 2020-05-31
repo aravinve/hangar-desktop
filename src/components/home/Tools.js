@@ -83,40 +83,9 @@ function Tools(props) {
         style={{ display: 'none' }}
       >
         <h4 className='subtitle is-4'>Preferences</h4>
-        <div className='columns'>
-          <div className='column'>
-            <p>Change Background</p>
-          </div>
-          <div className='column'>
-            <button
-              className='button is-dark is-small'
-              onClick={props.changeOverlay}
-            >
-              Change
-            </button>
-          </div>
-        </div>
-        <div className='columns'>
-          <div className='column'>
-            <p>Change Background Theme</p>
-          </div>
-          <div className='column'>
-            <input
-              type='text'
-              className='input is-small'
-              name='searchText'
-              onChange={props.handleChange}
-              placeholder='Mountains'
-              id='searchText'
-            />
-            <button
-              className='button is-dark is-small fadein'
-              onClick={props.changeSearchTerm}
-              style={{ marginTop: '1rem' }}
-            >
-              Change Theme
-            </button>
-          </div>
+        <div className='container' style={{ textAlign: 'center' }}>
+          <h6 className='is-size-5'>Under Construction</h6>
+          <div className='container' style={styleOverlay}></div>
         </div>
       </div>
       <div
@@ -125,44 +94,27 @@ function Tools(props) {
         style={{ display: 'none' }}
       >
         <h4 className='subtitle is-4'>Account</h4>
-        <div className='columns'>
-          <div className='column'>
-            <p>Change Background</p>
-          </div>
-          <div className='column'>
-            <button
-              className='button is-dark is-small'
-              onClick={props.changeOverlay}
-            >
-              Change
-            </button>
-          </div>
-        </div>
-        <div className='columns'>
-          <div className='column'>
-            <p>Change Background Theme</p>
-          </div>
-          <div className='column'>
-            <input
-              type='text'
-              className='input is-small'
-              name='searchText'
-              onChange={props.handleChange}
-              placeholder='Mountains'
-              id='searchText'
-            />
-            <button
-              className='button is-dark is-small fadein'
-              onClick={props.changeSearchTerm}
-              style={{ marginTop: '1rem' }}
-            >
-              Change Theme
-            </button>
-          </div>
+        <div className='container' style={{ textAlign: 'center' }}>
+          <h6 className='is-size-5'>Under Construction</h6>
+          <div className='container' style={styleOverlay}></div>
         </div>
       </div>
     </div>
   );
 }
+
+const styleOverlay = {
+  width: '50%',
+  height: '20vh',
+  backgroundImage: 'url(' + require('../../img/under_construction.png') + ')',
+  backgroundSize: 'cover',
+  backgroundClip: 'border-box',
+  backgroundPosition: 'center',
+  opacity: '100%',
+  backgroundRepeat: 'no-repeat',
+  WebkitAnimation: 'fadein 2s',
+  MozAnimation: 'fadein 2s',
+  animation: 'fadein 2s',
+};
 
 export default Tools;
