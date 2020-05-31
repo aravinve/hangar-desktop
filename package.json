@@ -1,7 +1,7 @@
 {
   "name": "hangar",
   "version": "1.0.0",
-  "description": "All Apps In The Hangar",
+  "description": "All Apps In Your Hangar",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -50,6 +50,9 @@
   "author": "Aravind Venkatesan",
   "build": {
     "appId": "com.example.electron-cra",
+    "win": {
+      "icon": "build/icon.png"
+    },
     "files": [
       "build/**/*",
       "node_modules/**/*"

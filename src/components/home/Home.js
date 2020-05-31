@@ -7,6 +7,7 @@ import dragElement from './drag';
 
 const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
+const Menu = electron.remote.Menu;
 
 class Home extends Component {
   constructor(props) {
@@ -29,6 +30,11 @@ class Home extends Component {
     ipcRenderer.on('userData', (event, arg) => {
       this.setState({ userData: arg });
     });
+    const data = JSON.parse(localStorage.getItem('loginData'));
+    if (this.state.userData === '') {
+      this.setState({ userData: data });
+    }
+    this.initMenu();
     this.loadImages(this.state.searchText);
     this.showClock();
     setInterval(this.showClock, 60000);
@@ -42,6 +48,33 @@ class Home extends Component {
       dragElement(document.getElementById('mydiv'));
     }
   }
+
+  initMenu = () => {
+    const menu = Menu.buildFromTemplate([
+      {
+        label: 'File',
+        submenu: [
+          {
+            label: 'Settings',
+            accelerator: 'CmdOrCtrl+,',
+            click: () => {
+              this.toggleSettings();
+            },
+          },
+          { type: 'separator' },
+          {
+            label: 'Quit',
+            accelerator: 'CmdOrCtrl+Q',
+            click: () => {
+              localStorage.clear();
+              ipcRenderer.send('logout');
+            },
+          },
+        ],
+      },
+    ]);
+    Menu.setApplicationMenu(menu);
+  };
 
   changeOverlay = () => {
     const imagesArray = this.state.images;
@@ -119,7 +152,7 @@ class Home extends Component {
 
   render() {
     const data = JSON.parse(localStorage.getItem('loginData'));
-    if (this.state.userData === '') {
+    if (this.state.userData.hangarName === undefined) {
       this.setState({ userData: data });
     }
     return (
