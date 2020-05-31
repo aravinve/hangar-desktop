@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, HashRouter } from 'react-router-dom';
 import Home from './components/home/Home';
 import Splash from './components/splash/Splash';
 import News from './components/news/News';
@@ -25,7 +25,7 @@ import Hackernews from './components/hackernews/Hackernews';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Switch>
         <Route exact path='/' component={Splash} />
         <Route exact path='/home' component={Home} />
@@ -49,7 +49,7 @@ function App() {
         <Route exact path='/covid' component={Covid} />
         <Route exact path='/hackernews' component={Hackernews} />
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

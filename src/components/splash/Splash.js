@@ -20,7 +20,7 @@ class Splash extends React.Component {
   showHome = (e) => {
     e.preventDefault();
     localStorage.setItem('loginData', JSON.stringify(this.state));
-    ipcRenderer.send('login');
+    ipcRenderer.send('login', this.state);
   };
   exitApp = () => {
     const remote = electron.remote;

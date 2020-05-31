@@ -5,6 +5,9 @@ import axios from 'axios';
 import StickyNote from './StickyNote';
 import dragElement from './drag';
 
+const electron = window.require('electron');
+const ipcRenderer = electron.ipcRenderer;
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -18,18 +21,20 @@ class Home extends Component {
       clock: '',
       showSettings: false,
       stickyNote: false,
+      userData: '',
     };
   }
 
   componentDidMount = () => {
+    ipcRenderer.on('userData', (event, arg) => {
+      this.setState({ userData: arg });
+    });
     this.loadImages(this.state.searchText);
     this.showClock();
     setInterval(this.showClock, 60000);
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(prevState);
-    console.log(this.state.stickyNote);
     if (
       prevState.stickyNote !== this.state.stickyNote &&
       this.state.stickyNote
@@ -113,12 +118,15 @@ class Home extends Component {
 
   render() {
     const data = JSON.parse(localStorage.getItem('loginData'));
+    if (this.state.userData === '') {
+      this.setState({ userData: data });
+    }
     return (
       <React.Fragment>
         <Overlay
           imageUrl={this.state.url}
           changeOverlay={this.changeOverlay}
-          userName={data.hangarName}
+          userName={this.state.userData.hangarName}
           handleChange={this.handleChange}
           changeSearchTerm={this.changeSearchTerm}
           changeSettingsMenu={this.changeSettingsMenu}

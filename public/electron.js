@@ -41,8 +41,8 @@ function createWindow() {
 
   mainWindow.loadURL(
     isDev
-      ? 'http://localhost:3000/home'
-      : `file://${path.join(__dirname, '../build/index.html')}`
+      ? 'http://localhost:3000/#/home'
+      : `file://${path.join(__dirname, '../build/index.html')}#/home`
   );
 
   mainWindow.on('closed', () => (mainWindow = null));
@@ -62,9 +62,10 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('login', () => {
+ipcMain.on('login', (event, arg) => {
   splashScreen.hide();
   mainWindow.show();
+  mainWindow.webContents.send('userData', arg);
 });
 
 ipcMain.on('logout', () => {
