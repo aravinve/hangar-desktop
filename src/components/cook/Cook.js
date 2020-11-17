@@ -6,8 +6,8 @@ import RecipeCard from './RecipeCard';
 class Cook extends Component {
   state = {
     apiUrl: 'https://api.edamam.com/search',
-    appId: '',
-    apiKey: '',
+    appId: process.env.REACT_APP_FOOD_ID,
+    apiKey: process.env.REACT_APP_FOOD_KEY,
     recipes: [],
     searchRecipe: '',
   };

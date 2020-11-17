@@ -8,7 +8,7 @@ class News extends Component {
   state = {
     apiUrl: 'https://newsapi.org/v2',
     country: 'us',
-    apiKey: '',
+    apiKey: process.env.REACT_APP_NEWS_KEY,
     articles: [],
     searchArticle: '',
     searchCountry: 'us',

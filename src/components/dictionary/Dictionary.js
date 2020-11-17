@@ -6,7 +6,7 @@ import DicDataCard from './DicDataCard';
 class Dictionary extends Component {
   state = {
     apiUrl: 'https://www.dictionaryapi.com/api/v3/references/collegiate/json',
-    apiKey: '',
+    apiKey: process.env.REACT_APP_DICTIONARY_KEY,
     result: [],
     searchWord: '',
   };

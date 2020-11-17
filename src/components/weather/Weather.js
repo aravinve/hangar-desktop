@@ -6,7 +6,7 @@ import Dashboard from '../home/Dashboard';
 class Weather extends Component {
   state = {
     apiUrl: 'https://api.openweathermap.org/data/2.5/weather',
-    apiKey: '',
+    apiKey: process.env.REACT_APP_WEATHER_KEY,
     weatherData: '',
     city: '',
   };

@@ -16,7 +16,7 @@ class Home extends Component {
       searchText: 'mountains',
       amount: 15,
       apiUrl: 'https://pixabay.com/api/',
-      apiKey: '',
+      apiKey: process.env.REACT_APP_PIXABAY_KEY,
       images: [],
       url: '',
       clock: '',
