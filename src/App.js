@@ -1,12 +1,11 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route, Switch, HashRouter } from 'react-router-dom';
+import { Route, Switch, HashRouter } from 'react-router-dom';
 import Home from './components/home/Home';
 import Splash from './components/splash/Splash';
 import News from './components/news/News';
 import Reddit from './components/reddit/Reddit';
 import Music from './components/music/Music';
-import Videos from './components/videos/Videos';
 import Weather from './components/weather/Weather';
 import Calculator from './components/calculator/Calculator';
 import Clock from './components/clock/Clock';
@@ -17,10 +16,6 @@ import Covid from './components/covid/Covid';
 import Todoist from './components/todoist/Todoist';
 import Converter from './components/converter/Converter';
 import Wikipedia from './components/wikipedia/Wikipedia';
-import Play from './components/Play/Play';
-import SnakeApp from './components/Play/Snake/SnakeApp';
-import TwoZeroFourEight from './components/Play/2048/TwoZeroFourEight';
-import Hangman from './components/Play/Hangman/Hangman';
 import Hackernews from './components/hackernews/Hackernews';
 
 function App() {
@@ -32,11 +27,6 @@ function App() {
         <Route exact path='/news' component={News} />
         <Route exact path='/cook' component={Cook} />
         <Route exact path='/music' component={Music} />
-        <Route exact path='/videos' component={Videos} />
-        <Route exact path='/play' component={Play} />
-        <Route exact path='/play/snake' component={SnakeApp} />
-        <Route exact path='/play/2048' component={TwoZeroFourEight} />
-        <Route exact path='/play/hangman' component={Hangman} />
         <Route exact path='/dictionary' component={Dictionary} />
         <Route exact path='/weather' component={Weather} />
         <Route exact path='/todoist' component={Todoist} />

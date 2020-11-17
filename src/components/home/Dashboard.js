@@ -39,14 +39,8 @@ class Dashboard extends Component {
                 <Link className='navbar-item' to='/music'>
                   Music
                 </Link>
-                <Link className='navbar-item' to='/videos'>
-                  Videos
-                </Link>
                 <Link className='navbar-item' to='/cook'>
                   Cook
-                </Link>
-                <Link className='navbar-item' to='/play'>
-                  Play
                 </Link>
               </div>
             </div>
