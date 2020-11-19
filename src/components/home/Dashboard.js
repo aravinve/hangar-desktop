@@ -42,6 +42,15 @@ class Dashboard extends Component {
                 <Link className='navbar-item' to='/cook'>
                   Cook
                 </Link>
+                <Link className='navbar-item' to='/gallery'>
+                  Gallery
+                </Link>
+                <Link className='navbar-item' to='/maps'>
+                  Maps
+                </Link>
+                <Link className='navbar-item' to='/weather'>
+                  Weather
+                </Link>
               </div>
             </div>
             <div className='navbar-item has-dropdown has-dropdown-up is-hoverable'>
@@ -62,12 +71,15 @@ class Dashboard extends Component {
                 <Link className='navbar-item' to='/dictionary'>
                   Dictionary
                 </Link>
-                <Link className='navbar-item' to='/weather'>
-                  Weather
-                </Link>
                 <hr className='navbar-divider' />
                 <Link className='navbar-item' to='/todoist'>
                   Todoist
+                </Link>
+                <Link className='navbar-item' to='/notes'>
+                  Notes
+                </Link>
+                <Link className='navbar-item' to='/board'>
+                  Board
                 </Link>
               </div>
             </div>

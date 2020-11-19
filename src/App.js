@@ -6,6 +6,10 @@ import Splash from './components/splash/Splash';
 import News from './components/news/News';
 import Reddit from './components/reddit/Reddit';
 import Music from './components/music/Music';
+import Gallery from './components/gallery/Gallery';
+import Maps from './components/maps/Maps';
+import Notes from './components/notes/Notes';
+import Board from './components/board/Board';
 import Weather from './components/weather/Weather';
 import Calculator from './components/calculator/Calculator';
 import Clock from './components/clock/Clock';
@@ -27,6 +31,10 @@ function App() {
         <Route exact path='/news' component={News} />
         <Route exact path='/cook' component={Cook} />
         <Route exact path='/music' component={Music} />
+        <Route exact path='/gallery' component={Gallery} />
+        <Route exact path='/maps' component={Maps} />
+        <Route exact path='/board' component={Board} />
+        <Route exact path='/notes' component={Notes} />
         <Route exact path='/dictionary' component={Dictionary} />
         <Route exact path='/weather' component={Weather} />
         <Route exact path='/todoist' component={Todoist} />
