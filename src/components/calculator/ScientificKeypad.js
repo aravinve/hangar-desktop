@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Keypad(props) {
+function ScientificKeypad(props) {
   return (
     <React.Fragment>
       <div className='columns m-0 is-gapless'>
@@ -32,6 +32,20 @@ function Keypad(props) {
             onClick={(e) => props.buttonClick(e.target.name)}
           >
             C
+          </button>
+          <button
+            className='button'
+            name='%'
+            onClick={(e) => props.buttonClick(e.target.name)}
+          >
+            %
+          </button>
+          <button
+            className='button'
+            name='plusminus'
+            onClick={(e) => props.buttonClick(e.target.name)}
+          >
+            &#177;
           </button>
         </div>
       </div>
@@ -65,6 +79,20 @@ function Keypad(props) {
           >
             +
           </button>
+          <button
+            className='button'
+            name='pi'
+            onClick={(e) => props.buttonClick(e.target.name)}
+          >
+            &#960;
+          </button>
+          <button
+            className='button'
+            name='log'
+            onClick={(e) => props.buttonClick(e.target.name)}
+          >
+            log
+          </button>
         </div>
       </div>
       <div className='columns m-0 is-gapless'>
@@ -96,6 +124,20 @@ function Keypad(props) {
             onClick={(e) => props.buttonClick(e.target.name)}
           >
             -
+          </button>
+          <button
+            className='button'
+            name='sqrt'
+            onClick={(e) => props.buttonClick(e.target.name)}
+          >
+            &radic;
+          </button>
+          <button
+            className='button'
+            name='sin'
+            onClick={(e) => props.buttonClick(e.target.name)}
+          >
+            sin
           </button>
         </div>
       </div>
@@ -129,6 +171,20 @@ function Keypad(props) {
           >
             *
           </button>
+          <button
+            className='button'
+            name='square'
+            onClick={(e) => props.buttonClick(e.target.name)}
+          >
+            x&#178;
+          </button>
+          <button
+            className='button'
+            name='cos'
+            onClick={(e) => props.buttonClick(e.target.name)}
+          >
+            cos
+          </button>
         </div>
       </div>
       <div className='columns m-0 is-gapless'>
@@ -138,7 +194,7 @@ function Keypad(props) {
             name='.'
             onClick={(e) => props.buttonClick(e.target.name)}
           >
-            .
+          .
           </button>
           <button
             className='button'
@@ -161,10 +217,24 @@ function Keypad(props) {
           >
             /
           </button>
+          <button
+            className='button'
+            name='e'
+            onClick={(e) => props.buttonClick(e.target.name)}
+          >
+            e
+          </button>
+          <button
+            className='button'
+            name='tan'
+            onClick={(e) => props.buttonClick(e.target.name)}
+          >
+            tan
+          </button>
         </div>
       </div>
     </React.Fragment>
   );
 }
 
-export default Keypad;
+export default ScientificKeypad;

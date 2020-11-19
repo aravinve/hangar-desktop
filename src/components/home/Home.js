@@ -34,7 +34,7 @@ class Home extends Component {
     if (this.state.userData === '') {
       this.setState({ userData: data });
     }
-    this.initMenu();
+    //this.initMenu();
     this.loadImages(this.state.searchText);
     this.showClock();
     setInterval(this.showClock, 60000);
@@ -152,7 +152,7 @@ class Home extends Component {
 
   render() {
     const data = JSON.parse(localStorage.getItem('loginData'));
-    if (this.state.userData.hangarName === undefined) {
+    if (this.state.userData === undefined) {
       this.setState({ userData: data });
     }
     return (

@@ -100,7 +100,7 @@ class Dashboard extends Component {
                     <i className='fas fa-sticky-note'></i>
                   </button>
                   <button className='button' onClick={this.toggleSettings}>
-                    <i className='fas fa-cog'></i>
+                    <i className='fas fa-cogs'></i>
                   </button>
                 </React.Fragment>
               ) : null}
