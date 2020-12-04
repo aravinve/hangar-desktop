@@ -44,8 +44,8 @@ h6 {
 
 .center-box {
   position: fixed;
-  top: 14.5rem;
-  left: 11.5rem;
+  top: 12.5rem;
+  left: 4.5rem;
   display: flex;
   flex-direction: column;
 }
@@ -53,7 +53,7 @@ h6 {
 .center-form-box {
   position: fixed;
   top: 8.5rem;
-  left: 7.5rem;
+  left: 2.5rem;
 }
 
 .content-container {

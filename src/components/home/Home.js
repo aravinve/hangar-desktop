@@ -5,9 +5,9 @@ import axios from 'axios';
 import StickyNote from './StickyNote';
 import dragElement from './drag';
 
-const electron = window.require('electron');
-const ipcRenderer = electron.ipcRenderer;
-const Menu = electron.remote.Menu;
+const electron = window.require('electron')
+const ipcRenderer = electron.ipcRenderer
+// const Menu = require('electron').remote.Menu
 
 class Home extends Component {
   constructor(props) {
@@ -49,32 +49,32 @@ class Home extends Component {
     }
   }
 
-  initMenu = () => {
-    const menu = Menu.buildFromTemplate([
-      {
-        label: 'File',
-        submenu: [
-          {
-            label: 'Settings',
-            accelerator: 'CmdOrCtrl+,',
-            click: () => {
-              this.toggleSettings();
-            },
-          },
-          { type: 'separator' },
-          {
-            label: 'Quit',
-            accelerator: 'CmdOrCtrl+Q',
-            click: () => {
-              localStorage.clear();
-              ipcRenderer.send('logout');
-            },
-          },
-        ],
-      },
-    ]);
-    Menu.setApplicationMenu(menu);
-  };
+  // initMenu = () => {
+  //   const menu = Menu.buildFromTemplate([
+  //     {
+  //       label: 'File',
+  //       submenu: [
+  //         {
+  //           label: 'Settings',
+  //           accelerator: 'CmdOrCtrl+,',
+  //           click: () => {
+  //             this.toggleSettings();
+  //           },
+  //         },
+  //         { type: 'separator' },
+  //         {
+  //           label: 'Quit',
+  //           accelerator: 'CmdOrCtrl+Q',
+  //           click: () => {
+  //             localStorage.clear();
+  //             ipcRenderer.send('logout');
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ]);
+  //   Menu.setApplicationMenu(menu);
+  // };
 
   changeOverlay = () => {
     const imagesArray = this.state.images;

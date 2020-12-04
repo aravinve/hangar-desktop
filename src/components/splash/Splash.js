@@ -1,7 +1,8 @@
-import React from 'react';
-import image from '../../img/Splash_Frame.png';
-const electron = window.require('electron');
-const ipcRenderer = electron.ipcRenderer;
+import React from 'react'
+import image from '../../img/Splash_Frame.png'
+const electron = window.require('electron')
+const ipcRenderer = electron.ipcRenderer
+const currRemote = electron.remote
 
 class Splash extends React.Component {
   state = {
@@ -23,8 +24,7 @@ class Splash extends React.Component {
     ipcRenderer.send('login', this.state);
   };
   exitApp = () => {
-    const remote = electron.remote;
-    let currentWindow = remote.getCurrentWindow();
+    let currentWindow = currRemote.getCurrentWindow();
     currentWindow.close();
   };
   render() {
