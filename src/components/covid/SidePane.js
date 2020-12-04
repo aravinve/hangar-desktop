@@ -1,6 +1,4 @@
-import React from 'react';
-
-function SidePane(props) {
+function SidePane({showGlobalStats, showCountriesList, handleChange}) {
   return (
     <div
       className='column is-3'
@@ -18,7 +16,7 @@ function SidePane(props) {
           <button
             className='button is-small is-dark'
             style={{ marginLeft: '0.5rem' }}
-            onClick={props.showGlobalStats}
+            onClick={showGlobalStats}
           >
             View
           </button>
@@ -35,9 +33,9 @@ function SidePane(props) {
             <select
               name='countryName'
               id='country-name'
-              onChange={props.handleChange}
+              onChange={handleChange}
             >
-              {props.showCountriesList}
+              {showCountriesList}
             </select>
           </div>
         </div>

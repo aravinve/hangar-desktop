@@ -1,24 +1,22 @@
-import React from 'react';
-
-function CovidTable(props) {
+function CovidTable({detail}) {
   return (
-    <React.Fragment>
+    <>
       <tbody>
         <tr>
-          <td>{props.detail.countryRegion} </td>
+          <td>{detail.countryRegion} </td>
           <td>
-            {props.detail.provinceState !== null
-              ? props.detail.provinceState
+            {detail.provinceState !== null
+              ? detail.provinceState
               : ''}{' '}
           </td>
-          <td>{props.detail.active} </td>
-          <td>{props.detail.confirmed} </td>
-          <td>{props.detail.recovered} </td>
-          <td>{props.detail.deaths} </td>
-          <td>{props.detail.incidentRate} </td>
+          <td>{detail.active} </td>
+          <td>{detail.confirmed} </td>
+          <td>{detail.recovered} </td>
+          <td>{detail.deaths} </td>
+          <td>{detail.incidentRate} </td>
         </tr>
       </tbody>
-    </React.Fragment>
+    </>
   );
 }
-export default CovidTable;
+export default CovidTable

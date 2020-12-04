@@ -1,6 +1,4 @@
-import React from 'react';
-
-function RecipeCard(props) {
+function RecipeCard({recipe}) {
   return (
     <div className='columns'>
       <div className='column'>
@@ -8,15 +6,15 @@ function RecipeCard(props) {
           <div className='columns'>
             <div className='column is-6' style={{ textAlign: 'center' }}>
               <div className='card-image box'>
-                <img src={props.recipe.image} alt='Recipe Image' />
+                <img src={recipe.image} alt='Recipe Image' />
               </div>
             </div>
             <div className='column is-6'>
               <div className='card-header' style={{ padding: '1rem' }}>
-                <h3 className='is-title'>{props.recipe.label}</h3>
+                <h3 className='is-title'>{recipe.label}</h3>
               </div>
               <div className='content' style={{ marginTop: '1rem' }}>
-                {props.recipe.healthLabels.map((label) => (
+                {recipe.healthLabels.map((label) => (
                   <div className='tag is-dark' style={{ margin: '0.5rem' }}>
                     {label}
                   </div>
@@ -38,7 +36,7 @@ function RecipeCard(props) {
                       </tr>
                     </thead>
                     <tbody>
-                      {props.recipe.ingredients.map((element) => (
+                      {recipe.ingredients.map((element) => (
                         <React.Fragment>
                           <tr>
                             <td>{element.text} </td>
@@ -53,7 +51,7 @@ function RecipeCard(props) {
               <div className='column is-4'>
                 <p className='subtitle'>Method To Prepare:</p>
                 <ol>
-                  {props.recipe.ingredientLines.map((element) => (
+                  {recipe.ingredientLines.map((element) => (
                     <li>{element} </li>
                   ))}
                 </ol>
@@ -61,9 +59,9 @@ function RecipeCard(props) {
             </div>
           </div>
           <div className='card-footer'>
-            <div className='card-footer-item'>{props.recipe.source}</div>
+            <div className='card-footer-item'>{recipe.source}</div>
             <div className='card-footer-item'>
-              <a href={props.recipe.url} target='_blank'>
+              <a href={recipe.url} target='_blank'>
                 Visit
               </a>
             </div>
@@ -74,4 +72,4 @@ function RecipeCard(props) {
   );
 }
 
-export default RecipeCard;
+export default RecipeCard

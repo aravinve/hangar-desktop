@@ -1,30 +1,25 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 
-class AddTodo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      content: '',
-    };
+function AddTodo({addTodo}) {
+  
+  const [content, setContent] = useState('')
+
+  const handleChange = (e) => setContent(e.target.value)
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addTodo(content);
+    setContent('')
   }
 
-  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.addTodo(this.state.content);
-    document.getElementById('add-todo').value = '';
-  };
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit} className='panel-block'>
+  return (
+    <form onSubmit={handleSubmit} className='panel-block'>
         <p className='control has-icons-left'>
           <input
             type='text'
             className='input is-small'
             placeholder='Add Todo'
-            onChange={this.handleChange}
+            onChange={handleChange}
             name='content'
             id='add-todo'
           />
@@ -40,8 +35,7 @@ class AddTodo extends Component {
           Add
         </button>
       </form>
-    );
-  }
+  )
 }
 
-export default AddTodo;
+export default AddTodo

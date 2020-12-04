@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
 import image from '../../img/Logo_Hangar.png';
 import { Link } from 'react-router-dom';
 
 const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
 
-class Dashboard extends Component {
-  showSplash = () => {
+function Dashboard({toggleSettings, showStickyNote}) {
+
+  const showSplash = () => {
     localStorage.clear();
     ipcRenderer.send('logout');
-  };
+  }
 
-  toggleSettings = () => {
-    this.props.toggleSettings();
-  };
+  const toggleSettingsFunction = () => {
+    toggleSettings();
+  }
 
-  createStickyNote = () => {
-    this.props.showStickyNote();
-  };
+  const createStickyNoteFunction = () => {
+    showStickyNote();
+  }
 
-  render() {
-    const flag = window.location.href.includes('/home');
-    return (
-      <nav className='navbar is-fixed-bottom' role='navigation'>
+  const flag = window.location.href.includes('/home')
+
+  return (
+    <nav className='navbar is-fixed-bottom' role='navigation'>
         <div className='navbar-brand'>
           <Link className='navbar-item' to='/home'>
             <img src={image} style={{ maxHeight: '3.75rem' }} />
@@ -107,25 +107,23 @@ class Dashboard extends Component {
           <div className='navbar-item'>
             <div className='buttons'>
               {flag ? (
-                <React.Fragment>
-                  <button className='button' onClick={this.createStickyNote}>
+                <>
+                  <button className='button' onClick={createStickyNoteFunction}>
                     <i className='fas fa-sticky-note'></i>
                   </button>
-                  <button className='button' onClick={this.toggleSettings}>
+                  <button className='button' onClick={toggleSettingsFunction}>
                     <i className='fas fa-cogs'></i>
                   </button>
-                </React.Fragment>
+                </>
               ) : null}
-
-              <button className='button' onClick={this.showSplash}>
+              <button className='button' onClick={showSplash}>
                 <i className='fas fa-sign-out-alt'></i>
               </button>
             </div>
           </div>
         </div>
       </nav>
-    );
-  }
+  )
 }
 
-export default Dashboard;
+export default Dashboard

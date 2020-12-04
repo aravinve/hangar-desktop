@@ -1,7 +1,6 @@
-import React from 'react';
 import AddTodo from './AddTodo';
 
-function SidePane(props) {
+function SidePane({addTodo, handleChange, searchTodo, alert}) {
   return (
     <div
       className='column is-3'
@@ -9,7 +8,7 @@ function SidePane(props) {
     >
       <nav className='panel' style={{ position: 'fixed' }}>
         <p className='panel-heading'>Todoist</p>
-        <AddTodo addTodo={props.addTodo} />
+        <AddTodo addTodo={addTodo} />
         <div className='panel-block'>
           <p className='control has-icons-left'>
             <input
@@ -17,7 +16,7 @@ function SidePane(props) {
               type='text'
               name='searchTerm'
               placeholder='Search'
-              onChange={props.handleChange}
+              onChange={handleChange}
             />
             <span className='icon is-left'>
               <i className='fas fa-search'></i>
@@ -26,13 +25,13 @@ function SidePane(props) {
           <button
             className='button is-small is-dark'
             style={{ marginLeft: '0.5rem' }}
-            onClick={props.searchTodo}
+            onClick={searchTodo}
           >
             Search
           </button>
         </div>
-        {props.alert !== '' ? (
-          <div className='panel-block'>{props.alert} </div>
+        {alert !== '' ? (
+          <div className='panel-block'>{alert} </div>
         ) : null}
       </nav>
     </div>

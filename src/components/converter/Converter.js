@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import Result from './Result';
 import Keypad from './Keypad';
 import Dashboard from '../home/Dashboard';
@@ -6,78 +6,85 @@ import convert from 'convert-units';
 import SidePane from './SidePane';
 import ConvertSelect from './ConvertSelect';
 
-class Converter extends Component {
-  state = {
-    result: '',
-    data: '',
-    fromSelectList: '',
-    toSelectList: '',
-    from: '',
-    to: '',
-    convertResult: '',
-  };
-  buttonClick = (name) => {
+function Converter() {
+  const [result, setResult] = useState('')
+  const [data, setData] = useState('')
+  const [fromSelectList, setFromSelectList] = useState('')
+  const [toSelectList, setToSelectList] = useState('')
+  const [from, setFrom] = useState('')
+  const [to, setTo] = useState('')
+  const [convertResult, setConvertResult] = useState('')
+
+  const buttonClick = (name) => {
     if (name === 'C') {
-      this.reset();
+      reset();
     } else if (name === 'CE') {
-      this.clearLast();
+      clearLast();
     } else {
-      this.setState({ result: this.state.result + name, convertResult: '' });
+      setResult(result + name)
+      setConvertResult('')
     }
-  };
-  convert = () => {
-    if (this.state.from !== '' && this.state.to !== '') {
-      const convertResult = convert(this.state.result)
-        .from(this.state.from)
-        .to(this.state.to);
-      this.setState({ convertResult: convertResult });
-    } else {
-      this.setState({ convertResult: 'ERROR' });
-    }
-  };
-  reset = () => {
-    this.setState({ result: '', convertResult: '' });
-  };
-  clearLast = () => {
-    this.setState({
-      result: this.state.result.slice(0, -1),
-      convertResult: '',
-    });
-  };
+  }
 
-  loadSelectData = (e) => {
+  const convertFunction = () => {
+    if (from !== '' && to !== '') {
+      const convertedResult = convert(result)
+        .from(from)
+        .to(to);
+        setConvertResult(convertedResult)
+    } else {
+      setConvertResult('ERROR')
+    }
+  }
+
+  const reset = () => {
+    setResult('')
+    setConvertResult('')
+  }
+
+  const clearLast = () => {
+    setResult(result.slice(0, -1))
+    setConvertResult('')
+  }
+
+  const loadSelectData = (e) => {
     const selectData = convert().possibilities(e.target.value);
-    this.setState({
-      fromSelectList: selectData,
-      toSelectList: selectData,
-      from: selectData[0],
-      to: selectData[0],
-      convertResult: '',
-    });
-  };
+    setFromSelectList(selectData)
+    setToSelectList(selectData)
+    setFrom(selectData[0])
+    setTo(selectData[0])
+    setConvertResult('')
+  }
 
-  setSelectData = (e) => {
-    this.setState({ [e.target.name]: e.target.value, convertResult: '' });
-  };
+  const setFromSelectData = (e) => {
+    setFromSelectList(e.target.value)
+    setConvertResult('')
+  }
 
-  render() {
-    const fromList =
-      this.state.fromSelectList.length > 0
-        ? this.state.fromSelectList.map((unit) => (
-            <ConvertSelect key={unit} unit={unit} />
-          ))
-        : null;
-    const toList =
-      this.state.toSelectList.length > 0
-        ? this.state.toSelectList.map((unit) => (
-            <ConvertSelect key={unit} unit={unit} />
-          ))
-        : null;
-    return (
-      <React.Fragment>
-        <div className='container'>
+  const setToSelectData = (e) => {
+    setToSelectList(e.target.value)
+    setConvertResult('')
+  }
+
+  const fromList =
+  fromSelectList.length > 0
+    ? fromSelectList.map((unit) => (
+        <ConvertSelect key={unit} unit={unit} />
+      ))
+    : null
+
+const toList =
+  toSelectList.length > 0
+    ? toSelectList.map((unit) => (
+        <ConvertSelect key={unit} unit={unit} />
+      ))
+    : null
+
+  return (
+    <>
+      <div className='container'>
           <div className='columns'>
-            <SidePane loadSelectData={this.loadSelectData} />
+            <SidePane loadSelectData={loadSelectData} />
             <div
               className='column is-7'
               style={{
@@ -85,7 +92,7 @@ class Converter extends Component {
                 paddingLeft: '4rem',
               }}
             >
-              {this.state.fromSelectList.length > 0 ? (
+              {fromSelectList.length > 0 ? (
                 <div className='columns'>
                   <div className='column is-2'>
                     <label htmlFor='from'>From: </label>
@@ -93,7 +100,7 @@ class Converter extends Component {
                       <select
                         id='from'
                         name='from'
-                        onChange={this.setSelectData}
+                        onChange={setFromSelectData}
                       >
                         {fromList}
                       </select>
@@ -102,17 +109,17 @@ class Converter extends Component {
                   <div className='column is-2'>
                     <label htmlFor='to'>To: </label>
                     <div className='select is-small is-dark'>
-                      <select id='to' name='to' onChange={this.setSelectData}>
+                      <select id='to' name='to' onChange={setToSelectData}>
                         {toList}
                       </select>
                     </div>
                   </div>
                 </div>
               ) : null}
-              <Result result={this.state.result} />
-              <Keypad buttonClick={this.buttonClick} convert={this.convert} />
+              <Result result={result} />
+              <Keypad buttonClick={buttonClick} convert={convertFunction} />
             </div>
-            {this.state.convertResult !== '' ? (
+            {convertResult !== '' ? (
               <div
                 className='column is-3'
                 style={{
@@ -128,9 +135,9 @@ class Converter extends Component {
                   <h4 className='is-size-2'>Result</h4>
                   <hr className='navbar-divider' />
                   <div className='is-size-5'>
-                    {this.state.result}
-                    {this.state.from} = {this.state.convertResult}
-                    {this.state.to}
+                    {result}
+                    {from} = {convertResult}
+                    {to}
                   </div>
                 </div>
               </div>
@@ -138,9 +145,8 @@ class Converter extends Component {
           </div>
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
 
-export default Converter;
+export default Converter

@@ -1,8 +1,6 @@
-import React from 'react';
-
-function TodoItem(props) {
+function TodoItem({todo, handleCheckBox, handleDelete}) {
   const todoStyle = {
-    textDecoration: props.todo.completed ? 'line-through' : 'none',
+    textDecoration: todo.completed ? 'line-through' : 'none',
   };
   return (
     <div className='box has-background-light'>
@@ -10,16 +8,16 @@ function TodoItem(props) {
         <div className='is-pulled-left column'>
           <input
             type='checkbox'
-            onClick={() => props.handleCheckBox(props.todo.id)}
+            onClick={() => handleCheckBox(todo.id)}
           />
         </div>
         <div className='column is-10 is-size-5' style={todoStyle}>
-          {props.todo.title}
+          {todo.title}
         </div>
         <div className='column is-1 is-pulled-right'>
           <button
             className='button is-small'
-            onClick={() => props.handleDelete(props.todo.id)}
+            onClick={() => handleDelete(todo.id)}
           >
             <i className='fas fa-trash'></i>
           </button>
@@ -29,4 +27,4 @@ function TodoItem(props) {
   );
 }
 
-export default TodoItem;
+export default TodoItem

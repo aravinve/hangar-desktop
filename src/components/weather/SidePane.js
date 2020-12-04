@@ -1,6 +1,4 @@
-import React from 'react';
-
-function SidePane(props) {
+function SidePane({handleChange, searchCity}) {
   return (
     <div
       className='column is-3'
@@ -15,7 +13,7 @@ function SidePane(props) {
               type='text'
               name='city'
               placeholder='City'
-              onChange={props.handleChange}
+              onChange={handleChange}
             />
             <span className='icon is-left'>
               <i className='fas fa-search'></i>
@@ -24,7 +22,7 @@ function SidePane(props) {
           <button
             className='button is-small is-dark'
             style={{ marginLeft: '0.5rem' }}
-            onClick={props.searchCity}
+            onClick={searchCity}
           >
             Search
           </button>

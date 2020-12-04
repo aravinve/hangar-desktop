@@ -1,19 +1,16 @@
-import React, { Component } from 'react';
+import  { useState } from 'react';
 import SidePane from './SidePane';
 import WeatherBar from './WeatherBar';
 import Dashboard from '../home/Dashboard';
 
-class Weather extends Component {
-  state = {
-    apiUrl: 'https://api.openweathermap.org/data/2.5/weather',
-    apiKey: process.env.REACT_APP_WEATHER_KEY,
-    weatherData: '',
-    city: '',
-  };
+function Weather() {
+  const [weatherData, setWeatherData] = useState('')
+  const [city, setCity] = useState('')
 
-  loadWeather(searchCity) {
-    let testURL = `${this.state.apiUrl}?q=${searchCity}&units=metric&appid=${this.state.apiKey}`;
-
+  const loadWeather = (searchCity) => {
+    const apiUrl = 'https://api.openweathermap.org/data/2.5/weather'
+    const apiKey = process.env.REACT_APP_WEATHER_KEY
+    let testURL = `${apiUrl}?q=${searchCity}&units=metric&appid=${apiKey}`;
     const myInit = {
       mode: 'no-cors',
     };
@@ -23,41 +20,40 @@ class Weather extends Component {
         return response.json();
       })
       .then((data) => {
-        this.setState({ weatherData: data });
+        setWeatherData(data)
       })
       .catch(function (e) {
         console.log(e);
       });
   }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setCity(e.target.value)
   };
 
-  searchCity = () => {
-    this.loadWeather(this.state.city);
-  };
-  render() {
-    return (
-      <React.Fragment>
-        <div className='columns'>
+  const searchCity = () => {
+    loadWeather(city);
+  }
+
+  return (
+    <>
+      <div className='columns'>
           <SidePane
-            handleChange={this.handleChange}
-            searchCity={this.searchCity}
+            handleChange={handleChange}
+            searchCity={searchCity}
           />
           <div
             className='column is-9 .is-centered'
             style={{ marginTop: '4rem', padding: '2rem' }}
           >
-            {this.state.weatherData !== '' ? (
-              <WeatherBar weatherData={this.state.weatherData} />
+            {weatherData !== '' ? (
+              <WeatherBar weatherData={weatherData} />
             ) : null}
           </div>
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
 
-export default Weather;
+export default Weather

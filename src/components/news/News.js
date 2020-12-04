@@ -1,31 +1,28 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import Article from './Article';
 import SidePane from './SidePane';
 import ContentFrame from './ContentFrame';
 import Dashboard from '../home/Dashboard';
 
-class News extends Component {
-  state = {
-    apiUrl: 'https://newsapi.org/v2',
-    country: 'us',
-    apiKey: process.env.REACT_APP_NEWS_KEY,
-    articles: [],
-    searchArticle: '',
-    searchCountry: 'us',
-    contentData: '',
-    contentUrl: '',
-  };
+function News() {
+  const [articles, setArticles] = useState([])
+  const [searchArticle, setSearchArticle] = useState('')
+  const [searchCountry, setSearchCountry]  = useState('us')
+  const [contentData, setContentData] = useState('')
+  const [contentUrl, setContentUrl] = useState('')
 
-  componentDidMount() {
-    this.loadArticle(this.state.searchArticle, this.state.searchCountry);
-  }
+  useEffect(() => {
+    loadArticle(searchArticle, searchCountry);
+  }, [])
 
-  loadArticle(searchTerm, searchCountry) {
+  const loadArticle = (searchTerm, searchCountry) => {
+    const apiUrl = 'https://newsapi.org/v2'
+    const apiKey = process.env.REACT_APP_NEWS_KEY
     let testURL = '';
     if (searchTerm.length > 0) {
-      testURL = `${this.state.apiUrl}/everything?q=${searchTerm}&apikey=${this.state.apiKey}`;
+      testURL = `${apiUrl}/everything?q=${searchTerm}&apikey=${apiKey}`;
     } else {
-      testURL = `${this.state.apiUrl}/top-headlines?country=${searchCountry}&apikey=${this.state.apiKey}`;
+      testURL = `${apiUrl}/top-headlines?country=${searchCountry}&apikey=${apiKey}`;
     }
     const myInit = {
       mode: 'no-cors',
@@ -36,54 +33,58 @@ class News extends Component {
         return response.json();
       })
       .then((data) => {
-        this.setState({ articles: data.articles });
+        setArticles(data.articles)
       })
       .catch(function (e) {
         console.log(e);
       });
   }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  const handleSearchChange = (e) => {
+    setSearchArticle(e.target.value)
   };
 
-  searchArticle = () => {
-    this.loadArticle(this.state.searchArticle, this.state.searchCountry);
+  const handleSelectChange = (e) => {
+    setSearchCountry(e.target.value)
+  }
+
+  const searchArticle = () => {
+    loadArticle(searchArticle, searchCountry);
   };
 
-  activateContentFrame = (content, url) => {
-    this.setState({ contentData: content, contentUrl: url });
-  };
+  const activateContentFrame = (content, url) => {
+    setContentData(content)
+    setContentUrl(url)
+  }
 
-  render() {
-    const articlesData =
-      this.state.articles != null
-        ? this.state.articles.map((article) => (
+  const articlesData = articles != null ? articles.map((article) => (
             <Article
               key={article.publishedAt}
               article={article}
-              activateContentFrame={this.activateContentFrame}
+              activateContentFrame={activateContentFrame}
             />
           ))
         : null;
-    return (
-      <React.Fragment>
-        <div className='columns'>
+
+  return (
+    <>
+      <div className='columns'>
           <SidePane
-            handleChange={this.handleChange}
-            searchArticle={this.searchArticle}
+            handleSearchChange={handleSearchChange}
+            handleSelectChange={handleSelectChange}
+            searchArticle={searchArticle}
           />
           <div className='column is-6' style={{ marginTop: '4rem' }}>
             {articlesData}
           </div>
           <ContentFrame
-            contentData={this.state.contentData}
-            contentUrl={this.state.contentUrl}
+            contentData={contentData}
+            contentUrl={contentUrl}
           />
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
-export default News;
+
+export default News

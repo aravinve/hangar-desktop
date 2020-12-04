@@ -1,12 +1,12 @@
 import React from 'react';
 import Tools from './Tools';
 
-function Overlay(props) {
+function Overlay({imageUrl, userName, showSettings, handleChange, changeOverlay, clock, changeSearchTerm, changeSettingsMenu}) {
   const styleOverlay = {
     width: '100%',
     height: '100vh',
     margin: '0px',
-    backgroundImage: 'url(' + props.imageUrl + ')',
+    backgroundImage: 'url(' + imageUrl + ')',
     backgroundSize: 'cover',
     backgroundClip: 'border-box',
     backgroundPosition: 'center',
@@ -23,17 +23,17 @@ function Overlay(props) {
         <div className='column'>
           <div className='box is-pulled-right has-background-light'>
             <h1 className='title is-1 has-text-dark'>
-              Welcome, {props.userName}{' '}
+              Welcome, {userName}{' '}
             </h1>
-            {props.showSettings ? (
+            {showSettings ? (
               <Tools
-                handleChange={props.handleChange}
-                changeOverlay={props.changeOverlay}
-                changeSearchTerm={props.changeSearchTerm}
-                changeSettingsMenu={props.changeSettingsMenu}
+                handleChange={handleChange}
+                changeOverlay={changeOverlay}
+                changeSearchTerm={changeSearchTerm}
+                changeSettingsMenu={changeSettingsMenu}
               />
             ) : (
-              <h3 className='subtitle'>{props.clock}</h3>
+              <h3 className='subtitle'>{clock}</h3>
             )}
           </div>
         </div>
@@ -42,4 +42,4 @@ function Overlay(props) {
   );
 }
 
-export default Overlay;
+export default Overlay

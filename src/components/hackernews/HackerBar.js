@@ -1,15 +1,13 @@
-import React from 'react';
-
-function HackerBar(props) {
+function HackerBar({story}) {
   return (
     <div className='columns'>
       <div className='column is-8'>
         <div className='box'>
           <div className='columns'>
-            <div className='column is-10 is-size-5'>{props.story.title}</div>
+            <div className='column is-10 is-size-5'>{story.title}</div>
             <div className='column is-2'>
               <a
-                href={props.story.url}
+                href={story.url}
                 className='button is-small is-dark'
                 target='_blank'
               >
@@ -23,4 +21,4 @@ function HackerBar(props) {
   );
 }
 
-export default HackerBar;
+export default HackerBar

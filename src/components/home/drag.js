@@ -35,4 +35,4 @@ function dragElement(element) {
   }
 }
 
-module.exports = dragElement;
+export default dragElement;

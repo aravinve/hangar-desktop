@@ -1,5 +1,3 @@
-import React from 'react';
-
 function SidePane() {
   return (
     <div
@@ -13,4 +11,4 @@ function SidePane() {
   );
 }
 
-export default SidePane;
+export default SidePane

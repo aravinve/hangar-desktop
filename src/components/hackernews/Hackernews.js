@@ -1,15 +1,13 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import Dashboard from '../home/Dashboard';
 import SidePane from './SidePane';
 import HackerBar from './HackerBar';
 
-class Hackernews extends Component {
-  state = {
-    header: '',
-    stories: [],
-  };
-
-  componentDidMount = () => {
+function Hackernews() {
+  const [header, setHeader] = useState('')
+  const [stories, setStories] = useState([])
+  
+  useEffect(() => {
     const testURL = 'https://hacker-news.firebaseio.com/v0/newstories.json';
     const myInit = {
       mode: 'no-cors',
@@ -32,40 +30,34 @@ class Hackernews extends Component {
               return res.json();
             })
             .then((data) => {
-              this.setState({
-                stories: this.state.stories.concat(data),
-                header: 'New Stories',
-              });
+              setStories(stories.concat(data))
+              setHeader('New Stories')
             });
         });
       })
       .catch(function (e) {
         console.log(e);
       });
-  };
+  }, [])
 
-  render() {
-    const hackerData =
-      this.state.stories.length > 0
-        ? this.state.stories.map((story) => (
+  const hackerData = stories.length > 0 ? stories.map((story) => (
             <HackerBar key={story.id} story={story} />
-          ))
-        : null;
-    return (
-      <React.Fragment>
-        <div className='columns'>
+          )): null;
+
+  return (
+    <>
+       <div className='columns'>
           <SidePane />
           <div className='column is-9' style={{ marginTop: '4rem' }}>
-            {this.state.header !== '' ? (
-              <h2 className='is-title'>{this.state.header} </h2>
+            {header !== '' ? (
+              <h2 className='is-title'>{header} </h2>
             ) : null}
             {hackerData}
           </div>
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
 
-export default Hackernews;
+export default Hackernews

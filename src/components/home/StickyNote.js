@@ -1,8 +1,6 @@
-import React from 'react';
-
 function StickyNote() {
   return (
-    <React.Fragment>
+    <>
       <div className='card' id='mydiv' style={cardStyle}>
         <div
           className='card-header has-background-dark'
@@ -11,14 +9,6 @@ function StickyNote() {
         >
           &nbsp;
         </div>
-        {/* <div className='content' style={cardToolStyle}>
-          <span className=' button is-small card-footer-item'>
-            <i className='fas fa-plus'></i>
-          </span>
-          <span className='button is-small card-footer-item'>
-            <i className='fas fa-trash'></i>
-          </span>
-        </div> */}
         <div className='card-header-title' contentEditable='true'>
           Notes Title
         </div>
@@ -30,7 +20,7 @@ function StickyNote() {
           Notes Content
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 
@@ -54,11 +44,6 @@ const cardContentStyle = {
   overflowY: 'auto',
   textAlign: 'left',
   padding: '1rem',
-};
-
-const cardToolStyle = {
-  display: 'flex',
-  flexDirection: 'row',
 };
 
 export default StickyNote;

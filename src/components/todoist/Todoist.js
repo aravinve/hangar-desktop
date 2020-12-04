@@ -1,104 +1,92 @@
-import React, { Component } from 'react';
+import  { useState } from 'react';
 import Dashboard from '../home/Dashboard';
 import SidePane from './SidePane';
 import { v4 as uuid } from 'uuid';
 import TodoItem from './TodoItem';
 
-class Todoist extends Component {
-  state = {
-    todos: [
-      {
-        id: uuid(),
-        title: 'Write essay',
-        completed: false,
-      },
-    ],
-    searchTerm: '',
-    filteredTodos: [],
-    alert: '',
-  };
+function Todoist() {
 
-  handleCheckBox = (id) => {
-    this.setState({
-      todos: this.state.todos.map((todo) => {
-        if (todo.id === id) {
-          todo.completed = !todo.completed;
-        }
-        return todo;
-      }),
-    });
-  };
+  const dummyTodo = {
+    id: uuid(),
+    title: 'Write essay',
+    completed: false,
+  }
 
-  handleDelete = (id) => {
-    this.setState({
-      todos: this.state.todos.filter((todo) => todo.id !== id),
-      filteredTodos: this.state.filteredTodos.filter((todo) => todo.id !== id),
-    });
-  };
+  const [todos, setTodos] = useState([dummyTodo])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filterTodos, setFilterTodos] = useState([])
+  const [alert, setAlert] = useState('')
 
-  addTodo = (content) => {
-    this.setState({
-      todos: [
-        ...this.state.todos,
-        {
-          id: uuid(),
-          title: content,
-          completed: false,
-        },
-      ],
-      filteredTodos: [],
-    });
-  };
+  const handleCheckBox = (id) => {
+    setTodos(todos.map((todo) => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    }))
+  }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  const handleDelete = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id))
+    setFilterTodos(filterTodos.filter((todo) => todo.id !== id))
+  }
+
+  const addTodo = (content) => {
+    setTodos(...todos, {
+      id: uuid(),
+      title: content,
+      completed: false,
+    })
+    setFilterTodos([])
+  }
+
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value)
     if (e.target.value === '') {
-      this.setState({ filteredTodos: [] });
+      setFilterTodos([])
     }
-  };
-  searchTodo = () => {
-    const filteredTodo = this.state.todos.filter((todo) =>
-      todo.title.toLowerCase().includes(this.state.searchTerm)
+  }
+
+  const searchTodo = () => {
+    const filteredTodo = todos.filter((todo) =>
+      todo.title.toLowerCase().includes(searchTerm)
     );
     if (filteredTodo.length === 0) {
-      this.setState({ alert: 'Not Found' });
+      setAlert('Not Found')
     } else {
-      this.setState({ alert: '' });
+      setAlert('')
     }
-    this.setState({ filteredTodos: filteredTodo });
-  };
+    setFilterTodos(filteredTodo)
+  }
 
-  render() {
-    const todosList =
-      this.state.todos.length > 0
-        ? this.state.todos.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              handleDelete={this.handleDelete}
-              handleCheckBox={this.handleCheckBox}
-            />
-          ))
-        : null;
-    const filteredTodoList =
-      this.state.filteredTodos.length > 0
-        ? this.state.filteredTodos.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              handleDelete={this.handleDelete}
-              handleCheckBox={this.handleCheckBox}
-            />
-          ))
-        : null;
-    return (
-      <React.Fragment>
-        <div className='columns'>
+  const todosList = todos.length > 0 ? todos.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          handleDelete={handleDelete}
+          handleCheckBox={handleCheckBox}
+        />
+      ))
+    : null
+
+const filteredTodoList = filterTodos.length > 0 ? filterTodos.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          handleDelete={handleDelete}
+          handleCheckBox={handleCheckBox}
+        />
+      ))
+    : null
+
+  return (
+    <>
+      <div className='columns'>
           <SidePane
-            addTodo={this.addTodo}
-            searchTodo={this.searchTodo}
-            handleChange={this.handleChange}
-            alert={this.state.alert}
+            addTodo={addTodo}
+            searchTodo={searchTodo}
+            handleChange={handleChange}
+            alert={alert}
           />
           <div
             className='column is-9'
@@ -108,9 +96,8 @@ class Todoist extends Component {
           </div>
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
 
-export default Todoist;
+export default Todoist

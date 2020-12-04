@@ -1,107 +1,115 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import SidePane from './SidePane';
 import Dashboard from '../home/Dashboard';
 import CovidCard from './CovidCard';
 import CountrySelect from './CountrySelect';
 import CovidTable from './CovidTable';
 
-class Covid extends Component {
-  state = {
-    apiUrl: 'https://covid19.mathdro.id/api',
-    covidData: '',
-    header: '',
-    countries: [],
-    detailData: [],
-  };
-  componentDidMount() {
-    this.loadGlobalData();
+function Covid() {
+  
+  const [covidData, setCovidData] = useState('')
+  const [header, setHeader] = useState('')
+  const [countries, setCountries] = useState([])
+  const [detailData, setDetailData] = useState([])
+
+  useEffect(() => {
+    loadGlobalData();
     fetch('https://covid19.mathdro.id/api/countries')
       .then((countryResponse) => {
         return countryResponse.json();
       })
       .then((countryData) => {
-        this.setState({ countries: countryData.countries });
+        setCountries(countryData.countries)
       });
-  }
+  }, [])
 
-  loadGlobalData = () => {
-    fetch(this.state.apiUrl)
+  const loadGlobalData = () => {
+    fetch(apiUrl)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        this.setState({ covidData: data, header: 'Worldwide', detailData: '' });
+        setCovidData(data)
+        setHeader('Worldwide')
+        setDetailData('')
       })
       .catch(function (e) {
         console.log(e);
       });
-  };
-  showGlobalStats = () => {
-    this.loadGlobalData();
-  };
-  showTodayStats = () => {
-    this.loadTodayData();
-  };
-  handleChange = (e) => {
+  }
+
+  const showGlobalStats = () => {
+    loadGlobalData();
+  }
+
+  const showTodayStats = () => {
+    loadTodayData();
+  }
+
+  const handleChange = (e) => {
     const country = e.target.value;
     fetch(`https://covid19.mathdro.id/api/countries/${country}`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        this.setState({ covidData: data, header: country, detailData: '' });
+        setCovidData(data)
+        setHeader(country)
+        setDetailData('')
       })
       .catch(function (e) {
         console.log(e);
       });
-  };
+  }
 
-  showConfirmDetail = (targetUrl) => {
+  const showConfirmDetail = (targetUrl) => {
     fetch(targetUrl)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        this.setState({ detailData: data });
+        setDetailData(data)
       })
       .catch(function (e) {
         console.log(e);
       });
-  };
-  render() {
-    const countriesList =
-      this.state.countries.length > 0
-        ? this.state.countries.map((country) => (
+  }
+
+  const countriesList =
+      countries.length > 0
+        ? countries.map((country) => (
             <CountrySelect country={country.name} key={country.name} />
           ))
-        : null;
+        : null
+
     const detailTable =
-      this.state.detailData.length > 0
-        ? this.state.detailData.map((detail) => (
+      detailData.length > 0
+        ? detailData.map((detail) => (
             <CovidTable detail={detail} key={detail.uid} />
           ))
-        : null;
-    return (
-      <React.Fragment>
-        <div className='columns'>
+        : null
+
+  return (
+    <>
+       <div className='columns'>
           <SidePane
-            showGlobalStats={this.showGlobalStats}
+            showGlobalStats={showGlobalStats}
             showCountriesList={countriesList}
-            handleChange={this.handleChange}
+            handleChange={handleChange}
           />
           <div
             className='column is-9 is-centered'
             style={{ marginTop: '4rem', padding: '2rem' }}
           >
-            {this.state.covidData !== '' ? (
+            {covidData !== '' ? (
               <CovidCard
-                covidData={this.state.covidData}
-                header={this.state.header}
-                showConfirmDetail={this.showConfirmDetail}
+                covidData={covidData}
+                header={header}
+                showConfirmDetail={showConfirmDetail}
               />
             ) : null}
             {detailTable !== null ? (
-              <React.Fragment>
+              <>
                 <div
                   className='table-container'
                   style={{ textAlign: 'center' }}
@@ -121,14 +129,13 @@ class Covid extends Component {
                     {detailTable}
                   </table>
                 </div>
-              </React.Fragment>
+              </>
             ) : null}
           </div>
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
 
-export default Covid;
+export default Covid

@@ -1,7 +1,5 @@
-import React from 'react';
-
-function CovidCard(props) {
-  const date = new Date(props.covidData.lastUpdate);
+function CovidCard({covidData, header, showConfirmDetail}) {
+  const date = new Date(covidData.lastUpdate);
   return (
     <div className='box has-background-light'>
       <div className='columns'>
@@ -10,15 +8,15 @@ function CovidCard(props) {
             className='is-title has-text-dark'
             style={{ textAlign: 'center' }}
           >
-            {props.header}
+            {header}
           </h5>
         </div>
-        {props.header !== 'Worldwide' ? (
+        {header !== 'Worldwide' ? (
           <div className='content'>
             <button
               className='button is-small is-dark'
               onClick={() =>
-                props.showConfirmDetail(props.covidData.confirmed.detail)
+                showConfirmDetail(covidData.confirmed.detail)
               }
             >
               View Detail
@@ -36,7 +34,7 @@ function CovidCard(props) {
             </div>
             <div className='card-content has-background-light has-text-black'>
               <div className='content is-size-5'>
-                {props.covidData.confirmed.value}{' '}
+                {covidData.confirmed.value}{' '}
               </div>
             </div>
           </div>
@@ -50,7 +48,7 @@ function CovidCard(props) {
             </div>
             <div className='card-content has-background-light has-text-black'>
               <div className='content is-size-5'>
-                {props.covidData.deaths.value}{' '}
+                {covidData.deaths.value}{' '}
               </div>
             </div>
           </div>
@@ -64,7 +62,7 @@ function CovidCard(props) {
             </div>
             <div className='card-content has-background-light has-text-black'>
               <div className='content is-size-5 '>
-                {props.covidData.recovered.value}{' '}
+                {covidData.recovered.value}{' '}
               </div>
             </div>
           </div>

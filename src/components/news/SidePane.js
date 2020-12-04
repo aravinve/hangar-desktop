@@ -1,6 +1,4 @@
-import React from 'react';
-
-function SidePane(props) {
+function SidePane({handleSearchChange, handleSelectChange, searchArticle}) {
   return (
     <div
       className='column is-3'
@@ -15,7 +13,7 @@ function SidePane(props) {
               type='text'
               name='searchArticle'
               placeholder='Search'
-              onChange={props.handleChange}
+              onChange={handleSearchChange}
             />
             <span className='icon is-left'>
               <i className='fas fa-search'></i>
@@ -24,7 +22,7 @@ function SidePane(props) {
           <button
             className='button is-small is-dark'
             style={{ marginLeft: '0.5rem' }}
-            onClick={props.searchArticle}
+            onClick={searchArticle}
           >
             Search
           </button>
@@ -32,7 +30,7 @@ function SidePane(props) {
         <div className='panel-block'>
           <p className='control has-icons-left'>
             <div className='select is-small'>
-              <select onChange={props.handleChange} name='searchCountry'>
+              <select onChange={handleSelectChange} name='searchCountry'>
                 <option value='us'>Select dropdown</option>
                 <option value='us'>USA</option>
                 <option value='in'>India</option>
@@ -47,7 +45,7 @@ function SidePane(props) {
           <button
             className='button is-small is-dark'
             style={{ marginLeft: '0.5rem' }}
-            onClick={props.searchArticle}
+            onClick={searchArticle}
           >
             Filter
           </button>
@@ -57,4 +55,4 @@ function SidePane(props) {
   );
 }
 
-export default SidePane;
+export default SidePane

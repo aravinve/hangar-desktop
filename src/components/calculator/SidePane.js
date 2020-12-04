@@ -1,6 +1,4 @@
-import React from 'react';
-
-function SidePane(props) {
+function SidePane({handleChange}) {
   return (
     <div
       className='column is-5'
@@ -19,7 +17,7 @@ function SidePane(props) {
                   <select
                     name='modeChange'
                     id='mode-changer'
-                    onChange={props.handleChange}
+                    onChange={handleChange}
                   >
                     <option value='simple'>Simple</option>
                     <option value='scientific'>Scientific</option>

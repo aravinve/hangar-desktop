@@ -1,16 +1,14 @@
-import React from 'react';
-
-function ContentFrame(props) {
+function ContentFrame({contentData, contentUrl}) {
   return (
     <div className='container'>
-      {props.contentData.length > 0 ? (
+      {contentData.length > 0 ? (
         <div className='column is-4' style={{ marginTop: '4rem' }}>
           <div className='content' style={{ position: 'fixed' }}>
             <div className='title'>News Detail</div>
-            <div className='content'>{props.contentData}</div>
+            <div className='content'>{contentData}</div>
             <div className='content'>
               <a
-                href={props.contentUrl}
+                href={contentUrl}
                 className='button is-small is-dark'
                 target='_blank'
               >
@@ -24,4 +22,4 @@ function ContentFrame(props) {
   );
 }
 
-export default ContentFrame;
+export default ContentFrame

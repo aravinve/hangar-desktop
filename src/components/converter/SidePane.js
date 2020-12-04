@@ -1,6 +1,4 @@
-import React from 'react';
-
-function SidePane(props) {
+function SidePane({loadSelectData}) {
   return (
     <div
       className='column is-3'
@@ -19,7 +17,7 @@ function SidePane(props) {
             <select
               name='converterName'
               id='converter-name'
-              onChange={props.loadSelectData}
+              onChange={loadSelectData}
             >
               <option value='' selected disabled hidden>
                 Choose
@@ -49,4 +47,4 @@ function SidePane(props) {
   );
 }
 
-export default SidePane;
+export default SidePane
