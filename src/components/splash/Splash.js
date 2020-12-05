@@ -8,73 +8,80 @@ function Splash() {
   const [hangarId, setHangarId] = useState('')
   const [hangarPin, setHangarPin] = useState('')
   const [showForm, setShowForm] = useState(false)
+
+  const styleSplash = {
+    backgroundImage: 'url(' + image + ')',
+  }
+
   const toggleForm = () => {
     setShowForm(!showForm)
-  };
+  }
+
   const handleChange = (e) => {
     if(e.target.name === "hangarId"){
       setHangarId(e.target.value)
     } else {
       setHangarPin(e.target.value)
     }
-  };
+  }
+
   const showHome = (e) => {
     e.preventDefault();
     ipcRenderer.send('login', {hangarId, hangarPin});
-  };
+  }
+
   const exitApp = () => {
     let currentWindow = currRemote.getCurrentWindow();
     currentWindow.close();
-  };
+  }
+  
   return (
-    <div className='container' style={styleSplash}>
+    <div className='container m-0 h-screen' style={styleSplash}>
     {showForm ? (
       <form
-        className='box center-form-box'
+        className='p-4 shadow-lg bg-secondary rounded-md center-form-box'
         method='POST'
         onSubmit={showHome}
       >
-        <div className='field'>
-          <div className='control'>
+        <div className='mt-1 mb-3 relative rounded-md shadow-md'>
+          <div className='text-left text-md'>
             <input
               type='text'
               id='hangarId'
               name='hangarId'
               placeholder='Hangar Id'
               onChange={handleChange}
-              className='input'
+              className='block w-full border-gray-300 rounded-md px-4 py-2 focus:outline-none'
               required
             />
           </div>
         </div>
-        <div className='field'>
-          <div className='control'>
+        <div className='mt-1 mb-3 relative rounded-md shadow-md'>
+          <div className='text-left text-md'>
             <input
               type='password'
               id='hangarPin'
               name='hangarPin'
-              placeholder='4 Digit Pin'
+              placeholder='Hangar Pin'
               maxLength='4'
               pattern='[0-9]{4}'
               onChange={handleChange}
-              className='input'
+              className='block w-full border-gray-300 rounded-md px-4 py-2 focus:outline-none'
               required
             />
           </div>
         </div>
-        <div className='field'>
-          <div className='control'>
+        <div className='mt-4 relative'>
+          <div className='text-center text-md'>
             <button
-              className='button is-h-blue is-outlined'
+              className='cursor-pointer py-2 px-4 rounded-md shadow-md focus:outline-none mr-8 is-h-blue is-outlined'
               onClick={toggleForm}
-              style={{ marginRight: '1.5rem' }}
             >
               Back
             </button>
             <button
               type='submit'
-              className='button is-h-blue is-outlined'
-              style={{ marginLeft: '1.5rem' }}
+              className='cursor-pointer py-2 px-4 rounded-md shadow-md focus:outline-none ml-8 is-h-blue is-outlined'
             >
               Submit
             </button>
@@ -83,13 +90,13 @@ function Splash() {
       </form>
     ) : (
       <div className='center-box'>
-        <button className='button is-h-blue' onClick={toggleForm}>
-          Setup Hangar
-        </button>
-        <br />
-        <button className='button is-h-blue' onClick={exitApp}>
-          Exit
-        </button>
+        <button className='bg-primary cursor-pointer text-secondary text-base py-2 px-4 rounded-md shadow-md focus:outline-none' onClick={toggleForm}>
+            Setup Hangar
+          </button>
+          <br />
+          <button className='bg-primary cursor-pointer text-secondary text-base py-2 px-4 rounded-md' onClick={exitApp}>
+            Exit
+          </button>
       </div>
     )}
   </div>
@@ -97,9 +104,3 @@ function Splash() {
 }
 
 export default Splash
-
-const styleSplash = {
-  height: '100vh',
-  margin: '0px',
-  backgroundImage: 'url(' + image + ')',
-};

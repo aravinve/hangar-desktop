@@ -1,7 +1,6 @@
-import React from 'react';
-import Tools from './Tools';
+import Tools from './Tools'
 
-function Overlay({imageUrl, userName, showSettings, handleChange, changeOverlay, clock, changeSearchTerm, changeSettingsMenu}) {
+function Overlay({imageUrl, userName, showSettings, handleChange, changeOverlay, clock, changeSearchTerm, changeSettingsMenu, currentTheme}) {
   const styleOverlay = {
     width: '100%',
     height: '100vh',
@@ -18,26 +17,30 @@ function Overlay({imageUrl, userName, showSettings, handleChange, changeOverlay,
   };
 
   return (
-    <div className='fadein' style={styleOverlay}>
-      <div className='columns' style={{ padding: '4rem' }}>
-        <div className='column'>
-          <div className='box is-pulled-right has-background-light'>
-            <h1 className='title is-1 has-text-dark'>
+    <div className="flex flex-row flex-wrap">
+    <div className='flex-1 fadein' style={styleOverlay}>
+      <div className='flex flex-col p-8 float-right'>
+        <div className='flex-auto'>
+          <div className='p-4 bg-secondary rounded-md shadow-md'>
+            <h1 className='text-5xl text-primary'>
               Welcome, {userName}{' '}
             </h1>
-            {showSettings ? (
+            <h3 className='text-xl text-primary'>{clock}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    {showSettings ? (
               <Tools
                 handleChange={handleChange}
                 changeOverlay={changeOverlay}
                 changeSearchTerm={changeSearchTerm}
                 changeSettingsMenu={changeSettingsMenu}
+                currentTheme={currentTheme}
               />
             ) : (
-              <h3 className='subtitle'>{clock}</h3>
-            )}
-          </div>
-        </div>
-      </div>
+              null
+      )}
     </div>
   );
 }

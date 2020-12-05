@@ -11,6 +11,7 @@ const ipcRenderer = electron.ipcRenderer
 
 function Home() {
   const [searchText, setSearchText] = useState('mountains')
+  const [currentTheme, setCurrentTheme] = useState('Mountains')
   const [images, setImages] = useState([])
   const [url, setUrl] = useState('')
   const [clock, setClock] = useState('')
@@ -66,13 +67,14 @@ function Home() {
 
   const changeSearchTerm = () => {
     document.getElementById('searchText').value = '';
-    loadImages(searchText);
+    loadImages(searchText)
+    setCurrentTheme(searchText)
   }
 
   const changeSettingsMenu = (e) => {
     const settingsMenu = e.currentTarget;
     const settingsMenuText = settingsMenu.innerText;
-    if (settingsMenuText === 'Background') {
+    if (settingsMenuText === 'Display') {
       document.querySelector('#settings-background').style.display = 'block';
       document.querySelector('#settings-preference').style.display = 'none';
       document.querySelector('#settings-account').style.display = 'none';
@@ -120,6 +122,7 @@ function Home() {
           changeSettingsMenu={changeSettingsMenu}
           showSettings={showSettings}
           clock={clock}
+          currentTheme={currentTheme}
         />
         {stickyNote ? <StickyNote /> : null}
         <Dashboard
