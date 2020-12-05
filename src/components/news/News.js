@@ -48,7 +48,7 @@ function News() {
     setSearchCountry(e.target.value)
   }
 
-  const searchArticle = () => {
+  const searchArticleFunction = () => {
     loadArticle(searchArticle, searchCountry);
   };
 
@@ -72,7 +72,7 @@ function News() {
           <SidePane
             handleSearchChange={handleSearchChange}
             handleSelectChange={handleSelectChange}
-            searchArticle={searchArticle}
+            searchArticle={searchArticleFunction}
           />
           <div className='column is-6' style={{ marginTop: '4rem' }}>
             {articlesData}

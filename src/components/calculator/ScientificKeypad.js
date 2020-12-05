@@ -1,6 +1,6 @@
 function ScientificKeypad({buttonClick}) {
   return (
-    <React.Fragment>
+    <>
       <div className='columns m-0 is-gapless'>
         <div className='column buttons are-medium'>
           <button
@@ -231,7 +231,7 @@ function ScientificKeypad({buttonClick}) {
           </button>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

@@ -31,7 +31,7 @@ function Cook() {
     setSearchRecipe(e.target.value)
   }
 
-  const searchRecipe = () => {
+  const searchRecipeFunction = () => {
     loadRecipe(searchRecipe);
   }
 
@@ -50,7 +50,7 @@ function Cook() {
       <div className='columns'>
           <SidePane
             handleChange={handleChange}
-            searchRecipe={searchRecipe}
+            searchRecipe={searchRecipeFunction}
           />
           <div
             className='column is-8'

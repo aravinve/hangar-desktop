@@ -30,7 +30,7 @@ function Reddit() {
     setSearchArticle(e.target.value)
   }
 
-  const searchArticle = () => {
+  const searchArticleFunction = () => {
     loadArticle(searchArticle);
   }
 
@@ -45,7 +45,7 @@ function Reddit() {
       <div className='columns'>
           <SidePane
             handleChange={handleChange}
-            searchArticle={searchArticle}
+            searchArticle={searchArticleFunction}
           />
           <div className='column is-9' style={{ marginTop: '4rem' }}>
             {searchArticle !== '' ? (

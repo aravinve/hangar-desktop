@@ -1,6 +1,6 @@
 function Keypad({buttonClick}) {
   return (
-    <React.Fragment>
+    <>
       <div className='columns m-0 is-gapless'>
         <div className='column buttons are-medium'>
           <button
@@ -161,7 +161,7 @@ function Keypad({buttonClick}) {
           </button>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

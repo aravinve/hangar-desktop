@@ -24,7 +24,7 @@ function Covid() {
   }, [])
 
   const loadGlobalData = () => {
-    fetch(apiUrl)
+    fetch('https://covid19.mathdro.id/api')
       .then((response) => {
         return response.json();
       })
@@ -40,10 +40,6 @@ function Covid() {
 
   const showGlobalStats = () => {
     loadGlobalData();
-  }
-
-  const showTodayStats = () => {
-    loadTodayData();
   }
 
   const handleChange = (e) => {

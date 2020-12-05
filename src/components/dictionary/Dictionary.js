@@ -8,7 +8,9 @@ function Dictionary() {
   const [searchWord, setSearchWord] = useState('')
 
   const loadResult = (searchWord) => {
-    const testURL = `${this.state.apiUrl}/${searchWord}/?key=${this.state.apiKey}`;
+    const apiUrl = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json'
+    const apiKey = process.env.REACT_APP_DICTIONARY_KEY
+    const testURL = `${apiUrl}/${searchWord}/?key=${apiKey}`;
     const myInit = {
       mode: 'no-cors',
     };
@@ -32,7 +34,7 @@ function Dictionary() {
     }
   }
 
-  const searchWord = () => {
+  const searchWordFunction = () => {
     loadResult(searchWord);
   }
 
@@ -45,7 +47,7 @@ function Dictionary() {
       <div className='columns'>
           <SidePane
             handleChange={handleChange}
-            searchWord={searchWord}
+            searchWord={searchWordFunction}
           />
           <div
             className='column is-9'

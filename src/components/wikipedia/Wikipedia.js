@@ -31,7 +31,7 @@ function Wikipedia() {
     setSearchArticle(e.target.value)
   };
 
-  const searchArticle = () => {
+  const searchArticleFunction = () => {
     loadArticle(searchArticle);
   }
 
@@ -55,7 +55,7 @@ function Wikipedia() {
       <div className='columns'>
           <SidePane
             handleChange={handleChange}
-            searchArticle={searchArticle}
+            searchArticle={searchArticleFunction}
           />
           <div className='column is-6' style={{ marginTop: '4rem' }}>
             <div className='columns'>

@@ -37,12 +37,12 @@ function RecipeCard({recipe}) {
                     </thead>
                     <tbody>
                       {recipe.ingredients.map((element) => (
-                        <React.Fragment>
+                        <>
                           <tr>
                             <td>{element.text} </td>
                             <td>{element.weight} </td>
                           </tr>
-                        </React.Fragment>
+                        </>
                       ))}
                     </tbody>
                   </table>
