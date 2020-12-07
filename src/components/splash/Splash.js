@@ -94,7 +94,7 @@ function Splash() {
             Setup Hangar
           </button>
           <br />
-          <button className='bg-primary cursor-pointer text-secondary text-base py-2 px-4 rounded-md' onClick={exitApp}>
+          <button className='bg-primary cursor-pointer text-secondary text-base py-2 px-4 rounded-md focus:outline-none' onClick={exitApp}>
             Exit
           </button>
       </div>

@@ -76,16 +76,34 @@ function Home() {
     const settingsMenuText = settingsMenu.innerText;
     if (settingsMenuText === 'Display') {
       document.querySelector('#settings-background').style.display = 'block';
+      document.querySelector('#display-set-li').classList.remove('bg-secondary', 'text-primary')
+      document.querySelector('#display-set-li').classList.add('bg-primary', 'text-secondary')
       document.querySelector('#settings-preference').style.display = 'none';
+      document.querySelector('#pref-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#pref-set-li').classList.remove('bg-primary', 'text-secondary')
       document.querySelector('#settings-account').style.display = 'none';
+      document.querySelector('#account-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#account-set-li').classList.remove('bg-primary', 'text-secondary')
     } else if (settingsMenuText === 'Preferences') {
       document.querySelector('#settings-background').style.display = 'none';
+      document.querySelector('#display-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#display-set-li').classList.remove('bg-primary', 'text-secondary')
       document.querySelector('#settings-preference').style.display = 'block';
+      document.querySelector('#pref-set-li').classList.remove('bg-secondary', 'text-primary')
+      document.querySelector('#pref-set-li').classList.add('bg-primary', 'text-secondary')
       document.querySelector('#settings-account').style.display = 'none';
+      document.querySelector('#account-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#account-set-li').classList.remove('bg-primary', 'text-secondary')
     } else {
       document.querySelector('#settings-background').style.display = 'none';
+      document.querySelector('#display-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#display-set-li').classList.remove('bg-primary', 'text-secondary')
       document.querySelector('#settings-preference').style.display = 'none';
+      document.querySelector('#pref-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#pref-set-li').classList.remove('bg-primary', 'text-secondary')
       document.querySelector('#settings-account').style.display = 'block';
+      document.querySelector('#account-set-li').classList.remove('bg-secondary', 'text-primary')
+      document.querySelector('#account-set-li').classList.add('bg-primary', 'text-secondary')
     }
   }
 
@@ -110,7 +128,7 @@ function Home() {
     showStickyNote(!stickyNote)
   }
 
-  return (
+    return (
     <>
     {console.log(userData)}
      <Overlay

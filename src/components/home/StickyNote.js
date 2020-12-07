@@ -1,21 +1,20 @@
 function StickyNote() {
   return (
     <>
-      <div className='card' id='mydiv' style={cardStyle}>
+      <div className='bg-secondary text-black shadow-md rounded-md fixed w-48' id='mydiv' style={cardStyle}>
         <div
-          className='card-header has-background-dark'
+          className='flex bg-primary rounded-t-md'
           id='mydivheader'
           style={cardHeaderStyle}
         >
           &nbsp;
         </div>
-        <div className='card-header-title' contentEditable='true'>
+        <div className='text-primary p-1 font-medium text-xl outline-none focus:outline-none' contentEditable='true'>
           Notes Title
         </div>
         <div
-          className='card-content'
+          className='h-40 p-1 text-sm overflow-x-hidden overflow-y-auto outline-none focus:outline-none'
           contentEditable='true'
-          style={cardContentStyle}
         >
           Notes Content
         </div>
@@ -25,25 +24,14 @@ function StickyNote() {
 }
 
 const cardStyle = {
-  position: 'fixed',
-  textAlign: 'center',
   zIndex: '9',
   top: '1rem',
   left: '1rem',
-  width: '14rem',
 };
 
 const cardHeaderStyle = {
   cursor: 'move',
   zIndex: '10',
-};
-
-const cardContentStyle = {
-  height: '12rem',
-  overflowX: 'hidden',
-  overflowY: 'auto',
-  textAlign: 'left',
-  padding: '1rem',
 };
 
 export default StickyNote;

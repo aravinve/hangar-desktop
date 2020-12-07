@@ -103,3 +103,19 @@ html {
   overflow-y: hidden;
   overflow-x: auto;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f2f2f2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #172b4d;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
