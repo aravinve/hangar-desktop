@@ -2,8 +2,8 @@ import {useState, useEffect} from 'react'
 import Overlay from './Overlay';
 import Dashboard from './Dashboard';
 import axios from 'axios';
-import StickyNote from './StickyNote';
 import dragElement from './drag';
+import StickyNotesList from './StickyNotesList';
 
 const electron = window.require('electron')
 const ipcRenderer = electron.ipcRenderer
@@ -142,7 +142,7 @@ function Home() {
           clock={clock}
           currentTheme={currentTheme}
         />
-        {stickyNote ? <StickyNote /> : null}
+        {stickyNote ? <StickyNotesList /> : null}
         <Dashboard
           toggleSettings={toggleSettings}
           showStickyNote={toggleStickyNote}
