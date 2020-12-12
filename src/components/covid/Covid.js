@@ -87,16 +87,13 @@ function Covid() {
 
   return (
     <>
-       <div className='columns'>
-          <SidePane
+       <div className='flex flex-row items-center mt-32 px-4 py-6 justify-center'>
+       <SidePane
             showGlobalStats={showGlobalStats}
             showCountriesList={countriesList}
             handleChange={handleChange}
           />
-          <div
-            className='column is-9 is-centered'
-            style={{ marginTop: '4rem', padding: '2rem' }}
-          >
+          <div className='flex-auto px-12 py-10'>
             {covidData !== '' ? (
               <CovidCard
                 covidData={covidData}
@@ -106,20 +103,17 @@ function Covid() {
             ) : null}
             {detailTable !== null ? (
               <>
-                <div
-                  className='table-container'
-                  style={{ textAlign: 'center' }}
-                >
-                  <table className='table'>
-                    <thead>
-                      <tr>
-                        <td>Country</td>
-                        <td>Province State</td>
-                        <td>Active</td>
-                        <td>Confirmed</td>
-                        <td>Recovered</td>
-                        <td>Deaths</td>
-                        <td>Incident Rate</td>
+                <div className='flex flex-row justify-center mt-4 text-center'>
+                  <table className='flex-1 border-black'>
+                    <thead className="bg-primary text-secondary">
+                      <tr className="p-2">
+                        <td className="p-2">Country</td>
+                        <td className="p-2">Province State</td>
+                        <td className="p-2">Active</td>
+                        <td className="p-2">Confirmed</td>
+                        <td className="p-2">Recovered</td>
+                        <td className="p-2">Deaths</td>
+                        <td className="p-2">Incident Rate</td>
                       </tr>
                     </thead>
                     {detailTable}
