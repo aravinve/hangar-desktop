@@ -8,6 +8,7 @@ import StickyNote from './StickyNote';
 function StickyNotesList() {
 
     const [stickyNotesList, setStickyNotesList] = useState([])
+    const [highlightTerm, setHighlightTerm] = useState('')
 
     useEffect(() => {
         dragElement(document.getElementById('mydiv'));
@@ -25,7 +26,8 @@ function StickyNotesList() {
       };
 
     const onTypeSearch = (e) => {
-        console.log(e.target.value)
+        const searchTerm = e.target.value
+        setHighlightTerm(searchTerm)
     }
 
     const addNewSticky = (e) => {
@@ -57,15 +59,27 @@ function StickyNotesList() {
         setStickyNotesList([...stickyNotesList])
     }
 
+    const handleChange = (e, id) => {
+        stickyNotesList.filter(note => note.id === id).map(note => {
+            if(e.target.name === 'title'){
+                note.title = e.target.value
+            } else{
+                note.content = e.target.value
+            }
+        })
+        setStickyNotesList([...stickyNotesList])
+    }
+
     const listDivision = stickyNotesList.length > 0 ?  stickyNotesList.map(stickyNote => (
-        <StickyCard key={stickyNote.id} data={stickyNote} displayNote={displayNote} />
+        <StickyCard key={stickyNote.id} data={stickyNote} displayNote={displayNote} highlight={highlightTerm} />
     )) : (
         <div className="p-1 mt-1 text-primary text-lg select-none">
             No Notes Available
         </div>
     ) 
 
-    const stickyNoteDivision = stickyNotesList.length > 0 ? stickyNotesList.map(stickyNote =>(<StickyNote key={stickyNote.id} data={stickyNote} displayNote={stickyNote.display} deleteNote={deleteNote} closeNote={closeNote} />)) : null
+    const stickyNoteDivision = stickyNotesList.length > 0 ? stickyNotesList.map(stickyNote =>(<StickyNote key={stickyNote.id} data={stickyNote} displayNote={stickyNote.display} deleteNote={deleteNote} closeNote={closeNote}
+        handleChange={handleChange}  />)) : null
       
     return (
         <>

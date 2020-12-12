@@ -1,7 +1,7 @@
 import {useEffect} from 'react'
 import dragElement from './drag';
 
-function StickyNote({data, displayNote, deleteNote, closeNote}) {
+function StickyNote({data, displayNote, deleteNote, closeNote, handleChange}) {
 
   useEffect(() => {
     dragElement(document.getElementById(data.id));
@@ -28,13 +28,14 @@ function StickyNote({data, displayNote, deleteNote, closeNote}) {
             </span>
           </div>
         </div>
-        <div className='flex-auto text-primary p-1 font-medium text-xl outline-none focus:outline-none' contentEditable='true'>
-          {data.title}
+        <div className='flex-auto text-primary p-1 font-medium text-xl outline-none focus:outline-none'>
+          <input type="text" name="title" className="block w-full border-gray-300 rounded-md px-2 py-2 focus:outline-none" value={data.title} onChange={(e) => handleChange(e, data.id)} />
         </div>
         <div
-          className='h-40 p-1 text-sm overflow-x-hidden overflow-y-auto outline-none focus:outline-none'
-          contentEditable='true'>
-          {data.content}
+          className='p-1 text-sm overflow-x-hidden overflow-y-auto outline-none focus:outline-none'>
+          <textarea name="content" className="h-40 block w-full border-gray-300 rounded-md px-2 py-2 focus:outline-none" value= {data.content} onChange={(e) => handleChange(e, data.id)}>
+              {data.content}
+          </textarea>
         </div>
       </div>) : null}
     </>
