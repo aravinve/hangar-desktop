@@ -12,7 +12,7 @@ function Todoist() {
     completed: false,
   }
 
-  const [todos, setTodos] = useState([dummyTodo])
+  const [todos, setTodos] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [filterTodos, setFilterTodos] = useState([])
   const [alert, setAlert] = useState('')
@@ -32,11 +32,12 @@ function Todoist() {
   }
 
   const addTodo = (content) => {
-    setTodos(...todos, {
+    const newContent =  {
       id: uuid(),
       title: content,
       completed: false,
-    })
+    }
+    setTodos([...todos, newContent])
     setFilterTodos([])
   }
 
@@ -81,7 +82,7 @@ const filteredTodoList = filterTodos.length > 0 ? filterTodos.map((todo) => (
 
   return (
     <>
-      <div className='columns'>
+      <div className='flex flex-row mt-40 mb-24 px-4 py-6 justify-center'>
           <SidePane
             addTodo={addTodo}
             searchTodo={searchTodo}
@@ -89,9 +90,7 @@ const filteredTodoList = filterTodos.length > 0 ? filterTodos.map((todo) => (
             alert={alert}
           />
           <div
-            className='column is-9'
-            style={{ marginTop: '4rem', padding: '4rem' }}
-          >
+            className='flex-auto mt-4 p-4'>
             {filteredTodoList !== null ? filteredTodoList : todosList}
           </div>
         </div>

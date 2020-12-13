@@ -3,20 +3,21 @@ function TodoItem({todo, handleCheckBox, handleDelete}) {
     textDecoration: todo.completed ? 'line-through' : 'none',
   };
   return (
-    <div className='box has-background-light'>
-      <p className='columns is-1'>
-        <div className='is-pulled-left column'>
+    <div className='bg-secondary text-primary shadow-md rounded-md p-4 m-2'>
+      <p className='flex flex-row justify-start'>
+        <div className='flex-shrink-0'>
           <input
             type='checkbox'
+            className='m-2 rounded-sm'
             onClick={() => handleCheckBox(todo.id)}
           />
         </div>
-        <div className='column is-10 is-size-5' style={todoStyle}>
+        <div className='flex-auto text-primary' style={todoStyle}>
           {todo.title}
         </div>
-        <div className='column is-1 is-pulled-right'>
+        <div className='flex-shrink-0'>
           <button
-            className='button is-small'
+            className='cursor-pointer text-primary text-sm p-1 rounded-sm focus:outline-none'
             onClick={() => handleDelete(todo.id)}
           >
             <i className='fas fa-trash'></i>

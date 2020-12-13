@@ -8,12 +8,12 @@ import ConvertSelect from './ConvertSelect';
 
 function Converter() {
   const [result, setResult] = useState('')
-  const [data, setData] = useState('')
   const [fromSelectList, setFromSelectList] = useState('')
   const [toSelectList, setToSelectList] = useState('')
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
   const [convertResult, setConvertResult] = useState('')
+  const [showKeypad, setShowKeypad] = useState(false)
 
   const buttonClick = (name) => {
     if (name === 'C') {
@@ -54,15 +54,16 @@ function Converter() {
     setFrom(selectData[0])
     setTo(selectData[0])
     setConvertResult('')
+    setShowKeypad(true)
   }
 
   const setFromSelectData = (e) => {
-    setFromSelectList(e.target.value)
+    setFrom(e.target.value)
     setConvertResult('')
   }
 
   const setToSelectData = (e) => {
-    setToSelectList(e.target.value)
+    setTo(e.target.value)
     setConvertResult('')
   }
 
@@ -82,59 +83,46 @@ const toList =
 
   return (
     <>
-      <div className='container'>
-          <div className='columns'>
+     <div className='flex flex-col items-center mt-8 px-4 py-6 justify-center'>
             <SidePane loadSelectData={loadSelectData} />
-            <div
-              className='column is-7'
-              style={{
-                marginTop: '4rem',
-                paddingLeft: '4rem',
-              }}
-            >
+            <div className='flex-auto mt-1 mb-1'>
               {fromSelectList.length > 0 ? (
-                <div className='columns'>
-                  <div className='column is-2'>
-                    <label htmlFor='from'>From: </label>
-                    <div className='select is-small is-dark'>
+                <div className='flex flex-row flex-1 items-center justify-center'>
+                  <div className='flex-1 m-2'>
+                    <div className='inline-flex items-center m-1'>
+                    <label className='text-primary mr-2' htmlFor='from'>From: </label>
                       <select
                         id='from'
                         name='from'
+                        className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none"
                         onChange={setFromSelectData}
                       >
                         {fromList}
                       </select>
                     </div>
                   </div>
-                  <div className='column is-2'>
-                    <label htmlFor='to'>To: </label>
-                    <div className='select is-small is-dark'>
-                      <select id='to' name='to' onChange={setToSelectData}>
+                  <div className='flex-1 m-2'>
+                    <div className='inline-flex items-center m-1'>
+                    <label className='text-primary mr-2' htmlFor='to'>To: </label>
+                      <select id='to' name='to'
+                       className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none" onChange={setToSelectData}>
                         {toList}
                       </select>
                     </div>
                   </div>
                 </div>
               ) : null}
-              <Result result={result} />
+            {showKeypad ? (<> <Result result={result} />
               <Keypad buttonClick={buttonClick} convert={convertFunction} />
+              </>) : null}
             </div>
             {convertResult !== '' ? (
               <div
-                className='column is-3'
-                style={{
-                  marginTop: '4rem',
-                  position: 'fixed',
-                  right: '8rem',
-                }}
-              >
+                className='flex-auto mt-1 mb-1'>
                 <div
-                  className='box has-background-light '
-                  style={{ overflowWrap: 'break-word', textAlign: 'center' }}
-                >
-                  <h4 className='is-size-2'>Result</h4>
-                  <hr className='navbar-divider' />
-                  <div className='is-size-5'>
+                  className='bg-secondary text-primary py-4 px-6 text-lg text-center select-none rounded-md shadow-md' style={{ overflowWrap: 'break-word' }}>
+                  <h4 className='text-primary text-xl select-none'>Result</h4>
+                  <div className='text-primary text-lg mt-4'>
                     {result}
                     {from} = {convertResult}
                     {to}
@@ -143,7 +131,6 @@ const toList =
               </div>
             ) : null}
           </div>
-        </div>
         <Dashboard />
     </>
   )

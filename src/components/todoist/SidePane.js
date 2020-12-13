@@ -1,37 +1,40 @@
 import AddTodo from './AddTodo';
 
 function SidePane({addTodo, handleChange, searchTodo, alert}) {
+  const paneStyle = {
+    top: '2rem',
+    left: '2rem'
+  }
   return (
     <div
-      className='column is-3'
-      style={{ paddingLeft: '2rem', marginTop: '4rem' }}
-    >
-      <nav className='panel' style={{ position: 'fixed' }}>
-        <p className='panel-heading'>Todoist</p>
+      className='absolute w-auto h-auto shadow-md rounded-md bg-secondary'
+      style={paneStyle}>
+      <nav>
+        <p className='bg-primary w-full p-2 rounded-t-md inline-flex items-center text-secondary text-xl select-none'>
+        <i className="fas fa-check-square mr-2"></i> Todoist</p>
         <AddTodo addTodo={addTodo} />
-        <div className='panel-block'>
-          <p className='control has-icons-left'>
+        <div className='flex flex-row p-4'>
+          <div className="flex-1 inline-flex">
+          <p className='text-primary text-sm inline-flex items-center'>
+          <i className='fas fa-search mr-2'></i>
             <input
-              className='input is-small'
+              className='rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-2'
               type='text'
               name='searchTerm'
               placeholder='Search'
               onChange={handleChange}
             />
-            <span className='icon is-left'>
-              <i className='fas fa-search'></i>
-            </span>
           </p>
           <button
-            className='button is-small is-dark'
-            style={{ marginLeft: '0.5rem' }}
+            className='bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none'
             onClick={searchTodo}
           >
             Search
           </button>
+          </div>
         </div>
         {alert !== '' ? (
-          <div className='panel-block'>{alert} </div>
+          <div className='flex flex-row p-2 text-lg text-primary select-none'>{alert} </div>
         ) : null}
       </nav>
     </div>

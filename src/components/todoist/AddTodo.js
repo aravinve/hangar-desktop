@@ -13,27 +13,25 @@ function AddTodo({addTodo}) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className='panel-block'>
-        <p className='control has-icons-left'>
+    <form onSubmit={handleSubmit} className='flex flex-row pt-4 pl-4 pr-4 pb-0'>
+      <div className="flex-1 inline-flex">
+      <p className='text-primary text-sm inline-flex items-center'>
+      <i className='fas fa-plus mr-2'></i>
           <input
             type='text'
-            className='input is-small'
+            className='rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-2'
             placeholder='Add Todo'
             onChange={handleChange}
             name='content'
             id='add-todo'
           />
-          <span className='icon is-left'>
-            <i className='fas fa-plus'></i>
-          </span>
         </p>
         <button
           type='submit'
-          className='button is-small is-dark'
-          style={{ marginLeft: '0.5rem' }}
-        >
+          className='bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none'>
           Add
         </button>
+      </div>
       </form>
   )
 }

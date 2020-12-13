@@ -44,18 +44,16 @@ function Dictionary() {
 
   return (
     <>
-      <div className='columns'>
+      <div className='flex flex-row mt-24 mb-24 px-4 py-6 justify-center'>
           <SidePane
             handleChange={handleChange}
             searchWord={searchWordFunction}
           />
           <div
-            className='column is-9'
-            style={{ marginTop: '4rem', padding: '2rem' }}
-          >
+            className='flex-auto flex flex-col justify-center mt-4'>
             {searchWord !== '' ? (
-              <h3 className='is-title box has-background-light'>
-                {searchWord}{' '}
+              <h3 className='select-none text-4xl capitalize p-2 text-primary'>
+                {searchWord}
               </h3>
             ) : null}
             {resultsData}

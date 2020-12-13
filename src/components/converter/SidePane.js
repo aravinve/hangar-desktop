@@ -1,22 +1,26 @@
 function SidePane({loadSelectData}) {
+  const paneStyle = {
+    top: '2rem',
+    left: '2rem'
+  }
   return (
     <div
-      className='column is-3'
-      style={{ paddingLeft: '2rem', marginTop: '4rem' }}
+      className='absolute w-auto h-auto shadow-md rounded-md bg-secondary'
+      style={paneStyle}
     >
-      <nav className='panel' style={{ position: 'fixed' }}>
-        <p className='panel-heading'>Converter</p>
-        <div className='panel-block'>
-          <div className='panel-block'>
-            <span className='icon is-left'>
-              <i className='fas fa-filter'></i>
-            </span>
-            <p className='has-icons-left'>Filter</p>
+      <nav>
+        <p className='bg-primary w-full p-2 rounded-t-md inline-flex items-center text-secondary text-xl select-none'><i className="fas fa-balance-scale mr-2"></i>Converter</p>
+        <div className='flex flex-row p-4'>
+          <div className='flex-1 inline-flex'>
+            <p className='text-primary text-sm inline-flex items-center mr-2'>
+            <i className='fas fa-filter mr-2'></i>
+              Filter</p>
           </div>
-          <div className='select is-dark is-small'>
+          <div className='inline-flex items-center m-1'>
             <select
               name='converterName'
               id='converter-name'
+              className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none"
               onChange={loadSelectData}
             >
               <option value='' selected disabled hidden>
