@@ -6,7 +6,7 @@ function SidePane({showGlobalStats, showCountriesList, handleChange}) {
   return (
     <div className='absolute w-auto h-auto shadow-md rounded-md bg-secondary' style={paneStyle}>
       <nav>
-        <p className='bg-primary w-full p-1 rounded-t-md inline-flex items-center text-secondary text-xl'> 
+        <p className='bg-primary w-full p-1 rounded-t-md inline-flex items-center text-secondary text-xl select-none'> 
         <i className="fas fa-biohazard m-2"></i> Covid-19 Tracker</p>
         <div className='flex flex-row p-2'>
           <div className='flex-1 inline-flex'>

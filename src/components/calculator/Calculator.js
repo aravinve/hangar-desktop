@@ -80,18 +80,16 @@ function Calculator() {
 
   return (
     <>
-      <div className='container' style={{ marginTop: '4rem' }}>
-          <div className='columns'>
-            <SidePane handleChange={handleChange} />
-            <div className={`${modeChange === 'simple' ? 'column is-3 p-4 mt-4': 'column is-5 p-4 mt-4'}`}>
-              <Result result={result} size={modeChange === 'simple' ? '15rem': '23rem'} />
-              {modeChange === 'simple' ? (<Keypad buttonClick={buttonClick} />) : (<ScientificKeypad buttonClick={buttonClick} />)}
-            </div>
-            <div className="column is-2 mt-6">
-              {message !== ''? (<div className='has-text-danger is-size-3'>{message} </div>) : (
-                <div>&nbsp;</div>
-              )}
-            </div>
+      <div className='flex flex-col items-center mt-8 px-4 py-6 justify-center'>
+          <SidePane handleChange={handleChange} />
+          <div className='flex-auto px-12 py-10'>
+            {message !== ''? (<div className='text-red-600 select-none text-lg'>{message} </div>) : (
+              <div>&nbsp;</div>
+            )}
+          </div>
+          <div className='flex-auto px-12 py-10'>
+            <Result result={result} />
+            {modeChange === 'simple' ? (<Keypad buttonClick={buttonClick} />) : (<ScientificKeypad buttonClick={buttonClick} />)}
           </div>
         </div>
         <Dashboard />

@@ -9,7 +9,7 @@ function SidePane({handleChange, searchArticle}) {
       style={paneStyle}
     >
       <nav>
-        <p className='bg-primary w-full p-2 rounded-t-md inline-flex items-center text-secondary text-xl'>
+        <p className='bg-primary w-full p-2 rounded-t-md inline-flex items-center text-secondary text-xl select-none'>
         <i className="fab fa-wikipedia-w mr-2"></i> Wikipedia</p>
         <div className='flex flex-row p-4'>
           <div className="flex-1 inline-flex">

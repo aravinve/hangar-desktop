@@ -1,10 +1,10 @@
-function Result({size, result}) {
+function Result({ result}) {
   return (
     <div
-      className='box has-background-light mt-5'
-      style={{ width: size, overflowWrap: 'break-word' }}
+      className='mt-4 mb-4 bg-primary shadow-lg p-4 rounded-md'
+      style={{ overflowWrap: 'break-word' }}
     >
-      <div className='content'>{result}</div>
+      <div className='text-sm text-secondary select-none'>{result}</div>
     </div>
   );
 }

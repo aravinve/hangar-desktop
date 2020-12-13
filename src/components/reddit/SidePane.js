@@ -8,7 +8,7 @@ function SidePane({handleChange, searchArticle}) {
       className='absolute w-auto h-auto shadow-md rounded-md bg-secondary'
       style={paneStyle}>
       <nav>
-        <p className='bg-primary w-full p-2 rounded-t-md inline-flex items-center text-secondary text-xl'>
+        <p className='bg-primary w-full p-2 rounded-t-md inline-flex items-center text-secondary text-xl select-none'>
         <i className="fab fa-reddit mr-2"></i> Reddit</p>
         <div className='flex flex-row p-4'>
           <div className='flex-1 inline-flex'>
