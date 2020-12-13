@@ -29,7 +29,7 @@ function SidePane({showGlobalStats, showCountriesList, handleChange}) {
             <select
               name='countryName'
               id='country-name'
-              className="decorated rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none"
+              className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none"
               onChange={handleChange}
             >
               {showCountriesList}

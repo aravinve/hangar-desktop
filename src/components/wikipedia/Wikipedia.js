@@ -52,15 +52,15 @@ function Wikipedia() {
 
   return (
     <>
-      <div className='columns'>
+      <div className='flex flex-row mt-24 mb-24 px-4 py-6 justify-center'>
           <SidePane
             handleChange={handleChange}
             searchArticle={searchArticleFunction}
           />
-          <div className='column is-6' style={{ marginTop: '4rem' }}>
-            <div className='columns'>
-              <div className='column'>
-                <h4 className='is-title'>{wikiHeader} </h4>
+          <div className='flex-auto flex flex-col justify-center mt-4'>
+            <div className='flex-1 flex flex-row'>
+              <div className='flex-auto'>
+                <h4 className='text-4xl text-primary capitalize'>{wikiHeader} </h4>
               </div>
             </div>
             {articlesData}

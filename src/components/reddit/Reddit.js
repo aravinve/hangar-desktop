@@ -42,14 +42,14 @@ function Reddit() {
 
   return (
     <>
-      <div className='columns'>
+      <div className='flex flex-row mt-24 mb-24 px-4 py-6 justify-center'>
           <SidePane
             handleChange={handleChange}
             searchArticle={searchArticleFunction}
           />
-          <div className='column is-9' style={{ marginTop: '4rem' }}>
+          <div className='flex-auto flex flex-col justify-center mt-4'>
             {searchArticle !== '' ? (
-              <div className='tag is-black' style={{ marginBottom: '1rem' }}>
+              <div className='bg-primary text-secondary text-md p-1 rounded-md shadow-md mb-4 text-center w-1/4 truncate capitalize select-none'>
                 Subreddit: {searchArticle}
               </div>
             ) : null}
