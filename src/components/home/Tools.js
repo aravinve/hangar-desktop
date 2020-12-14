@@ -104,6 +104,14 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
           <div className='container' style={styleOverlay}></div>
         </div>
       </div>
+      <div className="flex flex-col select-none justify-center items-center">
+      <div className="text-primary text-sm">
+          V1.0
+        </div>
+        <div className="text-primary text-sm">
+          Copyright 2020
+        </div>
+      </div>
     </div>
   );
 }

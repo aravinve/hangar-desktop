@@ -44,20 +44,22 @@ function Splash() {
         onSubmit={showHome}
       >
         <div className='mt-1 mb-3 relative rounded-md shadow-md'>
-          <div className='text-left text-md'>
+          <div className='text-center text-md inline-flex justify-center'>
+          <i className="fas fa-user mt-3 mb-2 ml-2 mr-2 text-primary"></i>
             <input
               type='text'
               id='hangarId'
               name='hangarId'
               placeholder='Hangar Id'
               onChange={handleChange}
-              className='block w-full border-gray-300 rounded-md px-4 py-2 focus:outline-none'
+              className='block w-full border-gray-300 rounded-r-md px-4 py-2 focus:outline-none'
               required
             />
           </div>
         </div>
         <div className='mt-1 mb-3 relative rounded-md shadow-md'>
-          <div className='text-left text-md'>
+          <div className='text-center text-md inline-flex justify-center'>
+          <i className="fas fa-key mt-3 mb-2 ml-2 mr-2 text-primary"></i>
             <input
               type='password'
               id='hangarPin'
@@ -66,7 +68,7 @@ function Splash() {
               maxLength='4'
               pattern='[0-9]{4}'
               onChange={handleChange}
-              className='block w-full border-gray-300 rounded-md px-4 py-2 focus:outline-none'
+              className='block w-full border-gray-300 rounded-r-md px-4 py-2 focus:outline-none'
               required
             />
           </div>
@@ -77,13 +79,13 @@ function Splash() {
               className='cursor-pointer py-2 px-4 rounded-md shadow-md focus:outline-none mr-8 is-h-blue is-outlined'
               onClick={toggleForm}
             >
-              Back
+              <i className="fas fa-arrow-circle-left mr-2"></i>Back
             </button>
             <button
               type='submit'
               className='cursor-pointer py-2 px-4 rounded-md shadow-md focus:outline-none ml-8 is-h-blue is-outlined'
             >
-              Submit
+              <i className="fas fa-sign-in-alt mr-2"></i>Login
             </button>
           </div>
         </div>
@@ -91,11 +93,11 @@ function Splash() {
     ) : (
       <div className='center-box'>
         <button className='bg-primary cursor-pointer text-secondary text-base py-2 px-4 rounded-md shadow-md focus:outline-none' onClick={toggleForm}>
-            Setup Hangar
+        <i className="fas fa-plane-departure mr-2"></i> Enter
           </button>
           <br />
           <button className='bg-primary cursor-pointer text-secondary text-base py-2 px-4 rounded-md focus:outline-none' onClick={exitApp}>
-            Exit
+          <i className="fas fa-sign-out-alt mr-2"></i> Exit
           </button>
       </div>
     )}

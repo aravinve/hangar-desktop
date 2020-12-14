@@ -61,7 +61,7 @@ function Dashboard({toggleSettings, showStickyNote}) {
     {showExplore ? <ExploreMenu /> : null}
     {showTools ? <ToolsMenu /> : null}
     {showSocial ? <SocialMenu /> : null}
-    <nav className='fixed bg-white text-primary w-full h-18 flex items-center' style={navbarStyle}>
+    <nav className='fixed bg-secondary text-primary w-full h-18 flex items-center' style={navbarStyle}>
        <div className='flex flex-auto justify-start items-center p-2'>
          <Link className="block" to='/home'><img src={image} className="cursor-pointer h-16" /></Link>
        </div>

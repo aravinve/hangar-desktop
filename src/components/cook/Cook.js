@@ -47,15 +47,13 @@ function Cook() {
 
   return (
     <>
-      <div className='columns'>
+      <div className='flex flex-row mt-24 mb-24 px-4 py-6 justify-center'>
           <SidePane
             handleChange={handleChange}
             searchRecipe={searchRecipeFunction}
           />
           <div
-            className='column is-8'
-            style={{ marginTop: '4rem', padding: '2rem' }}
-          >
+            className='flex-auto flex flex-col justify-center mt-4 p-4'>
             {recipesData}
           </div>
           <Dashboard />
