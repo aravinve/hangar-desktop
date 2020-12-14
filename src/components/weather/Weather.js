@@ -37,15 +37,13 @@ function Weather() {
 
   return (
     <>
-      <div className='columns'>
+      <div className='flex flex-row mt-24 mb-24 px-4 py-6 justify-center'>
           <SidePane
             handleChange={handleChange}
             searchCity={searchCity}
           />
           <div
-            className='column is-9 .is-centered'
-            style={{ marginTop: '4rem', padding: '2rem' }}
-          >
+            className='flex-auto flex flex-col py-4 px-12 justify-center mt-4'>
             {weatherData !== '' ? (
               <WeatherBar weatherData={weatherData} />
             ) : null}

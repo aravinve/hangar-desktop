@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import Article from './Article';
 import SidePane from './SidePane';
-import ContentFrame from './ContentFrame';
 import Dashboard from '../home/Dashboard';
 
 function News() {
   const [articles, setArticles] = useState([])
   const [searchArticle, setSearchArticle] = useState('')
   const [searchCountry, setSearchCountry]  = useState('us')
-  const [contentData, setContentData] = useState('')
-  const [contentUrl, setContentUrl] = useState('')
+  const [toggleFrame, setToggleFrame] = useState(false)  
 
   useEffect(() => {
     loadArticle(searchArticle, searchCountry);
@@ -52,35 +50,32 @@ function News() {
     loadArticle(searchArticle, searchCountry);
   };
 
-  const activateContentFrame = (content, url) => {
-    setContentData(content)
-    setContentUrl(url)
+  const activateContentFrame = () => {
+    setToggleFrame(!toggleFrame)
   }
 
   const articlesData = articles != null ? articles.map((article) => (
             <Article
               key={article.publishedAt}
               article={article}
-              activateContentFrame={activateContentFrame}
+              toggleFrame={toggleFrame}
             />
           ))
         : null;
 
   return (
     <>
-      <div className='columns'>
+      <div className='flex flex-row items-center mt-56 mb-8 px-4 py-6 justify-center'>
           <SidePane
             handleSearchChange={handleSearchChange}
             handleSelectChange={handleSelectChange}
             searchArticle={searchArticleFunction}
+            activateContentFrame={activateContentFrame}
+            toggleFrame={toggleFrame}
           />
-          <div className='column is-6' style={{ marginTop: '4rem' }}>
+          <div className='flex-auto flex flex-col mt-4 mb-4 justify-center container'>
             {articlesData}
           </div>
-          <ContentFrame
-            contentData={contentData}
-            contentUrl={contentUrl}
-          />
         </div>
         <Dashboard />
     </>

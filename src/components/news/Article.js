@@ -1,48 +1,40 @@
-function Article({article, activateContentFrame}) {
+import ContentFrame from './ContentFrame';
+import sampleImage from '../../img/Nil_Image.png'
+
+function Article({article, toggleFrame}) {
   return (
-    <div className='columns is-centered'>
-      <div className='column is-8'>
-        <div className='card'>
-          <div className='card-image'>
-            {article.urlToImage != null ? (
-              <img src={article.urlToImage} alt='Sample Image' />
-            ) : (
-              <i
-                className='fas fa-newspaper'
-                style={{ fontSize: '4rem', marginLeft: '10rem' }}
-              ></i>
-            )}
+    <div className="flex flex-row">
+      <div className='flex flex-col w-1/2 pt-8 pb-8 pl-24 pr-16 justify-center'>
+      <div className='flex-1'>
+        <div className='bg-secondary shadow-md rounded-md'>
+          <div className='w-full h-auto relative flex justify-center'>
+          <img src={article.urlToImage !== null ? article.urlToImage : sampleImage} alt='articlealt' className='rounded-t-md' />
           </div>
-          <div className='card-header'>
-            <div className='card-header-title'>{article.title}</div>
-          </div>
-          <div className='card-content'>
+          <div className='flex-auto p-4'>
             {article.author !== null ? (
-              <div className='tag is-dark' style={{ margin: '0.5rem' }}>
-                Author: {article.author}{' '}
+              <div className='bg-primary text-secondary m-1 px-4 inline-flex items-center justify-center py-2 rounded-sm shadow-md'>
+                Author: {article.author}
               </div>
             ) : null}
             {article.source.name !== null ? (
-              <div className='tag is-dark' style={{ margin: '0.5rem' }}>
-                Source: {article.source.name}{' '}
+              <div className='bg-primary text-secondary m-1 px-4 inline-flex items-center justify-center py-2 rounded-sm shadow-md'>
+                Source: {article.source.name}
               </div>
             ) : null}
           </div>
-          <div className='card-footer'>
-            <button
-              className='button card-footer-item is-dark'
-              onClick={() =>
-                activateContentFrame(
-                  article.description,
-                  article.url
-                )
-              }
-            >
-              Show
-            </button>
+          <div className='flex-auto p-4'>
+            <div className='text-xl text-primary'>{article.title}</div>
+          </div>
+          <div className='flex-shrink-0 p-2 bg-primary rounded-b-md justify-center flex shadow-lg'>
+            &nbsp;
           </div>
         </div>
       </div>
+    </div>
+    {toggleFrame ? (<ContentFrame
+      contentData={article.description}
+      contentUrl={article.url}
+    />) : null}
     </div>
   );
 }
