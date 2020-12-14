@@ -2,6 +2,7 @@
 
 .env
 .eslintcache
+index.css
 
 # dependencies
 /node_modules
