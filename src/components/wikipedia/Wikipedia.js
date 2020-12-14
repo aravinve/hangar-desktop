@@ -1,15 +1,13 @@
-import React, { Component } from 'react';
+import {useState} from 'react';
 import Dashboard from '../home/Dashboard';
 import SidePane from './SidePane';
 import WikiCard from './WikiCard';
 
-class Wikipedia extends Component {
-  state = {
-    articles: '',
-    searchArticle: '',
-  };
+function Wikipedia() {
+  const [articles, setArticles] = useState('')
+  const [searchArticle, setSearchArticle] = useState('')
 
-  loadArticle(searchTerm) {
+  const loadArticle = (searchTerm) => {
     if (searchTerm !== '') {
       const testURL = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${searchTerm}&format=json`;
       const myInit = {
@@ -21,7 +19,7 @@ class Wikipedia extends Component {
           return response.json();
         })
         .then((data) => {
-          this.setState({ articles: data });
+          setArticles(data)
         })
         .catch(function (e) {
           console.log(e);
@@ -29,49 +27,48 @@ class Wikipedia extends Component {
     }
   }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setSearchArticle(e.target.value)
   };
 
-  searchArticle = () => {
-    this.loadArticle(this.state.searchArticle);
-  };
+  const searchArticleFunction = () => {
+    loadArticle(searchArticle);
+  }
 
-  render() {
-    let wikiHeader = '';
-    let requiredArray = [];
-    if (this.state.articles !== '') {
-      wikiHeader = this.state.articles[0];
-      const wikiCardHeader = this.state.articles[1];
-      const wikiUrls = this.state.articles[3];
-      requiredArray = wikiUrls.map((wikiUrl, index) => {
-        return { name: wikiCardHeader[index], url: wikiUrl };
-      });
-    }
+  let wikiHeader = '';
+  let requiredArray = [];
+  if (articles !== '') {
+    wikiHeader = articles[0];
+    const wikiCardHeader = articles[1];
+    const wikiUrls = articles[3];
+    requiredArray = wikiUrls.map((wikiUrl, index) => {
+      return { name: wikiCardHeader[index], url: wikiUrl };
+    });
+  }
 
-    const articlesData = requiredArray.map((data) => (
-      <WikiCard key={data.name} name={data.name} url={data.url} />
-    ));
-    return (
-      <React.Fragment>
-        <div className='columns'>
+  const articlesData = requiredArray.map((data) => (
+    <WikiCard key={data.name} name={data.name} url={data.url} />
+  ));
+
+  return (
+    <>
+      <div className='flex flex-row mt-24 mb-24 px-4 py-6 justify-center'>
           <SidePane
-            handleChange={this.handleChange}
-            searchArticle={this.searchArticle}
+            handleChange={handleChange}
+            searchArticle={searchArticleFunction}
           />
-          <div className='column is-6' style={{ marginTop: '4rem' }}>
-            <div className='columns'>
-              <div className='column'>
-                <h4 className='is-title'>{wikiHeader} </h4>
+          <div className='flex-auto flex flex-col justify-center mt-4'>
+            <div className='flex-1 flex flex-row'>
+              <div className='flex-auto'>
+                <h4 className='text-4xl text-primary capitalize'>{wikiHeader} </h4>
               </div>
             </div>
             {articlesData}
           </div>
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
 
-export default Wikipedia;
+export default Wikipedia

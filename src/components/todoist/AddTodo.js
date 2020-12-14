@@ -1,47 +1,39 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 
-class AddTodo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      content: '',
-    };
+function AddTodo({addTodo}) {
+  
+  const [content, setContent] = useState('')
+
+  const handleChange = (e) => setContent(e.target.value)
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addTodo(content);
+    setContent('')
   }
 
-  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.addTodo(this.state.content);
-    document.getElementById('add-todo').value = '';
-  };
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit} className='panel-block'>
-        <p className='control has-icons-left'>
+  return (
+    <form onSubmit={handleSubmit} className='flex flex-row pt-4 pl-4 pr-4 pb-0'>
+      <div className="flex-1 inline-flex">
+      <p className='text-primary text-sm inline-flex items-center'>
+      <i className='fas fa-plus mr-2'></i>
           <input
             type='text'
-            className='input is-small'
+            className='rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-2'
             placeholder='Add Todo'
-            onChange={this.handleChange}
+            onChange={handleChange}
             name='content'
             id='add-todo'
           />
-          <span className='icon is-left'>
-            <i className='fas fa-plus'></i>
-          </span>
         </p>
         <button
           type='submit'
-          className='button is-small is-dark'
-          style={{ marginLeft: '0.5rem' }}
-        >
+          className='bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none'>
           Add
         </button>
+      </div>
       </form>
-    );
-  }
+  )
 }
 
-export default AddTodo;
+export default AddTodo

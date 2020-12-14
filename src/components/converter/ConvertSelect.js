@@ -1,7 +1,5 @@
-import React from 'react';
-
-function ConvertSelect(props) {
-  return <option value={props.unit}>{props.unit} </option>;
+function ConvertSelect({unit}) {
+  return <option value={unit}>{unit} </option>;
 }
 
-export default ConvertSelect;
+export default ConvertSelect

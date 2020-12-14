@@ -3,12 +3,14 @@ function dragElement(element) {
     pos2 = 0,
     pos3 = 0,
     pos4 = 0;
-  if (document.getElementById(element.id + 'header')) {
-    document.getElementById(element.id + 'header').onmousedown = dragMouseDown;
-  } else {
-    element.onmousedown = dragMouseDown;
+  if(element !== undefined && element !== null && element.id !== undefined){
+    if (document.getElementById(element.id + 'header')) {
+      document.getElementById(element.id + 'header').onmousedown = dragMouseDown;
+    } else {
+      element.onmousedown = dragMouseDown;
+    }
   }
-
+  
   function dragMouseDown(e) {
     e = e || window.event;
     e.preventDefault();
@@ -35,4 +37,4 @@ function dragElement(element) {
   }
 }
 
-module.exports = dragElement;
+export default dragElement;

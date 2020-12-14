@@ -1,31 +1,26 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import Article from './Article';
 import SidePane from './SidePane';
-import ContentFrame from './ContentFrame';
 import Dashboard from '../home/Dashboard';
 
-class News extends Component {
-  state = {
-    apiUrl: 'https://newsapi.org/v2',
-    country: 'us',
-    apiKey: process.env.REACT_APP_NEWS_KEY,
-    articles: [],
-    searchArticle: '',
-    searchCountry: 'us',
-    contentData: '',
-    contentUrl: '',
-  };
+function News() {
+  const [articles, setArticles] = useState([])
+  const [searchArticle, setSearchArticle] = useState('')
+  const [searchCountry, setSearchCountry]  = useState('us')
+  const [toggleFrame, setToggleFrame] = useState(false)  
 
-  componentDidMount() {
-    this.loadArticle(this.state.searchArticle, this.state.searchCountry);
-  }
+  useEffect(() => {
+    loadArticle(searchArticle, searchCountry);
+  }, [])
 
-  loadArticle(searchTerm, searchCountry) {
+  const loadArticle = (searchTerm, searchCountry) => {
+    const apiUrl = 'https://newsapi.org/v2'
+    const apiKey = process.env.REACT_APP_NEWS_KEY
     let testURL = '';
     if (searchTerm.length > 0) {
-      testURL = `${this.state.apiUrl}/everything?q=${searchTerm}&apikey=${this.state.apiKey}`;
+      testURL = `${apiUrl}/everything?q=${searchTerm}&apikey=${apiKey}`;
     } else {
-      testURL = `${this.state.apiUrl}/top-headlines?country=${searchCountry}&apikey=${this.state.apiKey}`;
+      testURL = `${apiUrl}/top-headlines?country=${searchCountry}&apikey=${apiKey}`;
     }
     const myInit = {
       mode: 'no-cors',
@@ -36,54 +31,55 @@ class News extends Component {
         return response.json();
       })
       .then((data) => {
-        this.setState({ articles: data.articles });
+        setArticles(data.articles)
       })
       .catch(function (e) {
         console.log(e);
       });
   }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  const handleSearchChange = (e) => {
+    setSearchArticle(e.target.value)
   };
 
-  searchArticle = () => {
-    this.loadArticle(this.state.searchArticle, this.state.searchCountry);
+  const handleSelectChange = (e) => {
+    setSearchCountry(e.target.value)
+  }
+
+  const searchArticleFunction = () => {
+    loadArticle(searchArticle, searchCountry);
   };
 
-  activateContentFrame = (content, url) => {
-    this.setState({ contentData: content, contentUrl: url });
-  };
+  const activateContentFrame = () => {
+    setToggleFrame(!toggleFrame)
+  }
 
-  render() {
-    const articlesData =
-      this.state.articles != null
-        ? this.state.articles.map((article) => (
+  const articlesData = articles != null ? articles.map((article) => (
             <Article
               key={article.publishedAt}
               article={article}
-              activateContentFrame={this.activateContentFrame}
+              toggleFrame={toggleFrame}
             />
           ))
         : null;
-    return (
-      <React.Fragment>
-        <div className='columns'>
+
+  return (
+    <>
+      <div className='flex flex-row items-center mt-56 mb-8 px-4 py-6 justify-center'>
           <SidePane
-            handleChange={this.handleChange}
-            searchArticle={this.searchArticle}
+            handleSearchChange={handleSearchChange}
+            handleSelectChange={handleSelectChange}
+            searchArticle={searchArticleFunction}
+            activateContentFrame={activateContentFrame}
+            toggleFrame={toggleFrame}
           />
-          <div className='column is-6' style={{ marginTop: '4rem' }}>
+          <div className='flex-auto flex flex-col mt-4 mb-4 justify-center container'>
             {articlesData}
           </div>
-          <ContentFrame
-            contentData={this.state.contentData}
-            contentUrl={this.state.contentUrl}
-          />
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
-export default News;
+
+export default News

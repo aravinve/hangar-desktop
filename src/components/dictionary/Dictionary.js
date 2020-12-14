@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import Dashboard from '../home/Dashboard';
 import SidePane from './SidePane';
 import DicDataCard from './DicDataCard';
 
-class Dictionary extends Component {
-  state = {
-    apiUrl: 'https://www.dictionaryapi.com/api/v3/references/collegiate/json',
-    apiKey: process.env.REACT_APP_DICTIONARY_KEY,
-    result: [],
-    searchWord: '',
-  };
+function Dictionary() {
+  const [result, setResult] = useState([])
+  const [searchWord, setSearchWord] = useState('')
 
-  loadResult(searchWord) {
-    const testURL = `${this.state.apiUrl}/${searchWord}/?key=${this.state.apiKey}`;
+  const loadResult = (searchWord) => {
+    const apiUrl = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json'
+    const apiKey = process.env.REACT_APP_DICTIONARY_KEY
+    const testURL = `${apiUrl}/${searchWord}/?key=${apiKey}`;
     const myInit = {
       mode: 'no-cors',
     };
@@ -22,51 +20,48 @@ class Dictionary extends Component {
         return response.json();
       })
       .then((data) => {
-        this.setState({ result: data });
+        setResult(data)
       })
       .catch(function (e) {
         console.log(e);
       });
   }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setSearchWord(e.target.value)
     if (e.target.value === '') {
-      this.setState({ result: [] });
+      setResult([])
     }
-  };
+  }
 
-  searchWord = () => {
-    this.loadResult(this.state.searchWord);
-  };
+  const searchWordFunction = () => {
+    loadResult(searchWord);
+  }
 
-  render() {
-    const resultsData = this.state.result.map((data) => (
-      <DicDataCard key={data.meta.uuid} data={data} />
-    ));
-    return (
-      <React.Fragment>
-        <div className='columns'>
+  const resultsData = result.map((data) => (
+    <DicDataCard key={data.meta.uuid} data={data} />
+  ))
+
+  return (
+    <>
+      <div className='flex flex-row mt-24 mb-24 px-4 py-6 justify-center'>
           <SidePane
-            handleChange={this.handleChange}
-            searchWord={this.searchWord}
+            handleChange={handleChange}
+            searchWord={searchWordFunction}
           />
           <div
-            className='column is-9'
-            style={{ marginTop: '4rem', padding: '2rem' }}
-          >
-            {this.state.searchWord !== '' ? (
-              <h3 className='is-title box has-background-light'>
-                {this.state.searchWord}{' '}
+            className='flex-auto flex flex-col justify-center mt-4'>
+            {searchWord !== '' ? (
+              <h3 className='select-none text-4xl capitalize p-2 text-primary'>
+                {searchWord}
               </h3>
             ) : null}
             {resultsData}
           </div>
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
 
-export default Dictionary;
+export default Dictionary

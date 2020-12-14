@@ -1,16 +1,14 @@
-import React from 'react';
-
-function WikiCard(props) {
+function WikiCard({name, url}) {
   return (
-    <div className='columns'>
-      <div className='column is-8'>
-        <div className='box'>
-          <div className='columns'>
-            <div className='column is-10 is-size-5'>{props.name}</div>
-            <div className='column is-2'>
+    <div className='flex flex-row'>
+      <div className='flex-auto'>
+        <div className='bg-secondary shadow-md rounded-md m-1 p-4'>
+          <div className='flex flex-row justify-center'>
+            <div className='flex-auto text-lg text-primary select-none'>{name}</div>
+            <div className='flex-shrink-0'>
               <a
-                href={props.url}
-                className='button is-small is-dark'
+                href={url}
+                className='cursor-pointer text-primary text-sm p-1 rounded-sm shadow-sm focus:outline-none'
                 target='_blank'
               >
                 <i class='fas fa-external-link-alt'></i>

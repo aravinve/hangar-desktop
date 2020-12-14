@@ -1,24 +1,19 @@
-import React from 'react';
-
-function CovidCard(props) {
-  const date = new Date(props.covidData.lastUpdate);
+function CovidCard({covidData, header, showConfirmDetail}) {
+  const date = new Date(covidData.lastUpdate);
   return (
-    <div className='box has-background-light'>
-      <div className='columns'>
-        <div className='column'>
-          <h5
-            className='is-title has-text-dark'
-            style={{ textAlign: 'center' }}
-          >
-            {props.header}
+    <div className='bg-secondary text-primary flex flex-col shadow-md rounded-md'>
+      <div className='flex p-4'>
+        <div className='flex-1'>
+          <h5 className='text-4xl'>
+            {header}
           </h5>
         </div>
-        {props.header !== 'Worldwide' ? (
-          <div className='content'>
+        {header !== 'Worldwide' ? (
+          <div className='text-4xl'>
             <button
-              className='button is-small is-dark'
+              className='bg-primary cursor-pointer text-secondary text-base py-1 px-2 rounded-sm shadow-sm focus:outline-none'
               onClick={() =>
-                props.showConfirmDetail(props.covidData.confirmed.detail)
+                showConfirmDetail(covidData.confirmed.detail)
               }
             >
               View Detail
@@ -26,56 +21,54 @@ function CovidCard(props) {
           </div>
         ) : null}
       </div>
-      <div className='columns'>
-        <div className='column'>
-          <div className='card has-background-warning has-text-black'>
-            <div className='card-header'>
-              <div className='card-header-title is-size-4 has-text-black'>
+      <div className='flex-1 flex flex-row p-4 justify-center items-center'>
+        <div className='flex-1 m-2 shadow-md rounded-md'>
+          <div className='flex flex-col justify-center'>
+            <div className='flex-1 bg-primary text-center p-1 rounded-t-md'>
+              <div className='text-secondary text-xl'>
                 Total Confirmed
               </div>
             </div>
-            <div className='card-content has-background-light has-text-black'>
-              <div className='content is-size-5'>
-                {props.covidData.confirmed.value}{' '}
+            <div className='flex-1 bg-secondary text-center p-4 '>
+              <div className='text-primary text-xl'>
+                {covidData.confirmed.value}{' '}
               </div>
             </div>
           </div>
         </div>
-        <div className='column'>
-          <div className='card has-background-danger has-text-white'>
-            <div className='card-header'>
-              <div className='card-header-title has-text-white is-size-4'>
+        <div className='flex-1 m-2 shadow-md rounded-md'>
+          <div className='flex flex-col justify-center'>
+            <div className='flex-1 bg-primary text-center p-1 rounded-t-md'>
+              <div className='text-secondary text-xl'>
                 Total Deaths
               </div>
             </div>
-            <div className='card-content has-background-light has-text-black'>
-              <div className='content is-size-5'>
-                {props.covidData.deaths.value}{' '}
+            <div className='flex-1 bg-secondary text-center p-4 '>
+              <div className='text-primary text-xl'>
+                {covidData.deaths.value}{' '}
               </div>
             </div>
           </div>
         </div>
-        <div className='column'>
-          <div className='card has-background-success has-text-white'>
-            <div className='card-header'>
-              <div className='card-header-title has-text-white is-size-4'>
+        <div className='flex-1 m-2 shadow-md rounded-md'>
+          <div className='flex flex-col justify-center'>
+            <div className='flex-1 bg-primary text-center p-1 rounded-t-md'>
+              <div className='text-secondary text-xl'>
                 Total Recovered
               </div>
             </div>
-            <div className='card-content has-background-light has-text-black'>
-              <div className='content is-size-5 '>
-                {props.covidData.recovered.value}{' '}
+            <div className='flex-1 bg-secondary text-center p-4 '>
+              <div className='text-primary text-xl'>
+                {covidData.recovered.value}{' '}
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className='columns'>
-        <div className='column'>
-          <div className='is-size-5 has-text-dark'>
+      <div className='flex-1 p-2'>
+        <div className='text-primary text-md'>
             Last Updated: {date.toString()}
           </div>
-        </div>
       </div>
     </div>
   );

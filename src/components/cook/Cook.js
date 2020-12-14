@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import SidePane from './Sidebar';
 import Dashboard from '../home/Dashboard';
 import RecipeCard from './RecipeCard';
 
-class Cook extends Component {
-  state = {
-    apiUrl: 'https://api.edamam.com/search',
-    appId: process.env.REACT_APP_FOOD_ID,
-    apiKey: process.env.REACT_APP_FOOD_KEY,
-    recipes: [],
-    searchRecipe: '',
-  };
-  loadRecipe = (searchRecipe) => {
-    let testURL = `https://api.edamam.com/search?q=${searchRecipe}&app_id=${this.state.appId}&app_key=${this.state.apiKey}`;
+function Cook() {
+  const [recipes, setRecipes] = useState([])
+  const [searchRecipe, setSearchRecipe] = useState('')
+
+  const loadRecipe = (searchRecipe) => {
+    const appId = process.env.REACT_APP_FOOD_ID
+    const apiKey = process.env.REACT_APP_FOOD_KEY
+    let testURL = `https://api.edamam.com/search?q=${searchRecipe}&app_id=${appId}&app_key=${apiKey}`;
     const myInit = {
       mode: 'no-cors',
     };
@@ -22,48 +20,46 @@ class Cook extends Component {
         return response.json();
       })
       .then((data) => {
-        this.setState({ recipes: data.hits });
+        setRecipes(data.hits)
       })
       .catch(function (e) {
         console.log(e);
       });
-  };
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  }
 
-  searchRecipe = () => {
-    this.loadRecipe(this.state.searchRecipe);
-  };
+  const handleChange = (e) => {
+    setSearchRecipe(e.target.value)
+  }
 
-  render() {
-    const recipesData =
-      this.state.recipes != null
-        ? this.state.recipes.map((recipeData) => (
+  const searchRecipeFunction = () => {
+    loadRecipe(searchRecipe);
+  }
+
+  const recipesData =
+      recipes != null
+        ? recipes.map((recipeData) => (
             <RecipeCard
               key={recipeData.recipe.url}
               recipe={recipeData.recipe}
             />
           ))
-        : null;
-    return (
-      <React.Fragment>
-        <div className='columns'>
+        : null
+
+  return (
+    <>
+      <div className='flex flex-row mt-24 mb-24 px-4 py-6 justify-center'>
           <SidePane
-            handleChange={this.handleChange}
-            searchRecipe={this.searchRecipe}
+            handleChange={handleChange}
+            searchRecipe={searchRecipeFunction}
           />
           <div
-            className='column is-8'
-            style={{ marginTop: '4rem', padding: '2rem' }}
-          >
+            className='flex-auto flex flex-col justify-center mt-4 p-4'>
             {recipesData}
           </div>
           <Dashboard />
         </div>
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
 
-export default Cook;
+export default Cook

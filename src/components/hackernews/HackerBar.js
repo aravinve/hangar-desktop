@@ -1,19 +1,17 @@
-import React from 'react';
-
-function HackerBar(props) {
+function HackerBar({story}) {
   return (
-    <div className='columns'>
-      <div className='column is-8'>
-        <div className='box'>
-          <div className='columns'>
-            <div className='column is-10 is-size-5'>{props.story.title}</div>
-            <div className='column is-2'>
+    <div className='flex justify-center flex-row'>
+      <div className='flex-1'>
+        <div className='bg-secondary shadow-md rounded-md m-1 p-4'>
+          <div className='flex flex-row justify-start'>
+            <div className='flex-auto text-lg text-primary select-none'>{story.title}</div>
+            <div className='flex-shrink-0'>
               <a
-                href={props.story.url}
-                className='button is-small is-dark'
+                href={story.url}
+                className='cursor-pointer text-primary text-sm p-1 rounded-sm shadow-sm focus:outline-none'
                 target='_blank'
               >
-                <i class='fas fa-external-link-alt'></i>
+                <i className='fas fa-external-link-alt'></i>
               </a>
             </div>
           </div>
@@ -23,4 +21,4 @@ function HackerBar(props) {
   );
 }
 
-export default HackerBar;
+export default HackerBar

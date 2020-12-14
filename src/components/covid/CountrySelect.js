@@ -1,7 +1,5 @@
-import React from 'react';
-
-function CountrySelect(props) {
-  return <option value={props.country}>{props.country} </option>;
+function CountrySelect({country}) {
+  return <option value={country}>{country} </option>;
 }
 
-export default CountrySelect;
+export default CountrySelect

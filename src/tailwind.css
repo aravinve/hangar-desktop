@@ -1,0 +1,121 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+  --primary-color: #172b4d;
+  --secondary-color: #f2f2f2;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 3.5rem;
+  user-select: none;
+}
+
+* {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.border-primary {
+  border-color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--secondary-color);
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color);
+}
+
+.border-secondary {
+  border-color: var(--secondary-color);
+}
+
+::-moz-selection {
+  color: var(--secondary-color);
+  background: var(--primary-color);
+}
+
+::selection {
+  color: var(--secondary-color);
+  background: var(--primary-color);
+}
+
+.is-h-blue {
+  background-color: #172b4d;
+  color: #ffffff;
+}
+
+.is-h-blue:hover {
+  color: #ffffff;
+}
+
+.is-h-blue.is-outlined {
+  background-color: #ffffff;
+  color: #172b4d;
+  border-color: #172b4d;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.is-h-blue.is-outlined:hover {
+  background-color: #172b4d;
+  color: #ffffff;
+}
+
+.center-box {
+  position: fixed;
+  top: 12.5rem;
+  left: 4.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.center-form-box {
+  position: fixed;
+  top: 10.5rem;
+  left: 2rem;
+}
+
+.content-container {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f2f2f2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #172b4d;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}

@@ -1,39 +1,40 @@
-import React from 'react';
-
-function DicDataCard(props) {
+function DicDataCard({data}) {
   return (
-    <div className='columns'>
-      <div className='column'>
-        <div className='box'>
-          <div className='content'>
-            <div className='tag is-black' style={{ margin: '0.5rem' }}>
-              {props.data.fl}
+    <div className='flex flex-row bg-primary rounded-sm shadow-md px-1 py-2 m-1'>
+      <div className='flex-auto'>
+        <div className='bg-secondary shadow-sm rounded-sm m-1 p-4'>
+          <div className='flex flex-row justify-end'>
+            <div className='flex-shrink-0 bg-primary text-secondary px-2 py-1 rounded-sm m-1 select-none'>
+              {data.fl}
             </div>
           </div>
-          <div className='content'>
-            {props.data.meta.stems.map((element) => (
-              <div className='tag is-black' style={{ margin: '0.5rem' }}>
+          <div className='flex flex-row justify-end'>
+            {data.meta.stems.map((element) => (
+              <div className='flex-shrink-0 bg-primary text-secondary px-2 py-1 rounded-sm m-1 select-none'>
                 {element}
               </div>
             ))}
           </div>
-          <div className='subtitle'>Timeperiod: {props.data.date}</div>
-          <div className='card-header-title'>Definition</div>
-          <div className='columns' style={{ padding: '2rem' }}>
-            <div className='column'>
+          <div className='text-lg text-primary select-none'>Timeperiod</div>
+          <div className="text-sm text-primary p-2">
+          {data.date}
+          </div>
+          <div className='text-lg text-primary select-none'>Definition</div>
+          <div className='flex flex-col p-2'>
+            <div className='flex-auto text-primary text-sm'>
               <ol>
-                {props.data.shortdef.map((element) => (
+                {data.shortdef.map((element) => (
                   <li key={element}>{element}</li>
                 ))}
               </ol>
             </div>
           </div>
-          <div className='card-header-title'>Etymology</div>
-          <div className='columns' style={{ padding: '2rem' }}>
-            {props.data.et != null
-              ? props.data.et.map((element) =>
+          <div className='text-lg text-primary select-none'>Etymology</div>
+          <div className='flex flex-col p-2'>
+            {data.et != null
+              ? data.et.map((element) =>
                   element.map((entry) => (
-                    <div key={entry} className='column'>
+                    <div key={entry} className='flex-auto text-primary text-sm'>
                       {entry}
                     </div>
                   ))

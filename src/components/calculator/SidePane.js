@@ -1,25 +1,24 @@
-import React from 'react';
-
-function SidePane(props) {
+function SidePane({handleChange}) {
+  const paneStyle = {
+    top: '2rem',
+    left: '2rem'
+  }
   return (
     <div
-      className='column is-5'
-      style={{ paddingLeft: '2rem', marginTop: '2rem' }}
-    >
-      <nav className='panel' style={{ position: 'fixed' }}>
-        <p className='panel-heading'>Calculator</p>
-        <div className='panel-block'>
-                <div className='panel-block'>
-                  <span className='icon is-left'>
-                    <i className='fas fa-cog'></i>
-                  </span>
-                  <p className='has-icons-left'>Mode</p>
+      className='absolute w-auto h-auto shadow-md rounded-md bg-secondary' style={paneStyle}>
+      <nav>
+        <p className='bg-primary w-full p-2 rounded-t-md inline-flex items-center text-secondary text-xl select-none'><i className="fas fa-calculator mr-2"></i>Calculator</p>
+        <div className='flex flex-row p-4'>
+                <div className='flex-1 inline-flex'>
+                  <p className='text-primary text-sm inline-flex items-center mr-2'>
+                  <i className='fas fa-cog mr-2'></i> Mode</p>
                 </div>
-                <div className='select is-dark is-small'>
+                <div className='inline-flex items-center m-1'>
                   <select
                     name='modeChange'
                     id='mode-changer'
-                    onChange={props.handleChange}
+                    className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none"
+                    onChange={handleChange}
                   >
                     <option value='simple'>Simple</option>
                     <option value='scientific'>Scientific</option>

@@ -1,16 +1,19 @@
-import React from 'react';
-
 function SidePane() {
+  const paneStyle = {
+    top: '2rem',
+    left: '2rem'
+  }
   return (
     <div
-      className='column is-3'
-      style={{ paddingLeft: '2rem', marginTop: '4rem' }}
+      className='absolute w-auto h-auto shadow-md rounded-md bg-secondary'
+      style={paneStyle}
     >
-      <nav className='panel' style={{ position: 'fixed' }}>
-        <p className='panel-heading'>Hacker News</p>
+      <nav>
+        <p className='bg-primary w-full p-2 rounded-md inline-flex items-center text-secondary text-xl select-none'>
+        <i className="fab fa-hacker-news-square mr-2"></i> Hacker News</p>
       </nav>
     </div>
   );
 }
 
-export default SidePane;
+export default SidePane

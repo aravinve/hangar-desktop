@@ -1,180 +1,181 @@
-import React, { Component } from 'react';
+import {useState, useEffect} from 'react'
 import Overlay from './Overlay';
 import Dashboard from './Dashboard';
 import axios from 'axios';
-import StickyNote from './StickyNote';
 import dragElement from './drag';
+import StickyNotesList from './StickyNotesList';
 
-const electron = window.require('electron');
-const ipcRenderer = electron.ipcRenderer;
-const Menu = electron.remote.Menu;
+const electron = window.require('electron')
+const ipcRenderer = electron.ipcRenderer
+// const Menu = require('electron').remote.Menu
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchText: 'mountains',
-      amount: 15,
-      apiUrl: 'https://pixabay.com/api/',
-      apiKey: process.env.REACT_APP_PIXABAY_KEY,
-      images: [],
-      url: '',
-      clock: '',
-      showSettings: false,
-      stickyNote: false,
-      userData: '',
-    };
-  }
+function Home() {
+  const [searchText, setSearchText] = useState('mountains')
+  const [currentTheme, setCurrentTheme] = useState('Mountains')
+  const [images, setImages] = useState([])
+  const [url, setUrl] = useState('')
+  const [clock, setClock] = useState('')
+  const [showSettings, setShowSettings] = useState(false)
+  const [stickyNote, showStickyNote] = useState(false)
+  const [userData, setUserData] = useState('')
 
-  componentDidMount = () => {
+  useEffect(() => {
     ipcRenderer.on('userData', (event, arg) => {
-      this.setState({ userData: arg });
+      console.log(arg)
+      setUserData(arg)
     });
-    const data = JSON.parse(localStorage.getItem('loginData'));
-    if (this.state.userData === '') {
-      this.setState({ userData: data });
-    }
-    //this.initMenu();
-    this.loadImages(this.state.searchText);
-    this.showClock();
-    setInterval(this.showClock, 60000);
-  };
+    console.log(userData)
+    loadImages(searchText);
+    showClock();
+    setInterval(showClock, 60000);
+  },[])
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.stickyNote !== this.state.stickyNote &&
-      this.state.stickyNote
-    ) {
+  useEffect(() => {
+    if(stickyNote){
       dragElement(document.getElementById('mydiv'));
     }
-  }
+  }, [stickyNote])
 
-  initMenu = () => {
-    const menu = Menu.buildFromTemplate([
-      {
-        label: 'File',
-        submenu: [
-          {
-            label: 'Settings',
-            accelerator: 'CmdOrCtrl+,',
-            click: () => {
-              this.toggleSettings();
-            },
-          },
-          { type: 'separator' },
-          {
-            label: 'Quit',
-            accelerator: 'CmdOrCtrl+Q',
-            click: () => {
-              localStorage.clear();
-              ipcRenderer.send('logout');
-            },
-          },
-        ],
-      },
-    ]);
-    Menu.setApplicationMenu(menu);
-  };
-
-  changeOverlay = () => {
-    const imagesArray = this.state.images;
+  const changeOverlay = () => {
+    const imagesArray = images;
     const randomImage =
       imagesArray[Math.floor(Math.random() * imagesArray.length)];
-    this.setState({
-      url: randomImage.largeImageURL,
-    });
-  };
+      setUrl(randomImage.largeImageURL)
+  }
 
-  loadImages = (searchTerm) => {
+  const loadImages = (searchTerm) => {
+    const apiUrl = "https://pixabay.com/api/"
+    const apiKey = process.env.REACT_APP_PIXABAY_KEY
+    const limit = 15
     axios
       .get(
-        `${this.state.apiUrl}/?key=${this.state.apiKey}&q=${searchTerm}&image_type=photo&per_page=${this.state.amount}&safeSearch=true`
+        `${apiUrl}/?key=${apiKey}&q=${searchTerm}&image_type=photo&per_page=${limit}&safeSearch=true`
       )
       .then((res) => {
         const imagesArray = res.data.hits;
         const randomImage =
           imagesArray[Math.floor(Math.random() * imagesArray.length)];
-        this.setState({
-          images: imagesArray,
-          url: randomImage.largeImageURL,
-        });
+          setImages(imagesArray)
+          setUrl(randomImage.largeImageURL)
       })
       .catch((err) => console.log(err));
-  };
+  }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => {
+    setSearchText(e.target.value)
+  }
 
-  changeSearchTerm = () => {
+  const changeSearchTerm = () => {
     document.getElementById('searchText').value = '';
-    this.loadImages(this.state.searchText);
-  };
+    loadImages(searchText)
+    setCurrentTheme(searchText)
+  }
 
-  changeSettingsMenu = (e) => {
+  const changeSettingsMenu = (e) => {
     const settingsMenu = e.currentTarget;
     const settingsMenuText = settingsMenu.innerText;
-    if (settingsMenuText === 'Background') {
+    if (settingsMenuText === 'Display') {
       document.querySelector('#settings-background').style.display = 'block';
+      document.querySelector('#display-set-li').classList.remove('bg-secondary', 'text-primary')
+      document.querySelector('#display-set-li').classList.add('bg-primary', 'text-secondary')
       document.querySelector('#settings-preference').style.display = 'none';
+      document.querySelector('#pref-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#pref-set-li').classList.remove('bg-primary', 'text-secondary')
       document.querySelector('#settings-account').style.display = 'none';
+      document.querySelector('#account-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#account-set-li').classList.remove('bg-primary', 'text-secondary')
     } else if (settingsMenuText === 'Preferences') {
       document.querySelector('#settings-background').style.display = 'none';
+      document.querySelector('#display-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#display-set-li').classList.remove('bg-primary', 'text-secondary')
       document.querySelector('#settings-preference').style.display = 'block';
+      document.querySelector('#pref-set-li').classList.remove('bg-secondary', 'text-primary')
+      document.querySelector('#pref-set-li').classList.add('bg-primary', 'text-secondary')
       document.querySelector('#settings-account').style.display = 'none';
+      document.querySelector('#account-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#account-set-li').classList.remove('bg-primary', 'text-secondary')
     } else {
       document.querySelector('#settings-background').style.display = 'none';
+      document.querySelector('#display-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#display-set-li').classList.remove('bg-primary', 'text-secondary')
       document.querySelector('#settings-preference').style.display = 'none';
+      document.querySelector('#pref-set-li').classList.add('bg-secondary', 'text-primary')
+      document.querySelector('#pref-set-li').classList.remove('bg-primary', 'text-secondary')
       document.querySelector('#settings-account').style.display = 'block';
+      document.querySelector('#account-set-li').classList.remove('bg-secondary', 'text-primary')
+      document.querySelector('#account-set-li').classList.add('bg-primary', 'text-secondary')
     }
-  };
+  }
 
-  toggleSettings = () => {
-    this.setState({ showSettings: !this.state.showSettings });
-  };
+  const toggleSettings = () => {
+    setShowSettings(!showSettings)
+  }
 
-  addZero = (n) => (n < 10 ? '0' + n : n);
+  const addZero = (n) => (n < 10 ? '0' + n : n)
 
-  showClock = () => {
+  const showClock = () => {
     const dateObject = new Date();
     const date = dateObject.getDate();
     const month = dateObject.getMonth() + 1;
     const year = dateObject.getFullYear();
     const hours = dateObject.getHours();
-    const minutes = this.addZero(dateObject.getMinutes());
+    const minutes = addZero(dateObject.getMinutes());
     const timeString = `${date}-${month}-${year}  ${hours}:${minutes}`;
-    this.setState({ clock: timeString });
-  };
-
-  showStickyNote = () => {
-    this.setState({ stickyNote: !this.state.stickyNote });
-  };
-
-  render() {
-    const data = JSON.parse(localStorage.getItem('loginData'));
-    if (this.state.userData === undefined) {
-      this.setState({ userData: data });
-    }
-    return (
-      <React.Fragment>
-        <Overlay
-          imageUrl={this.state.url}
-          changeOverlay={this.changeOverlay}
-          userName={this.state.userData.hangarName}
-          handleChange={this.handleChange}
-          changeSearchTerm={this.changeSearchTerm}
-          changeSettingsMenu={this.changeSettingsMenu}
-          showSettings={this.state.showSettings}
-          clock={this.state.clock}
-        />
-        {this.state.stickyNote ? <StickyNote /> : null}
-        <Dashboard
-          toggleSettings={this.toggleSettings}
-          showStickyNote={this.showStickyNote}
-        />
-      </React.Fragment>
-    );
+    setClock(timeString)
   }
+
+  const toggleStickyNote = () => {
+    showStickyNote(!stickyNote)
+  }
+
+    return (
+    <>
+    {console.log(userData)}
+     <Overlay
+          imageUrl={url}
+          changeOverlay={changeOverlay}
+          userName={userData.hangarId}
+          handleChange={handleChange}
+          changeSearchTerm={changeSearchTerm}
+          changeSettingsMenu={changeSettingsMenu}
+          showSettings={showSettings}
+          clock={clock}
+          currentTheme={currentTheme}
+        />
+        {stickyNote ? <StickyNotesList /> : null}
+        <Dashboard
+          toggleSettings={toggleSettings}
+          showStickyNote={toggleStickyNote}
+        /> 
+    </>
+  )
 }
 
-export default Home;
+export default Home
+
+  // initMenu = () => {
+  //   const menu = Menu.buildFromTemplate([
+  //     {
+  //       label: 'File',
+  //       submenu: [
+  //         {
+  //           label: 'Settings',
+  //           accelerator: 'CmdOrCtrl+,',
+  //           click: () => {
+  //             this.toggleSettings();
+  //           },
+  //         },
+  //         { type: 'separator' },
+  //         {
+  //           label: 'Quit',
+  //           accelerator: 'CmdOrCtrl+Q',
+  //           click: () => {
+  //             localStorage.clear();
+  //             ipcRenderer.send('logout');
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ]);
+  //   Menu.setApplicationMenu(menu);
+  // };

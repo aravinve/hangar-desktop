@@ -1,20 +1,16 @@
-import React from 'react';
+import sampleThumbnail from '../../img/Nil_Image.png'
 
-function RedditBar(props) {
+function RedditBar({post}) {
   return (
-    <div class='box'>
-      <article class='media'>
-        <div class='media-left'>
-          <figure class='image is-64x64'>
-            <img src={props.post.data.thumbnail} alt='Image' />
+    <div className='flex flex-row bg-secondary text-primary justify-start p-4 m-2 rounded-md shadow-md'>
+      <article className='flex-1 flex flex-row justify-left'>
+        <figure className='block relative h-20 w-20'>
+          {console.log(post.data.thumbnail)}
+            <img src={post.data.thumbnail.includes('http') ? post.data.thumbnail : sampleThumbnail } alt='Image' className='rounded-md shadow-sm h-auto w-full block' />
           </figure>
-        </div>
-        <div class='media-content'>
-          <div class='content'>
-            <p>
-              <strong>{props.post.data.title}</strong>
-              <br />
-            </p>
+        <div className='flex-1 ml-4'>
+          <div className='select-none text-justify text-primary text-lg'>
+            {post.data.title}
           </div>
         </div>
       </article>

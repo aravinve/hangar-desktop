@@ -1,94 +1,100 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import Result from './Result';
 import Keypad from './Keypad';
 import Dashboard from '../home/Dashboard';
 import ScientificKeypad from './ScientificKeypad';
 import SidePane from './SidePane';
 
-class Calculator extends Component {
-  state = {
-    result: '',
-    message: '',
-    modeChange: 'simple'
-  };
-  buttonClick = (name) => {
-    if (name === '=') {
-      this.calculate();
-    }else if (name === 'C') {
-      this.reset();
-    } else if (name === 'CE') {
-      this.clearLast();
-    } else if (name === 'sin') {
-      this.validateLimit(Math.sin(this.state.result).toString());
-    } else if (name === 'cos') {
-      this.validateLimit(Math.cos(this.state.result).toString());
-    }else if (name === 'tan') {
-      this.validateLimit(Math.tan(this.state.result).toString());
-    }else if (name === 'sqrt') {
-      this.validateLimit(Math.sqrt(this.state.result).toString());
-    }else if (name === 'log') {
-      this.validateLimit(Math.log(this.state.result).toString() );
-    }else if (name === 'square') {
-      this.validateLimit(Math.pow(this.state.result, 2).toString());
-    }else if (name === 'pi') {
-      this.validateLimit((Math.PI * (this.state.result)).toString());
-    } else if (name === 'e') {
-      this.validateLimit((Math.E * (this.state.result)).toString());
-    } else if (name === 'plusminus') {
-      this.validateLimit((-1 * (this.state.result)).toString());
-    } else {
-      this.validateLimit(this.state.result + name);
-    }
-  };
-  validateLimit = (paramResult) => {
+function Calculator() {
+  const [result, setResult] = useState('')
+  const [message, setMessage] = useState('')
+  const [modeChange, setModeChange] = useState('simple')
+
+  const validateLimit = (paramResult) => {
     if(paramResult == undefined || paramResult == "NaN"){
-      this.setState({ result: 'Error', message: 'Computation Error!!!' });
+      setResult('Error')
+      setMessage('Computation Error!!!')
     } else {
-      if(this.state.result.length <= 50){
-        this.setState({ result: paramResult , message: ''});
+      if(result.length <= 50){
+       setResult(paramResult)
       } else{
-        this.setState({message: 'Calculator Limit Reached!!!'})
+      setMessage('Calculator Limit Reached!!')
       }
     }
   }
-  calculate = () => {
+
+  const calculate = () => {
     try {
-      this.setState({ result: (eval(this.state.result) || '') + '', message: '' });
+      setResult((eval(result) || '') + '')
+      setMessage('')
     } catch (error) {
-      this.setState({ result: 'Error', message: 'Computation Error!!!' });
+      setResult('Error')
+      setMessage('Computation Error!!!')
     }
-  };
-  reset = () => {
-    this.setState({ result: '', message: '' });
-  };
-  clearLast = () => {
-    this.setState({ result: this.state.result.slice(0, -1), message: '' });
-  };
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-    this.reset();
-  };
-  render() {
-    return (
-      <React.Fragment>
-        <div className='container' style={{ marginTop: '4rem' }}>
-          <div className='columns'>
-            <SidePane handleChange={this.handleChange} />
-            <div className={`${this.state.modeChange === 'simple' ? 'column is-3 p-4 mt-4': 'column is-5 p-4 mt-4'}`}>
-              <Result result={this.state.result} size={this.state.modeChange === 'simple' ? '15rem': '23rem'} />
-              {this.state.modeChange === 'simple' ? (<Keypad buttonClick={this.buttonClick} />) : (<ScientificKeypad buttonClick={this.buttonClick} />)}
-            </div>
-            <div className="column is-2 mt-6">
-              {this.state.message !== ''? (<div className='has-text-danger is-size-3'>{this.state.message} </div>) : (
-                <div>&nbsp;</div>
-              )}
-            </div>
+  }
+
+  const reset = () => {
+    setResult('')
+    setMessage('')
+  }
+
+  const clearLast = () => {
+    setResult(result.slice(0, -1))
+    setMessage('')
+  }
+
+  const handleChange = (e) => {
+    setModeChange(e.target.value)
+    reset();
+  }
+
+  const buttonClick = (name) => {
+    if (name === '=') {
+      calculate();
+    }else if (name === 'C') {
+      reset();
+    } else if (name === 'CE') {
+      clearLast();
+    } else if (name === 'sin') {
+      validateLimit(Math.sin(result).toString());
+    } else if (name === 'cos') {
+      validateLimit(Math.cos(result).toString());
+    }else if (name === 'tan') {
+      validateLimit(Math.tan(result).toString());
+    }else if (name === 'sqrt') {
+      validateLimit(Math.sqrt(result).toString());
+    }else if (name === 'log') {
+      validateLimit(Math.log(result).toString() );
+    }else if (name === 'square') {
+      validateLimit(Math.pow(result, 2).toString());
+    }else if (name === 'pi') {
+      validateLimit((Math.PI * (result)).toString());
+    } else if (name === 'e') {
+      validateLimit((Math.E * (result)).toString());
+    } else if (name === 'plusminus') {
+      validateLimit((-1 * (result)).toString());
+    } else {
+      validateLimit(result + name);
+    }
+  }
+
+  return (
+    <>
+      <div className='flex flex-col items-center mt-8 px-4 py-6 justify-center'>
+          <SidePane handleChange={handleChange} />
+          <div className='flex-auto px-12 py-10'>
+            {message !== ''? (<div className='text-red-600 select-none text-lg'>{message} </div>) : (
+              <div>&nbsp;</div>
+            )}
+          </div>
+          <div className='flex-auto px-12 py-10'>
+            <Result result={result} />
+            {modeChange === 'simple' ? (<Keypad buttonClick={buttonClick} />) : (<ScientificKeypad buttonClick={buttonClick} />)}
           </div>
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
 
-export default Calculator;
+export default Calculator

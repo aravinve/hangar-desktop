@@ -4,21 +4,26 @@
   "description": "All Apps In Your Hangar",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "axios": "^0.19.2",
-    "concurrently": "^5.2.0",
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.3.0",
+    "autoprefixer": "^10.0.4",
+    "axios": "^0.21.0",
+    "concurrently": "^5.3.0",
     "convert-units": "^2.3.4",
-    "cross-env": "^7.0.2",
+    "cross-env": "^7.0.3",
     "electron-is-dev": "^1.2.0",
-    "electron-store": "^5.1.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "electron-store": "^6.0.1",
+    "firebase": "^8.1.2",
+    "moment": "^2.29.1",
+    "postcss": "^8.1.14",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
-    "uuid": "^8.1.0",
-    "wait-on": "^5.0.0"
+    "react-scripts": "4.0.1",
+    "tailwind": "^4.0.0",
+    "uuid": "^8.3.1",
+    "wait-on": "^5.2.0"
   },
   "scripts": {
     "react-start": "react-scripts start",
@@ -27,6 +32,7 @@
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
     "build": "npm run react-build && npm run electron-build",
+    "build:tailwind": "tailwindcss build src/tailwind.css -o src/index.css",
     "electron-dev": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron-pack": "electron-builder --win -c.extraMetadata.main=build/electron.js",
     "preelectron-pack": "npm run build"
@@ -63,7 +69,7 @@
   },
   "homepage": "./",
   "devDependencies": {
-    "electron": "^9.0.0",
-    "electron-builder": "^22.7.0"
+    "electron": "^11.0.3",
+    "electron-builder": "^22.9.1"
   }
 }

@@ -4,7 +4,6 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
-const url = require('url');
 const isDev = require('electron-is-dev');
 
 let splashScreen;
@@ -17,6 +16,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
+      enableRemoteModule: true,
     },
     transparent: true,
     frame: false,
@@ -29,6 +29,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
+      enableRemoteModule: true,
     },
     show: false,
   });

@@ -1,71 +1,58 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import Dashboard from '../home/Dashboard';
 import SidePane from './SidePane';
 import HackerBar from './HackerBar';
 
-class Hackernews extends Component {
-  state = {
-    header: '',
-    stories: [],
-  };
-
-  componentDidMount = () => {
+function Hackernews() {
+  const [header, setHeader] = useState('')
+  const [stories, setStories] = useState([])
+  
+  useEffect(async () => {
     const testURL = 'https://hacker-news.firebaseio.com/v0/newstories.json';
     const myInit = {
       mode: 'no-cors',
     };
     const myRequest = new Request(testURL, myInit);
-    fetch(myRequest)
-      .then((response) => {
-        return response.json();
+    const fetchData = await fetch(myRequest)
+    const jsonData = await fetchData.json()
+    console.log(jsonData)
+    const dataIds = jsonData.slice(0, 10);
+    console.log(dataIds)
+    const resultData = await Promise.all(
+      dataIds.map(async (id) => {
+        const fetchUrl = `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
+        const myInit = {
+          mode: 'no-cors',
+        };
+        const fetchRequest = new Request(fetchUrl, myInit);
+        const fetchDetailData = await fetch(fetchRequest)
+        const jsonDetailData = await fetchDetailData.json()
+        console.log(jsonDetailData)
+        return jsonDetailData
       })
-      .then((data) => {
-        const dataIds = data.slice(0, 10);
-        dataIds.map((id) => {
-          const fetchUrl = `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
-          const myInit = {
-            mode: 'no-cors',
-          };
-          const fetchRequest = new Request(fetchUrl, myInit);
-          fetch(fetchRequest)
-            .then((res) => {
-              return res.json();
-            })
-            .then((data) => {
-              this.setState({
-                stories: this.state.stories.concat(data),
-                header: 'New Stories',
-              });
-            });
-        });
-      })
-      .catch(function (e) {
-        console.log(e);
-      });
-  };
+    ) 
+    setStories(resultData)
+    setHeader('New Stories')
+  }, [])
 
-  render() {
-    const hackerData =
-      this.state.stories.length > 0
-        ? this.state.stories.map((story) => (
-            <HackerBar key={story.id} story={story} />
-          ))
-        : null;
-    return (
-      <React.Fragment>
-        <div className='columns'>
+  const hackerData = stories.length > 0 ? stories.map((story) => (
+      <HackerBar key={story.id} story={story} />
+  )): null;
+
+  return (
+    <>
+       <div className='flex flex-row items-center mt-8 px-4 py-6 justify-center'>
           <SidePane />
-          <div className='column is-9' style={{ marginTop: '4rem' }}>
-            {this.state.header !== '' ? (
-              <h2 className='is-title'>{this.state.header} </h2>
+          <div className='flex-auto px-12 py-10'>
+            {header !== '' ? (
+              <h2 className='text-primary text-4xl mb-4'>{header} </h2>
             ) : null}
             {hackerData}
           </div>
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+    </>
+  )
 }
 
-export default Hackernews;
+export default Hackernews

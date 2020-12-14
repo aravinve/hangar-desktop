@@ -1,131 +1,105 @@
-import React, { Component } from 'react';
+import {useState} from 'react'
 import image from '../../img/Logo_Hangar.png';
 import { Link } from 'react-router-dom';
+import ExploreMenu from './ExploreMenu';
+import ToolsMenu from './ToolsMenu';
+import SocialMenu from './SocialMenu';
 
 const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
 
-class Dashboard extends Component {
-  showSplash = () => {
+function Dashboard({toggleSettings, showStickyNote}) {
+
+  const [showExplore, setShowExplore] = useState(false)
+  const [showTools, setShowTools] = useState(false)
+  const [showSocial, setShowSocial] = useState(false)
+
+  const handleMenuChange = (e) => {
+    if(e.target.parentElement.id === "explore"){
+      setShowExplore(!showExplore)
+      setShowTools(false)
+      setShowSocial(false)
+    } else if(e.target.parentElement.id === "tools"){
+      setShowExplore(false)
+      setShowTools(!showTools)
+      setShowSocial(false)
+    }else if(e.target.parentElement.id === "social"){
+      setShowExplore(false)
+      setShowTools(false)
+      setShowSocial(!showSocial)
+    }else{
+      setShowExplore(false)
+      setShowTools(false)
+      setShowSocial(false)
+    }
+  }
+
+  const showSplash = () => {
     localStorage.clear();
     ipcRenderer.send('logout');
-  };
+  }
 
-  toggleSettings = () => {
-    this.props.toggleSettings();
-  };
+  const toggleSettingsFunction = () => {
+    toggleSettings();
+  }
 
-  createStickyNote = () => {
-    this.props.showStickyNote();
-  };
+  const createStickyNoteFunction = () => {
+    showStickyNote();
+  }
 
-  render() {
-    const flag = window.location.href.includes('/home');
-    return (
-      <nav className='navbar is-fixed-bottom' role='navigation'>
-        <div className='navbar-brand'>
-          <Link className='navbar-item' to='/home'>
-            <img src={image} style={{ maxHeight: '3.75rem' }} />
-          </Link>
-        </div>
-        <div className='navbar-menu'>
-          <div className='navbar-start'>
-            <div className='navbar-item has-dropdown has-dropdown-up is-hoverable'>
-              <a className='navbar-link'>Explore</a>
-              <div className='navbar-dropdown'>
-                <Link className='navbar-item' to='/news'>
-                  News
-                </Link>
-                <Link className='navbar-item' to='/music'>
-                  Music
-                </Link>
-                <Link className='navbar-item' to='/cook'>
-                  Cook
-                </Link>
-                <Link className='navbar-item' to='/gallery'>
-                  Gallery
-                </Link>
-                <Link className='navbar-item' to='/maps'>
-                  Maps
-                </Link>
-                <Link className='navbar-item' to='/weather'>
-                  Weather
-                </Link>
-              </div>
+  const flag = window.location.href.includes('/home')
+
+  const navbarStyle = {
+    left: '0',
+    bottom: '0',
+    right: '0',
+    zIndex: '30'
+  }
+
+  return (
+    <>
+    {showExplore ? <ExploreMenu /> : null}
+    {showTools ? <ToolsMenu /> : null}
+    {showSocial ? <SocialMenu /> : null}
+    <nav className='fixed bg-secondary text-primary w-full h-18 flex items-center' style={navbarStyle}>
+       <div className='flex flex-auto justify-start items-center p-2'>
+         <Link className="block" to='/home'><img src={image} className="cursor-pointer h-16" /></Link>
+       </div>
+        <div className='flex-auto justify-center'>
+          <div className='flex flex-row text-center'>
+            <div className='flex-1'>
+              <p className='cursor-pointer inline-flex items-center text-primary text-md transform hover:scale-y-105' id="explore" onClick={handleMenuChange}><i className="fas fa-th-list mr-2"></i> <span>Explore</span></p>
             </div>
-            <div className='navbar-item has-dropdown has-dropdown-up is-hoverable'>
-              <a className='navbar-link'>Tools</a>
-              <div className='navbar-dropdown'>
-                <Link className='navbar-item' to='/calculator'>
-                  Calculator
-                </Link>
-                <Link className='navbar-item' to='/calendar'>
-                  Calendar
-                </Link>
-                <Link className='navbar-item' to='/clock'>
-                  Clock
-                </Link>
-                <Link className='navbar-item' to='/converter'>
-                  Converter
-                </Link>
-                <Link className='navbar-item' to='/dictionary'>
-                  Dictionary
-                </Link>
-                <hr className='navbar-divider' />
-                <Link className='navbar-item' to='/todoist'>
-                  Todoist
-                </Link>
-                <Link className='navbar-item' to='/notes'>
-                  Notes
-                </Link>
-                <Link className='navbar-item' to='/board'>
-                  Board
-                </Link>
-              </div>
+            <div className='flex-1'>
+              <p className='cursor-pointer inline-flex items-center text-primary text-md transform hover:scale-y-105' id="tools" onClick={handleMenuChange}><i className="fas fa-tools mr-2"></i> <span>Tools</span></p>
             </div>
-            <div className='navbar-item has-dropdown has-dropdown-up is-hoverable'>
-              <Link className='navbar-link'>Social</Link>
-              <div className='navbar-dropdown'>
-                <Link className='navbar-item' to='/reddit'>
-                  Reddit
-                </Link>
-                <Link className='navbar-item' to='/wikipedia'>
-                  Wikipedia
-                </Link>
-                <Link className='navbar-item' to='/hackernews'>
-                  Hacker News
-                </Link>
-                <hr className='navbar-divider' />
-                <Link className='navbar-item' to='/covid'>
-                  Covid-19 Tracker
-                </Link>
-              </div>
+            <div className='flex-1'>
+              <p className='cursor-pointer inline-flex items-center text-primary text-md transform hover:scale-y-105' id="social" onClick={handleMenuChange}><i className="fas fa-users mr-2"></i> <span>Social</span></p>
             </div>
           </div>
         </div>
-        <div className='navbar-end'>
-          <div className='navbar-item'>
-            <div className='buttons'>
+        <div className='flex-auto flex justify-end'>
+          <div className='flex'>
+            <div className='flex-auto flex flex-row'>
               {flag ? (
-                <React.Fragment>
-                  <button className='button' onClick={this.createStickyNote}>
+                <>
+                  <button className='flex-shrink-0 px-5 py-2 m-1 bg-primary shadow-md rounded-sm outline-none focus:outline-none text-secondary' onClick={createStickyNoteFunction}>
                     <i className='fas fa-sticky-note'></i>
                   </button>
-                  <button className='button' onClick={this.toggleSettings}>
+                  <button className='flex-shrink-0 px-5 py-2 m-1 bg-primary shadow-md rounded-sm outline-none focus:outline-none text-secondary' onClick={toggleSettingsFunction}>
                     <i className='fas fa-cogs'></i>
                   </button>
-                </React.Fragment>
+                </>
               ) : null}
-
-              <button className='button' onClick={this.showSplash}>
+              <button className='flex-shrink-0 px-5 py-2 m-1 bg-primary shadow-md rounded-sm outline-none focus:outline-none text-secondary' onClick={showSplash}>
                 <i className='fas fa-sign-out-alt'></i>
               </button>
             </div>
           </div>
         </div>
       </nav>
-    );
-  }
+      </>
+  )
 }
 
-export default Dashboard;
+export default Dashboard
