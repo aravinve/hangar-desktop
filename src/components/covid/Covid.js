@@ -103,7 +103,7 @@ function Covid() {
             ) : null}
             {detailTable !== null ? (
               <>
-                <div className='flex flex-row justify-center mt-4 text-center'>
+                <div className='flex flex-row justify-center mt-4 mb-8 text-center'>
                   <table className='flex-1 border-black'>
                     <thead className="bg-primary text-secondary">
                       <tr className="p-2">

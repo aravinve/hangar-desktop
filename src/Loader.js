@@ -1,4 +1,4 @@
-import loader from '../../img/loader.gif'
+import loader from './img/loader.gif'
 
 function Loader() {
     return (

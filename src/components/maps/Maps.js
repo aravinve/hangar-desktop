@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Dashboard from '../home/Dashboard';
 import Map from './Map'
 import SidePane from './SidePane';
-import Loader from './Loader'
+import Loader from '../../Loader'
 
 function Maps() {
 
