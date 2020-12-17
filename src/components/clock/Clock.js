@@ -34,7 +34,7 @@ function Clock() {
 
   return (
     <>
-       <div className='container mt-4 mb-4'>
+       <div className='m-4'>
           <div className='bg-primary p-4 text-secondary rounded-md shadow-md'>
             <h2 className='text-4xl select-none'>{timeString}</h2>
             <p className='text-xl select-none'>{dateString}</p>

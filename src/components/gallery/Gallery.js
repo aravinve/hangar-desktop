@@ -1,35 +1,30 @@
-import React, { Component } from 'react';
 import Dashboard from '../home/Dashboard';
+import overlayImage from '../../img/under_construction.png'
 
-class Gallery extends Component {
-  render() {
-    return (
-      <React.Fragment>
+function Gallery() {
+  const styleOverlay = {
+    width: '60vw',
+    height: '50vh',
+    backgroundImage: 'url(' + overlayImage + ')',
+    backgroundSize: 'cover',
+    backgroundClip: 'border-box',
+    backgroundPosition: 'center',
+    opacity: '100%',
+    backgroundRepeat: 'no-repeat',
+    top: '10rem',
+    left: '18rem'
+  };
+  return (
+    <>
         <div
-          className='container'
-          style={{ marginTop: '4rem', textAlign: 'center' }}
+          className='mt-16 text-center flex flex-col justify-center'
         >
-          <h1 className='is-title'>Under Construction</h1>
-          <div className='container' style={styleOverlay}></div>
+          <h1 className='text-5xl text-primary mb-4'>Under Construction</h1>
+          <div className='fixed' style={styleOverlay}></div>
         </div>
         <Dashboard />
-      </React.Fragment>
-    );
-  }
+      </>
+  )
 }
 
-const styleOverlay = {
-  width: '50%',
-  height: '60vh',
-  backgroundImage: 'url(' + require('../../img/under_construction.png') + ')',
-  backgroundSize: 'cover',
-  backgroundClip: 'border-box',
-  backgroundPosition: 'center',
-  opacity: '100%',
-  backgroundRepeat: 'no-repeat',
-  WebkitAnimation: 'fadein 2s',
-  MozAnimation: 'fadein 2s',
-  animation: 'fadein 2s',
-};
-
-export default Gallery;
+export default Gallery
