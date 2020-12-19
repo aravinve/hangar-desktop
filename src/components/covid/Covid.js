@@ -21,7 +21,7 @@ function Covid() {
     setLoading(true)
     loadGlobalData()
     const hangarData = await hangarFetch('covidcountries', 'https://covid19.mathdro.id/api/countries')
-    setCountries(hangarData.countries)
+    await setCountries(hangarData.countries)
     setLoading(false)
   }, [])
 

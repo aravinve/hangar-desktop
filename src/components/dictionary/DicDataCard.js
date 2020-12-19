@@ -1,4 +1,5 @@
 function DicDataCard({data}) {
+  console.log(data)
   return (
     <div className='flex flex-row bg-primary rounded-sm shadow-md px-1 py-2 m-1'>
       <div className='flex-auto'>
@@ -15,21 +16,28 @@ function DicDataCard({data}) {
               </div>
             ))}
           </div>
-          <div className='text-lg text-primary select-none'>Timeperiod</div>
-          <div className="text-sm text-primary p-2">
-          {data.date}
-          </div>
-          <div className='text-lg text-primary select-none'>Definition</div>
+          {data.date !== undefined ? (
+            <>
+              <div className='text-lg text-primary select-none'>Timeperiod</div>
+              <div className="text-sm text-primary p-2">
+              {data.date}
+              </div>
+            </>
+          ) : null}
+          {data.shortdef !== undefined ? (<>
+            <div className='text-lg text-primary select-none'>Definition</div>
           <div className='flex flex-col p-2'>
             <div className='flex-auto text-primary text-sm'>
-              <ol>
+              <ul>
                 {data.shortdef.map((element) => (
                   <li key={element}>{element}</li>
                 ))}
-              </ol>
+              </ul>
             </div>
           </div>
-          <div className='text-lg text-primary select-none'>Etymology</div>
+          </>) : null}
+          {data.et !== undefined ? (<>
+            <div className='text-lg text-primary select-none'>Etymology</div>
           <div className='flex flex-col p-2'>
             {data.et != null
               ? data.et.map((element) =>
@@ -41,6 +49,7 @@ function DicDataCard({data}) {
                 )
               : null}
           </div>
+          </>) : null}
         </div>
       </div>
     </div>

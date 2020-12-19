@@ -85,7 +85,7 @@ function Splash() {
               type='submit'
               className='cursor-pointer py-2 px-4 rounded-md shadow-md focus:outline-none ml-8 is-h-blue is-outlined'
             >
-              <i className="fas fa-sign-in-alt mr-2"></i>Login
+              Login <i className="fas fa-arrow-circle-right ml-2"></i>
             </button>
           </div>
         </div>

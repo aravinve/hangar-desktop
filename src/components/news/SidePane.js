@@ -1,4 +1,4 @@
-function SidePane({handleSearchChange, handleSelectChange, searchArticle, activateContentFrame, toggleFrame}) {
+function SidePane({handleSearchChange, handleSelectChange, searchArticle}) {
   const paneStyle = {
     top: '2rem',
     left: '2rem'
@@ -34,27 +34,20 @@ function SidePane({handleSearchChange, handleSelectChange, searchArticle, activa
           <p className='text-primary text-sm inline-flex items-center'>
           <i className='fas fa-flag mr-2'></i></p>
             <div className='inline-flex items-center m-1'>
-              <select onChange={handleSelectChange} name='searchCountry' className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none">
+              <select onChange={handleSelectChange} name='searchCountry' className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-6">
                 <option value='us'>Select dropdown</option>
                 <option value='us'>USA</option>
                 <option value='in'>India</option>
                 <option value='au'>Australia</option>
                 <option value='sg'>Singapore</option>
               </select>
-            </div>
-          <button
-            className='bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none'
-            onClick={searchArticle}>
-            Filter
+              <button
+              className='bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none'
+              onClick={searchArticle}>
+              Filter
           </button>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-row p-4">
-          <button
-              className='flex-shrink-0 bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none'
-              onClick={activateContentFrame}>
-              {!toggleFrame ? 'Detailed News' : 'Headlines'}
-            </button>
         </div>
       </nav>
     </div>

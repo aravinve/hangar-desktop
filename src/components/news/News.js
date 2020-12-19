@@ -2,18 +2,22 @@ import { useState, useEffect } from 'react';
 import Article from './Article';
 import SidePane from './SidePane';
 import Dashboard from '../home/Dashboard';
+import hangarFetch from '../../HangarFetch'
+import Loader from '../../Loader'
 
 function News() {
   const [articles, setArticles] = useState([])
   const [searchArticle, setSearchArticle] = useState('')
   const [searchCountry, setSearchCountry]  = useState('us')
-  const [toggleFrame, setToggleFrame] = useState(false)  
+  const [loading, setLoading] = useState(false)
+  const [alert, setAlert] = useState(false) 
 
   useEffect(() => {
+    setLoading(true)
     loadArticle(searchArticle, searchCountry);
   }, [])
 
-  const loadArticle = (searchTerm, searchCountry) => {
+  const loadArticle = async (searchTerm, searchCountry) => {
     const apiUrl = 'https://newsapi.org/v2'
     const apiKey = process.env.REACT_APP_NEWS_KEY
     let testURL = '';
@@ -26,42 +30,46 @@ function News() {
       mode: 'no-cors',
     };
     const myRequest = new Request(testURL, myInit);
-    fetch(myRequest)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setArticles(data.articles)
-      })
-      .catch(function (e) {
-        console.log(e);
-      });
+    const key = searchArticle !== '' ? `news-${searchCountry}-${searchArticle}` : `news-${searchCountry}`
+    const newsArticles = await hangarFetch(key, myRequest)
+    await setArticles(newsArticles.articles)
+    if(newsArticles.totalResults === 0){
+      setAlert(true)
+    } else{
+      setAlert(false)
+    }
+    setLoading(false)
   }
 
   const handleSearchChange = (e) => {
     setSearchArticle(e.target.value)
-  };
+    setAlert(false)
+    if (e.target.value === '') {
+      setArticles([])
+    }
+  }
 
   const handleSelectChange = (e) => {
     setSearchCountry(e.target.value)
+    setAlert(false)
   }
 
   const searchArticleFunction = () => {
     loadArticle(searchArticle, searchCountry);
-  };
-
-  const activateContentFrame = () => {
-    setToggleFrame(!toggleFrame)
   }
 
-  const articlesData = articles != null ? articles.map((article) => (
+  const articlesData = articles !== null ? articles.map((article) => (
             <Article
               key={article.publishedAt}
               article={article}
-              toggleFrame={toggleFrame}
             />
           ))
-        : null;
+        : null
+
+  const alertMessage = alert ? (<div className='flex flex-col text-center justify-center mt-20'>
+  <h2 className='text-2xl text-red-600'>{searchArticle.concat(' not available!!!')} </h2>
+  <h2 className='text-4xl text-primary'> {'Try to search for a different article keyword!!!'} </h2>
+  </div>) : null
 
   return (
     <>
@@ -70,11 +78,10 @@ function News() {
             handleSearchChange={handleSearchChange}
             handleSelectChange={handleSelectChange}
             searchArticle={searchArticleFunction}
-            activateContentFrame={activateContentFrame}
-            toggleFrame={toggleFrame}
           />
           <div className='flex-auto flex flex-col mt-4 mb-4 justify-center container'>
-            {articlesData}
+            {!loading ? articlesData : <Loader />}
+            {alertMessage}
           </div>
         </div>
         <Dashboard />

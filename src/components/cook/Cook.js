@@ -1,13 +1,17 @@
-import { useState } from 'react';
-import SidePane from './Sidebar';
-import Dashboard from '../home/Dashboard';
-import RecipeCard from './RecipeCard';
+import { useState } from 'react'
+import SidePane from './Sidebar'
+import Dashboard from '../home/Dashboard'
+import RecipeCard from './RecipeCard'
+import hangarFetch from '../../HangarFetch'
+import Loader from '../../Loader'
 
 function Cook() {
   const [recipes, setRecipes] = useState([])
   const [searchRecipe, setSearchRecipe] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [alert, setAlert] = useState(false)
 
-  const loadRecipe = (searchRecipe) => {
+  const loadRecipe = async (searchRecipe) => {
     const appId = process.env.REACT_APP_FOOD_ID
     const apiKey = process.env.REACT_APP_FOOD_KEY
     let testURL = `https://api.edamam.com/search?q=${searchRecipe}&app_id=${appId}&app_key=${apiKey}`;
@@ -15,28 +19,31 @@ function Cook() {
       mode: 'no-cors',
     };
     const myRequest = new Request(testURL, myInit);
-    fetch(myRequest)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setRecipes(data.hits)
-      })
-      .catch(function (e) {
-        console.log(e);
-      });
+    const recipes = await hangarFetch(`cook-${searchRecipe}`, myRequest)
+    await setRecipes(recipes.hits)
+    if(recipes.hits.length <= 0){
+      setAlert(true)
+    } else{
+      setAlert(false)
+    }
+    setLoading(false)
   }
 
   const handleChange = (e) => {
     setSearchRecipe(e.target.value)
+    setAlert(false)
+    if(e.target.value === ''){
+      setRecipes([])
+    }
   }
 
   const searchRecipeFunction = () => {
-    loadRecipe(searchRecipe);
+    setLoading(true)
+    loadRecipe(searchRecipe)
   }
 
   const recipesData =
-      recipes != null
+    recipes !== null && recipes.length > 0
         ? recipes.map((recipeData) => (
             <RecipeCard
               key={recipeData.recipe.url}
@@ -45,6 +52,11 @@ function Cook() {
           ))
         : null
 
+  const alertMessage = alert ? (<div className='flex flex-col text-center justify-center mt-20'>
+  <h2 className='text-2xl text-red-600'>{searchRecipe.concat(' not available!!!')} </h2>
+  <h2 className='text-4xl text-primary'> {'Try to search for a different recipe!!!'} </h2>
+</div>) : null
+
   return (
     <>
       <div className='flex flex-row mt-24 mb-24 px-4 py-6 justify-center'>
@@ -52,10 +64,11 @@ function Cook() {
             handleChange={handleChange}
             searchRecipe={searchRecipeFunction}
           />
-          <div
+          {!loading ? (<div
             className='flex-auto flex flex-col justify-center mt-4 p-4'>
             {recipesData}
-          </div>
+            {alertMessage}
+          </div>) : <Loader />}
           <Dashboard />
         </div>
     </>

@@ -1,5 +1,5 @@
 const IDENTIFIER = '//**//'
-const CACHE_INTERVAL = 0.2 * 60 * 1000 
+const CACHE_INTERVAL = 200000 
 
 
 const store = (key, value) => {
