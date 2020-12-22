@@ -41,10 +41,9 @@ function Splash() {
       <form
         className='p-4 shadow-lg bg-secondary rounded-md center-form-box'
         method='POST'
-        onSubmit={showHome}
-      >
-        <div className='mt-1 mb-3 relative rounded-md shadow-md'>
-          <div className='text-center text-md inline-flex justify-center'>
+        onSubmit={showHome}>
+        <div className='mt-1 mb-3 bg-white relative rounded-md shadow-md'>
+          <div className='text-center bg-secondary text-md inline-flex justify-center'>
           <i className="fas fa-user mt-3 mb-2 ml-2 mr-2 text-primary"></i>
             <input
               type='text'
@@ -52,13 +51,13 @@ function Splash() {
               name='hangarId'
               placeholder='Hangar Id'
               onChange={handleChange}
-              className='block w-full border-gray-300 rounded-r-md px-4 py-2 focus:outline-none'
+              className='block w-full border-gray-300 px-4 py-2 focus:outline-none'
               required
             />
           </div>
         </div>
-        <div className='mt-1 mb-3 relative rounded-md shadow-md'>
-          <div className='text-center text-md inline-flex justify-center'>
+        <div className='mt-1 mb-3 bg-white relative rounded-md shadow-md'>
+          <div className='text-center bg-secondary text-md inline-flex justify-center'>
           <i className="fas fa-key mt-3 mb-2 ml-2 mr-2 text-primary"></i>
             <input
               type='password'
@@ -68,7 +67,7 @@ function Splash() {
               maxLength='4'
               pattern='[0-9]{4}'
               onChange={handleChange}
-              className='block w-full border-gray-300 rounded-r-md px-4 py-2 focus:outline-none'
+              className='block w-full border-gray-300 px-4 py-2 focus:outline-none'
               required
             />
           </div>

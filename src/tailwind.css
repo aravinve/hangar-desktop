@@ -119,3 +119,13 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #555555;
 }
+
+#hangarFinder {
+  width: 156px;
+  -webkit-transition: width 0.5s ease-in-out;
+  transition: width 0.5s ease-in-out;
+}
+
+#hangarFinder:focus {
+  width: 100%;
+}

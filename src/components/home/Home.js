@@ -4,10 +4,11 @@ import Dashboard from './Dashboard';
 import axios from 'axios';
 import dragElement from './drag';
 import StickyNotesList from './StickyNotesList';
+import Finder from './Finder';
 
 const electron = window.require('electron')
 const ipcRenderer = electron.ipcRenderer
-// const Menu = require('electron').remote.Menu
+const Menu = electron.remote.Menu
 
 function Home() {
   const [searchText, setSearchText] = useState('mountains')
@@ -16,18 +17,21 @@ function Home() {
   const [url, setUrl] = useState('')
   const [clock, setClock] = useState('')
   const [showSettings, setShowSettings] = useState(false)
+  const [showFinder, setShowFinder] = useState(false)
+  const [finderValue, setFinderValue] = useState('')
+  const [displaySticky, setDisplaySticky] = useState(false)
+  const [displayFinder, setDisplayFinder] = useState(false)
   const [stickyNote, showStickyNote] = useState(false)
   const [userData, setUserData] = useState('')
 
   useEffect(() => {
     ipcRenderer.on('userData', (event, arg) => {
-      console.log(arg)
       setUserData(arg)
     });
-    console.log(userData)
-    loadImages(searchText);
-    showClock();
-    setInterval(showClock, 60000);
+    // initMenu()
+    loadImages(searchText)
+    showClock()
+    setInterval(showClock, 60000)
   },[])
 
   useEffect(() => {
@@ -35,6 +39,40 @@ function Home() {
       dragElement(document.getElementById('mydiv'));
     }
   }, [stickyNote])
+
+  const initMenu = () => {
+    const menu = Menu.buildFromTemplate([
+      {
+        label: 'HangarMenu',
+        submenu: [
+          {
+            label: 'Finder',
+            accelerator: 'CmdOrCtrl+F',
+            click: () => {
+              toggleFinder()
+            },
+          },
+          {
+            label: 'Settings',
+            accelerator: 'CmdOrCtrl+S',
+            click: () => {
+              toggleSettings()
+            },
+          },
+          { type: 'separator' },
+          {
+            label: 'Quit',
+            accelerator: 'CmdOrCtrl+Q',
+            click: () => {
+              localStorage.clear()
+              ipcRenderer.send('logout')
+            },
+          },
+        ],
+      },
+    ]);
+    Menu.setApplicationMenu(menu)
+  }
 
   const changeOverlay = () => {
     const imagesArray = images;
@@ -111,6 +149,10 @@ function Home() {
     setShowSettings(!showSettings)
   }
 
+  const toggleFinder = () => {
+    setShowFinder(!showFinder)
+  }
+
   const addZero = (n) => (n < 10 ? '0' + n : n)
 
   const showClock = () => {
@@ -128,9 +170,21 @@ function Home() {
     showStickyNote(!stickyNote)
   }
 
+  const handleChangeFinder = (e) => {
+    const val = e.target.value
+    setFinderValue(val.toLowerCase())
+  }
+
+  const enableSticky = () => {
+    setDisplaySticky(!displaySticky)
+  }
+
+  const enableFinder = () => {
+    setDisplayFinder(!displayFinder)
+  }
+
     return (
     <>
-    {console.log(userData)}
      <Overlay
           imageUrl={url}
           changeOverlay={changeOverlay}
@@ -141,41 +195,21 @@ function Home() {
           showSettings={showSettings}
           clock={clock}
           currentTheme={currentTheme}
+          enableSticky={enableSticky}
+          enableFinder={enableFinder}
         />
-        {stickyNote ? <StickyNotesList /> : null}
+        {stickyNote && displaySticky ? <StickyNotesList /> : null}
+        {showFinder && displayFinder ? <Finder handleChangeFinder={handleChangeFinder} /> : null}
         <Dashboard
           toggleSettings={toggleSettings}
+          toggleFinder={toggleFinder}
+          displaySticky={displaySticky}
+          displayFinder={displayFinder}
           showStickyNote={toggleStickyNote}
+          finderVal={finderValue}
         /> 
     </>
   )
 }
 
 export default Home
-
-  // initMenu = () => {
-  //   const menu = Menu.buildFromTemplate([
-  //     {
-  //       label: 'File',
-  //       submenu: [
-  //         {
-  //           label: 'Settings',
-  //           accelerator: 'CmdOrCtrl+,',
-  //           click: () => {
-  //             this.toggleSettings();
-  //           },
-  //         },
-  //         { type: 'separator' },
-  //         {
-  //           label: 'Quit',
-  //           accelerator: 'CmdOrCtrl+Q',
-  //           click: () => {
-  //             localStorage.clear();
-  //             ipcRenderer.send('logout');
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   ]);
-  //   Menu.setApplicationMenu(menu);
-  // };

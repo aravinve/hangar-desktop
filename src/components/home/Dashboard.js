@@ -1,18 +1,33 @@
-import {useState} from 'react'
-import image from '../../img/Logo_Hangar.png';
-import { Link } from 'react-router-dom';
-import ExploreMenu from './ExploreMenu';
-import ToolsMenu from './ToolsMenu';
-import SocialMenu from './SocialMenu';
+import {useState, useEffect} from 'react'
+import image from '../../img/Logo_Hangar.png'
+import { Link } from 'react-router-dom'
+import ExploreMenu from './ExploreMenu'
+import ToolsMenu from './ToolsMenu'
+import SocialMenu from './SocialMenu'
+import HangarMenu from './HangarMenu'
+import hangarMenu from './MenuMeta'
 
 const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
 
-function Dashboard({toggleSettings, showStickyNote}) {
+function Dashboard({toggleSettings, toggleFinder, displaySticky, displayFinder, showStickyNote, finderVal}) {
 
   const [showExplore, setShowExplore] = useState(false)
   const [showTools, setShowTools] = useState(false)
   const [showSocial, setShowSocial] = useState(false)
+  const [showHangarMenu, setShowHangarMenu] = useState(false)
+  const [shortListedMenu, setShortListedMenu] = useState([])
+
+  useEffect(() => {
+    if(finderVal !== ''){
+      const filterMenu = hangarMenu.filter(menu => menu.title.toLowerCase().includes(finderVal))
+      setShowHangarMenu(true)
+      setShortListedMenu(filterMenu)
+    } else{
+      setShowHangarMenu(false)
+      setShortListedMenu([])
+    }
+  }, [finderVal])
 
   const handleMenuChange = (e) => {
     if(e.target.parentElement.id === "explore"){
@@ -35,16 +50,20 @@ function Dashboard({toggleSettings, showStickyNote}) {
   }
 
   const showSplash = () => {
-    localStorage.clear();
-    ipcRenderer.send('logout');
+    localStorage.clear()
+    ipcRenderer.send('logout')
   }
 
   const toggleSettingsFunction = () => {
-    toggleSettings();
+    toggleSettings()
+  }
+
+  const toggleFinderFunction = () => {
+    toggleFinder()
   }
 
   const createStickyNoteFunction = () => {
-    showStickyNote();
+    showStickyNote()
   }
 
   const flag = window.location.href.includes('/home')
@@ -58,9 +77,10 @@ function Dashboard({toggleSettings, showStickyNote}) {
 
   return (
     <>
-    {showExplore ? <ExploreMenu /> : null}
-    {showTools ? <ToolsMenu /> : null}
-    {showSocial ? <SocialMenu /> : null}
+    {showExplore ? <ExploreMenu  /> : null}
+    {showTools ? <ToolsMenu  /> : null}
+    {showSocial ? <SocialMenu  /> : null}
+    {showHangarMenu ? <HangarMenu shortListedMenu={shortListedMenu} /> : null}
     <nav className='fixed bg-secondary text-primary w-full h-18 flex items-center' style={navbarStyle}>
        <div className='flex flex-auto justify-start items-center p-2'>
          <Link className="block" to='/home'><img src={image} className="cursor-pointer h-16" /></Link>
@@ -83,9 +103,12 @@ function Dashboard({toggleSettings, showStickyNote}) {
             <div className='flex-auto flex flex-row'>
               {flag ? (
                 <>
-                  <button className='flex-shrink-0 px-5 py-2 m-1 bg-primary shadow-md rounded-sm outline-none focus:outline-none text-secondary' onClick={createStickyNoteFunction}>
+                {displaySticky ? (<button className='flex-shrink-0 px-5 py-2 m-1 bg-primary shadow-md rounded-sm outline-none focus:outline-none text-secondary' onClick={createStickyNoteFunction}>
                     <i className='fas fa-sticky-note'></i>
-                  </button>
+                  </button>) : null}
+                  {displayFinder ? (<button className='flex-shrink-0 px-5 py-2 m-1 bg-primary shadow-md rounded-sm outline-none focus:outline-none text-secondary' onClick={toggleFinderFunction}>
+                    <i className='fas fa-search'></i>
+                  </button>) : null}
                   <button className='flex-shrink-0 px-5 py-2 m-1 bg-primary shadow-md rounded-sm outline-none focus:outline-none text-secondary' onClick={toggleSettingsFunction}>
                     <i className='fas fa-cogs'></i>
                   </button>
