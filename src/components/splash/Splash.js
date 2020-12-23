@@ -2,7 +2,6 @@ import {useState} from 'react'
 import image from '../../img/Splash_Frame.png'
 const electron = window.require('electron')
 const ipcRenderer = electron.ipcRenderer
-const currRemote = electron.remote
 
 function Splash() {
   const [hangarId, setHangarId] = useState('')
@@ -26,13 +25,12 @@ function Splash() {
   }
 
   const showHome = (e) => {
-    e.preventDefault();
-    ipcRenderer.send('login', {hangarId, hangarPin});
+    e.preventDefault()
+    ipcRenderer.send('login', {hangarId, hangarPin})
   }
 
   const exitApp = () => {
-    let currentWindow = currRemote.getCurrentWindow();
-    currentWindow.close();
+    ipcRenderer.send('quit-app')
   }
   
   return (
@@ -95,7 +93,7 @@ function Splash() {
         <i className="fas fa-plane-departure mr-2"></i> Enter
           </button>
           <br />
-          <button className='bg-primary cursor-pointer text-secondary text-base py-2 px-4 rounded-md focus:outline-none' onClick={exitApp}>
+          <button className='bg-primary cursor-pointer text-secondary text-base py-2 px-4 rounded-md focus:outline-none' id='exit-app' onClick={exitApp}>
           <i className="fas fa-sign-out-alt mr-2"></i> Exit
           </button>
       </div>

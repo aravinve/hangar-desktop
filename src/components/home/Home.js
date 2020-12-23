@@ -61,11 +61,19 @@ function Home() {
           },
           { type: 'separator' },
           {
+            label: 'Logout',
+            accelerator: 'CmdOrCtrl+L',
+            click: () => {
+              localStorage.clear()
+              ipcRenderer.send('logout')
+            },
+          },
+          {
             label: 'Quit',
             accelerator: 'CmdOrCtrl+Q',
             click: () => {
               localStorage.clear()
-              ipcRenderer.send('logout')
+              ipcRenderer.send('quit-app')
             },
           },
         ],
