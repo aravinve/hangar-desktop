@@ -2,9 +2,14 @@ const electron = require('electron')
 const ipcMain = electron.ipcMain
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
-
+const {autoUpdater} = require('electron-updater');
+const log = require('electron-log');
 const path = require('path')
 const isDev = require('electron-is-dev')
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('Hangar App Starting...');
 
 let splashScreen
 let mainWindow
@@ -58,9 +63,14 @@ function createSplashWindow() {
       : `file://${path.join(__dirname, '../build/index.html')}`
   )
 
+  splashScreen.on('closed', () => {
+    splashScreen = null
+  })
+
 }
 
 app.on('ready', () => {
+  autoUpdater.checkForUpdates()
   createSplashWindow()
   createMainWindow()
 })
@@ -87,6 +97,48 @@ ipcMain.on('logout', () => {
 })
 
 ipcMain.on('quit-app', () => {
-  splashScreen.close()
-  mainWindow.close()
+  if(splashScreen !== null){
+    splashScreen.close()
+  }
+  if(mainWindow !== null){
+    mainWindow.close()
+  }
+})
+
+const sendStatusToWindow = (message) => {
+  log.info(message)
+  if (mainWindow) {
+    mainWindow.webContents.send('message', message);
+  }
+}
+
+autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow('Checking for updates...')
+})
+
+autoUpdater.on('update-available', (info) => {
+  console.log(info)
+  sendStatusToWindow('New update is available!')
+})
+
+autoUpdater.on('update-not-available', (info) => {
+  sendStatusToWindow('Your app is already in updated version!')
+})
+
+autoUpdater.on('error', (err) => {
+  sendStatusToWindow(`Error in auto-updater: ${err.toString()}`)
+})
+
+autoUpdater.on('download-progress', (progressObj) => {
+  sendStatusToWindow(
+    `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total} + )`
+  )
+})
+
+autoUpdater.on('update-downloaded', (info) => {
+  sendStatusToWindow('Update downloaded; will install now');
+})
+
+autoUpdater.on('update-downloaded', (info) => {
+  autoUpdater.quitAndInstall()
 })
