@@ -1,6 +1,6 @@
 import Tools from './Tools'
 
-function Overlay({imageUrl, userName, showSettings, handleChange, changeOverlay, clock, changeSearchTerm, changeSettingsMenu, currentTheme}) {
+function Overlay({imageUrl, userName, showSettings, handleChange, changeOverlay, clock, changeSearchTerm, changeSettingsMenu, currentTheme, enableSticky, enableFinder}) {
   const styleOverlay = {
     width: '100%',
     height: '100vh',
@@ -37,6 +37,8 @@ function Overlay({imageUrl, userName, showSettings, handleChange, changeOverlay,
                 changeSearchTerm={changeSearchTerm}
                 changeSettingsMenu={changeSettingsMenu}
                 currentTheme={currentTheme}
+                enableSticky={enableSticky}
+                enableFinder={enableFinder}
               />
             ) : (
               null

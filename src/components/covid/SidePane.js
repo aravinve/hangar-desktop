@@ -30,8 +30,10 @@ function SidePane({showGlobalStats, showCountriesList, handleChange}) {
               name='countryName'
               id='country-name'
               className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none"
-              onChange={handleChange}
-            >
+              onChange={handleChange}>
+              <option value='' selected disabled hidden>
+                Choose
+              </option>
               {showCountriesList}
             </select>
           </div>

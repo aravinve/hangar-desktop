@@ -2,6 +2,7 @@
 
 .env
 .eslintcache
+.vscode/
 index.css
 
 # dependencies

@@ -1,0 +1,110 @@
+const hangarMenu = [{
+    title: 'news',
+    icon: 'fas fa-newspaper',
+    path: '/news',
+    division: 'explore',
+  }, 
+  {
+    title: 'music',
+    icon: 'fas fa-music',
+    path: '/music',
+    division: 'explore',
+  },
+  {
+    title: 'cook',
+    icon: 'fas fa-cookie-bite',
+    path: '/cook',
+    division: 'explore',
+  },
+  {
+    title: 'gallery',
+    icon: 'fas fa-photo-video',
+    path: '/gallery',
+    division: 'explore',
+  },
+  {
+    title: 'maps',
+    icon: 'fas fa-map-marker-alt',
+    path: '/maps',
+    division: 'explore',
+  },
+  {
+    title: 'weather',
+    icon: 'fas fa-cloud',
+    path: '/weather',
+    division: 'explore',
+  },
+  {
+    title: 'calculator',
+    icon: 'fas fa-calculator',
+    path: '/calculator',
+    division: 'tools',
+  },
+  {
+    title: 'calendar',
+    icon: 'fas fa-calendar-alt',
+    path: '/calendar',
+    division: 'tools',
+  },
+  {
+    title: 'clock',
+    icon: 'fas fa-clock',
+    path: '/clock',
+    division: 'tools',
+  },
+  {
+    title: 'converter',
+    icon: 'fas fa-balance-scale',
+    path: '/converter',
+    division: 'tools',
+  },
+  {
+    title: 'dictionary',
+    icon: 'fas fa-spell-check',
+    path: '/dictionary',
+    division: 'tools',
+  },
+  {
+    title: 'todoist',
+    icon: 'fas fa-check-square',
+    path: '/todoist',
+    division: 'tools',
+  },
+  {
+    title: 'notes',
+    icon: 'fas fa-book',
+    path: '/notes',
+    division: 'tools',
+  },
+  {
+    title: 'board',
+    icon: 'fas fa-chalkboard',
+    path: '/board',
+    division: 'tools',
+  },
+  {
+    title: 'reddit',
+    icon: 'fab fa-reddit',
+    path: '/reddit',
+    division: 'social',
+  },
+  {
+    title: 'wikipedia',
+    icon: 'fab fa-wikipedia-w',
+    path: '/wikipedia',
+    division: 'social',
+  },
+  {
+    title: 'hackernews',
+    icon: 'fab fa-hacker-news-square',
+    path: '/hackernews',
+    division: 'social',
+  },
+  {
+    title: 'covid-19 tracker',
+    icon: 'fas fa-biohazard',
+    path: '/covid',
+    division: 'social',
+  }]
+
+export default hangarMenu

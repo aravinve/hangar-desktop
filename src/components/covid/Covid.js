@@ -4,71 +4,53 @@ import Dashboard from '../home/Dashboard';
 import CovidCard from './CovidCard';
 import CountrySelect from './CountrySelect';
 import CovidTable from './CovidTable';
+import hangarFetch from '../../HangarFetch'
+import Loader from '../../Loader'
 
 function Covid() {
   
   const [covidData, setCovidData] = useState('')
   const [header, setHeader] = useState('')
   const [countries, setCountries] = useState([])
+  const [country, setCountry] = useState('')
   const [detailData, setDetailData] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [loadingTable, setLoadingTable] = useState(false)
 
-  useEffect(() => {
-    loadGlobalData();
-    fetch('https://covid19.mathdro.id/api/countries')
-      .then((countryResponse) => {
-        return countryResponse.json();
-      })
-      .then((countryData) => {
-        setCountries(countryData.countries)
-      });
+  useEffect(async () => {
+    setLoading(true)
+    loadGlobalData()
+    const hangarData = await hangarFetch('covidcountries', 'https://covid19.mathdro.id/api/countries')
+    await setCountries(hangarData.countries)
+    setLoading(false)
   }, [])
 
-  const loadGlobalData = () => {
-    fetch('https://covid19.mathdro.id/api')
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setCovidData(data)
-        setHeader('Worldwide')
-        setDetailData('')
-      })
-      .catch(function (e) {
-        console.log(e);
-      });
+  const loadGlobalData = async () => {
+    const hangarData = await hangarFetch('covidglobal', 'https://covid19.mathdro.id/api')
+    await setCovidData(hangarData)
+    setHeader('Worldwide')
+    setDetailData('')
   }
 
   const showGlobalStats = () => {
     loadGlobalData();
   }
 
-  const handleChange = (e) => {
-    const country = e.target.value;
-    fetch(`https://covid19.mathdro.id/api/countries/${country}`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setCovidData(data)
-        setHeader(country)
-        setDetailData('')
-      })
-      .catch(function (e) {
-        console.log(e);
-      });
+  const handleChange = async (e) => {
+    const countryFromSelect = e.target.value;
+    await setCountry(countryFromSelect)
+    const countryFetchKey = `covid-${countryFromSelect}`
+    const hangarData = await hangarFetch(countryFetchKey, `https://covid19.mathdro.id/api/countries/${countryFromSelect}`)
+    await setCovidData(hangarData)
+    await setHeader(countryFromSelect)
+    await setDetailData('')
   }
 
-  const showConfirmDetail = (targetUrl) => {
-    fetch(targetUrl)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setDetailData(data)
-      })
-      .catch(function (e) {
-        console.log(e);
-      });
+  const showConfirmDetail = async (targetUrl) => {
+    setLoadingTable(true)
+    const hangarData = await hangarFetch(`covid-detail-${country}`, targetUrl)
+    await setDetailData(hangarData)
+    setLoadingTable(false)
   }
 
   const countriesList =
@@ -87,7 +69,7 @@ function Covid() {
 
   return (
     <>
-       <div className='flex flex-row items-center mt-32 px-4 py-6 justify-center'>
+        {!loading ? (<div className='flex flex-row items-center mt-32 mb-8 px-4 py-6 justify-center'>
        <SidePane
             showGlobalStats={showGlobalStats}
             showCountriesList={countriesList}
@@ -101,9 +83,9 @@ function Covid() {
                 showConfirmDetail={showConfirmDetail}
               />
             ) : null}
-            {detailTable !== null ? (
+            {!loadingTable ? (detailTable !== null ? (
               <>
-                <div className='flex flex-row justify-center mt-4 text-center'>
+                <div className='flex flex-row justify-center mt-4 mb-8 text-center'>
                   <table className='flex-1 border-black'>
                     <thead className="bg-primary text-secondary">
                       <tr className="p-2">
@@ -120,9 +102,9 @@ function Covid() {
                   </table>
                 </div>
               </>
-            ) : null}
+            ) : null) : <Loader />}
           </div>
-        </div>
+        </div>) : (<Loader />)}
         <Dashboard />
     </>
   )

@@ -1,32 +1,46 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import Dashboard from '../home/Dashboard';
-import overlayImage from '../../img/under_construction.png'
+import Map from './Map'
+import SidePane from './SidePane';
+import Loader from '../../Loader'
 
-class Maps extends Component {
-  render() {
-    return (
-      <React.Fragment>
-        <div
-          className='container mt-16 text-center'
-        >
-          <h1 className='text-5xl text-primary mb-4'>Under Construction</h1>
-          <div className='container' style={styleOverlay}></div>
-        </div>
-        <Dashboard />
-      </React.Fragment>
-    );
+function Maps() {
+
+  const [eventData, setEventData] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [eo, setEo] = useState(false)
+  const [normal, setNormal] = useState(false)
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+        setLoading(true)
+        const res = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events')
+        const { events } = await res.json()
+        setEventData(events)
+        setLoading(false)
+    }
+    fetchEvent()
+  }, [])
+
+  const loadSelectData = (e) => {
+    if(e.target.value === 'eo'){
+      setEo(true)
+      setNormal(false)
+    } else{
+      setEo(false)
+      setNormal(true)
+    }
   }
+  
+
+  return (
+      <>
+        <SidePane loadSelectData={loadSelectData} />
+        {eo ? (!loading ? <Map eventData={eventData} /> : <Loader />)  : null}
+        {normal ? (!loading ? <Map /> : <Loader />)  : null}
+        <Dashboard />
+      </>
+  )
 }
 
-const styleOverlay = {
-  width: '50%',
-  height: '60vh',
-  backgroundImage: 'url(' + overlayImage + ')',
-  backgroundSize: 'cover',
-  backgroundClip: 'border-box',
-  backgroundPosition: 'center',
-  opacity: '100%',
-  backgroundRepeat: 'no-repeat',
-};
-
-export default Maps;
+export default Maps

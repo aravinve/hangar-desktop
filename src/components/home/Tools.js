@@ -1,6 +1,6 @@
 import overlayImage from '../../img/under_construction.png'
 
-function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTerm, currentTheme}) {
+function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTerm, currentTheme, enableSticky, enableFinder}) {
 
   const styleOverlay = {
     width: '100%',
@@ -22,7 +22,7 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
           <li className="flex-1 bg-secondary text-primary shadow-md rounded-sm cursor-pointer mb-2 px-1 py-1" id="display-set-li" onClick={changeSettingsMenu}>
             <div className='h-1 w-1 inline-flex items-center text-center'>
                 <i className='fas fa-image m-2'></i> Display
-              </div>
+            </div>
           </li>
           <li className="flex-1 bg-secondary text-primary shadow-md rounded-sm cursor-pointer mb-2 px-1 py-1" id="pref-set-li" onClick={changeSettingsMenu}>
               <div className='flex-1 h-1 w-1 inline-flex items-center text-center'>
@@ -46,8 +46,7 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
           <div className='flex-1'>
             <button
               className='bg-primary cursor-pointer text-sm text-secondary py-1 px-2 rounded-sm shadow-sm focus:outline-none'
-              onClick={changeOverlay}
-            >
+              onClick={changeOverlay}>
               Change Now
             </button>
           </div>
@@ -75,8 +74,7 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
             />
             <button
               className='bg-primary cursor-pointer text-sm text-secondary py-1 px-2 rounded-sm shadow-sm focus:outline-none'
-              onClick={changeSearchTerm}
-            >
+              onClick={changeSearchTerm}>
               Modify Theme
             </button>
           </div>
@@ -85,20 +83,38 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
       <div
         className='p-4 rounded-md shadow-sm bg-secondary text-primary fadein'
         id='settings-preference'
-        style={{display: 'none'}}
-      >
-        <h4 className='text-secondary text-3xl mb-4'>Preferences</h4>
-        <div className='container' style={{ textAlign: 'center' }}>
-          <h6 className='text-xl text-primary mb-4'>Under Construction</h6>
-          <div className='container' style={styleOverlay}></div>
+        style={{display: 'none'}}>
+        <h4 className='text-primary text-3xl mb-4'>Preferences</h4>
+        <div className='flex flex-row justify-center mb-4'>
+          <div className='flex-1'>
+            <p className="text-sm text-black">Hangar Finder</p>
+          </div>
+          <div className='flex-1'>
+            <button
+              className='bg-primary cursor-pointer text-sm text-secondary py-1 px-2 rounded-sm shadow-sm focus:outline-none'
+              onClick={enableFinder}>
+                Enable
+            </button>
+          </div>
+        </div>
+        <div className='flex flex-row justify-center mb-4'>
+          <div className='flex-1'>
+            <p className="text-sm text-black">Sticky Notes</p>
+          </div>
+          <div className='flex-1'>
+            <button
+              className='bg-primary cursor-pointer text-sm text-secondary py-1 px-2 rounded-sm shadow-sm focus:outline-none'
+              onClick={enableSticky}>
+                Enable
+            </button>
+          </div>
         </div>
       </div>
       <div
         className='p-4 rounded-md shadow-sm bg-secondary text-primary fadein'
         id='settings-account'
-        style={{display: 'none'}}
-      >
-        <h4 className='text-secondary text-3xl mb-4'>Account</h4>
+        style={{display: 'none'}}>
+        <h4 className='text-primary text-3xl mb-4'>Account</h4>
         <div className='container' style={{ textAlign: 'center' }}>
           <h6 className='text-xl text-primary mb-4'>Under Construction</h6>
           <div className='container' style={styleOverlay}></div>
