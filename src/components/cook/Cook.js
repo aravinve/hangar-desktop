@@ -38,8 +38,12 @@ function Cook() {
   }
 
   const searchRecipeFunction = () => {
-    setLoading(true)
-    loadRecipe(searchRecipe)
+    if(searchRecipe !== ''){
+      setLoading(true)
+      loadRecipe(searchRecipe)
+    } else {
+      setAlert(true)
+    }
   }
 
   const recipesData =
@@ -53,13 +57,13 @@ function Cook() {
         : null
 
   const alertMessage = alert ? (<div className='flex flex-col text-center justify-center mt-20'>
-  <h2 className='text-2xl text-red-600'>{searchRecipe.concat(' not available!!!')} </h2>
+  <h2 className='text-2xl text-red-600'>{searchRecipe !== '' ? searchRecipe.concat(' not available!!!') : 'Recipe is Empty. Cannot Search.'} </h2>
   <h2 className='text-4xl text-primary'> {'Try to search for a different recipe!!!'} </h2>
 </div>) : null
 
   return (
     <>
-      <div className='flex flex-row mt-24 mb-24 px-4 py-6 justify-center'>
+      <div className='flex flex-row mt-24 mb-24 pt-8 pb-8 pl-24 pr-16 justify-center'>
           <SidePane
             handleChange={handleChange}
             searchRecipe={searchRecipeFunction}

@@ -1,10 +1,10 @@
 import {useState, useEffect} from 'react'
-import Overlay from './Overlay';
-import Dashboard from './Dashboard';
-import axios from 'axios';
-import dragElement from './drag';
-import StickyNotesList from './StickyNotesList';
+import Overlay from './Overlay'
+import Dashboard from './Dashboard'
+import dragElement from './drag'
+import StickyNotesList from './StickyNotesList'
 import Finder from './Finder';
+import hangarFetch from '../../HangarFetch'
 
 const electron = window.require('electron')
 const ipcRenderer = electron.ipcRenderer
@@ -83,28 +83,21 @@ function Home() {
   }
 
   const changeOverlay = () => {
-    const imagesArray = images;
-    const randomImage =
-      imagesArray[Math.floor(Math.random() * imagesArray.length)];
-      setUrl(randomImage.largeImageURL)
+    const imagesArray = images
+    const randomImage = imagesArray[Math.floor(Math.random() * imagesArray.length)];
+    setUrl(randomImage.largeImageURL)
   }
 
-  const loadImages = (searchTerm) => {
+  const loadImages = async (searchTerm) => {
     const apiUrl = "https://pixabay.com/api/"
     const apiKey = process.env.REACT_APP_PIXABAY_KEY
     const limit = 15
-    axios
-      .get(
-        `${apiUrl}/?key=${apiKey}&q=${searchTerm}&image_type=photo&per_page=${limit}&safeSearch=true`
-      )
-      .then((res) => {
-        const imagesArray = res.data.hits;
-        const randomImage =
-          imagesArray[Math.floor(Math.random() * imagesArray.length)];
-          setImages(imagesArray)
-          setUrl(randomImage.largeImageURL)
-      })
-      .catch((err) => console.log(err));
+    const myRequest = `${apiUrl}/?key=${apiKey}&q=${searchTerm}&image_type=photo&per_page=${limit}&safeSearch=true`
+    const imagesFetch = await hangarFetch(`pixabay-${searchTerm}`, myRequest)
+    const imagesArray = await imagesFetch.hits
+    const randomImage = imagesArray[Math.floor(Math.random() * imagesArray.length)]
+    setImages(imagesArray)
+    setUrl(randomImage.largeImageURL)
   }
 
   const handleChange = (e) => {

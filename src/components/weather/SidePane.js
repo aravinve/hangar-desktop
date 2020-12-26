@@ -18,14 +18,13 @@ function SidePane({handleChange, searchCity}) {
               className='rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-2'
               type='text'
               name='city'
-              placeholder='City'
+              placeholder='Search City'
               onChange={handleChange}
             />
           </p>
           <button
             className='bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none'
-            onClick={searchCity}
-          >
+            onClick={searchCity}>
             Search
           </button>
           </div>

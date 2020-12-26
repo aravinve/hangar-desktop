@@ -20,10 +20,10 @@ function Dictionary() {
     }
     const myRequest = new Request(testURL, myInit)
     const dictionaryWords = await hangarFetch(`dictionary-${searchWord}`, myRequest)
-    await setResult(dictionaryWords)
     if(dictionaryWords.length <= 0){
       setAlert(true)
     } else{
+      await setResult(dictionaryWords)
       setAlert(false)
     }
     setLoading(false)
@@ -38,8 +38,12 @@ function Dictionary() {
   }
 
   const searchWordFunction = () => {
-    setLoading(true)
-    loadResult(searchWord)
+    if(searchWord !== ''){
+      setLoading(true)
+      loadResult(searchWord)
+    } else {
+      setAlert(true)
+    }
   }
 
   const searchSuggested = (e) => {
@@ -60,7 +64,7 @@ function Dictionary() {
   }) : null
 
   const alertMessage = alert ? (<div className='flex flex-col text-center justify-center mt-20'>
-  <h2 className='text-2xl text-red-600'>{searchWord.concat(' not available!!!')} </h2>
+  <h2 className='text-2xl text-red-600'>{searchWord !== '' ? searchWord.concat(' not available!!!') : 'Word is Empty. Cannot Search.'} </h2>
   <h2 className='text-4xl text-primary'> {'Try to search for a different word!!!'} </h2>
   </div>) : null
 

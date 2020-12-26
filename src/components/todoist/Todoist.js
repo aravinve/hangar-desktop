@@ -1,21 +1,17 @@
-import  { useState } from 'react';
-import Dashboard from '../home/Dashboard';
-import SidePane from './SidePane';
-import { v4 as uuid } from 'uuid';
-import TodoItem from './TodoItem';
+import  { useState } from 'react'
+import Dashboard from '../home/Dashboard'
+import SidePane from './SidePane'
+import { v4 as uuid } from 'uuid'
+import TodoItem from './TodoItem'
+import moment from 'moment'
 
 function Todoist() {
-
-  const dummyTodo = {
-    id: uuid(),
-    title: 'Write essay',
-    completed: false,
-  }
 
   const [todos, setTodos] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [filterTodos, setFilterTodos] = useState([])
   const [alert, setAlert] = useState('')
+  const [editMode, setEditMode] = useState({status: false, id: null})
 
   const handleCheckBox = (id) => {
     setTodos(todos.map((todo) => {
@@ -31,20 +27,59 @@ function Todoist() {
     setFilterTodos(filterTodos.filter((todo) => todo.id !== id))
   }
 
+  const handleEdit = (id) => {
+    setEditMode({
+      status: true,
+      id: id
+    })
+  }
+
+  const handleSave = (id) => {
+    console.log(id)
+  }
+
+  const handleCancel = (id) => {
+    setEditMode({
+      status: false,
+      id: null
+    })
+  }
+
   const addTodo = (content) => {
-    const newContent =  {
-      id: uuid(),
-      title: content,
-      completed: false,
+    if(content !== ''){
+      const today = new Date()
+      const projectDefault = 'Default'
+      const tagsArrayDefault = ['Important']
+      const colorDefault = 'red'
+      const newContent =  {
+        id: uuid(),
+        title: content,
+        deadline: moment(today).format("MM-DD-YYYY"),
+        completed: false,
+        project: projectDefault,
+        tags: tagsArrayDefault,
+        color: colorDefault
+      }
+      setTodos([...todos, newContent])
+      setFilterTodos([])
+      if(document.getElementById('add-todo') !== undefined){
+        document.getElementById('add-todo').value = ''
+      }
     }
-    setTodos([...todos, newContent])
-    setFilterTodos([])
+  }
+
+  const focusAddTodo = () => {
+    addTodo('New Todo')
+    if(document.getElementById('add-todo') !== undefined){
+      document.getElementById('add-todo').focus()
+    }
   }
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value)
     if (e.target.value === '') {
       setFilterTodos([])
+      setAlert('')
     }
   }
 
@@ -53,7 +88,7 @@ function Todoist() {
       todo.title.toLowerCase().includes(searchTerm)
     );
     if (filteredTodo.length === 0) {
-      setAlert('Not Found')
+      setAlert(searchTerm.concat(' not found'))
     } else {
       setAlert('')
     }
@@ -66,9 +101,20 @@ function Todoist() {
           todo={todo}
           handleDelete={handleDelete}
           handleCheckBox={handleCheckBox}
+          handleEdit={handleEdit}
+          editMode={editMode}
+          handleCancel={handleCancel}
+          handleSave={handleSave}
         />
       ))
-    : null
+    : (<div className='flex flex-col items-center justify-center text-3xl text-primary select-none m-1 p-1'> <div>
+      <i className='fas fa-tasks mr-2'></i> All Todos Catched Up
+    </div>
+    <div className="cursor-pointer text-sm underline mt-4" onClick={focusAddTodo}>
+    <i className='fas fa-plus mr-2'></i>
+      Add Now
+    </div>
+    </div>)
 
 const filteredTodoList = filterTodos.length > 0 ? filterTodos.map((todo) => (
         <TodoItem
@@ -90,7 +136,7 @@ const filteredTodoList = filterTodos.length > 0 ? filterTodos.map((todo) => (
             alert={alert}
           />
           <div
-            className='flex-auto mt-4 p-4'>
+            className='flex-auto mt-8 p-4'>
             {filteredTodoList !== null ? filteredTodoList : todosList}
           </div>
         </div>

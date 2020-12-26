@@ -5,7 +5,6 @@ function RedditBar({post}) {
     <div className='flex flex-row bg-secondary text-primary justify-start p-4 m-2 rounded-md shadow-md'>
       <article className='flex-1 flex flex-row justify-left'>
         <figure className='block relative h-20 w-20'>
-          {console.log(post.data.thumbnail)}
             <img src={post.data.thumbnail.includes('http') ? post.data.thumbnail : sampleThumbnail } alt='Image' className='rounded-md shadow-sm h-auto w-full block' />
           </figure>
         <div className='flex-1 ml-4'>

@@ -21,20 +21,19 @@ function SidePane({addTodo, handleChange, searchTodo, alert}) {
               className='rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-2'
               type='text'
               name='searchTerm'
-              placeholder='Search'
+              placeholder='Search Todo'
               onChange={handleChange}
             />
           </p>
           <button
             className='bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none'
-            onClick={searchTodo}
-          >
+            onClick={searchTodo}>
             Search
           </button>
           </div>
         </div>
         {alert !== '' ? (
-          <div className='flex flex-row p-2 text-lg text-primary select-none'>{alert} </div>
+          <div className='flex flex-row items-center justify-center text-lg text-primary select-none m-1 p-1'>  <i className='fas fa-exclamation-triangle mr-2'></i> {alert} </div>
         ) : null}
       </nav>
     </div>

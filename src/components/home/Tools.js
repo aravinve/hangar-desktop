@@ -85,28 +85,22 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
         id='settings-preference'
         style={{display: 'none'}}>
         <h4 className='text-primary text-3xl mb-4'>Preferences</h4>
-        <div className='flex flex-row justify-center mb-4'>
+        <div className='flex flex-row items-center justify-center mb-4'>
           <div className='flex-1'>
             <p className="text-sm text-black">Hangar Finder</p>
           </div>
           <div className='flex-1'>
-            <button
-              className='bg-primary cursor-pointer text-sm text-secondary py-1 px-2 rounded-sm shadow-sm focus:outline-none'
-              onClick={enableFinder}>
-                Enable
-            </button>
+            <input type="checkbox" name="enableFinder" className='bg-primary cursor-pointer text-sm text-secondary mt-2 rounded-sm shadow-sm focus:outline-none'
+              onClick={enableFinder} />  
           </div>
         </div>
-        <div className='flex flex-row justify-center mb-4'>
+        <div className='flex flex-row items-center justify-center mb-4'>
           <div className='flex-1'>
             <p className="text-sm text-black">Sticky Notes</p>
           </div>
           <div className='flex-1'>
-            <button
-              className='bg-primary cursor-pointer text-sm text-secondary py-1 px-2 rounded-sm shadow-sm focus:outline-none'
-              onClick={enableSticky}>
-                Enable
-            </button>
+          <input type="checkbox" name="enableSticky" className='bg-primary cursor-pointer text-sm text-secondary mt-2 rounded-sm shadow-sm focus:outline-none'
+              onClick={enableSticky} />
           </div>
         </div>
       </div>

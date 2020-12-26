@@ -80,14 +80,14 @@ function Calculator() {
 
   return (
     <>
-      <div className='flex flex-col items-center mt-8 px-4 py-6 justify-center'>
+      <div className='flex flex-col bg-white items-center px-4 py-6 justify-center'>
           <SidePane handleChange={handleChange} />
           <div className='flex-auto px-12 py-10'>
             {message !== ''? (<div className='text-red-600 select-none text-lg'>{message} </div>) : (
               <div>&nbsp;</div>
             )}
           </div>
-          <div className='flex-auto px-12 py-10'>
+          <div className='flex-auto px-8 py-10 bg-secondary rounded-sm shadow-lg'>
             <Result result={result} />
             {modeChange === 'simple' ? (<Keypad buttonClick={buttonClick} />) : (<ScientificKeypad buttonClick={buttonClick} />)}
           </div>

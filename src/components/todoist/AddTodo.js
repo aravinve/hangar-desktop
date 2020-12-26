@@ -20,10 +20,11 @@ function AddTodo({addTodo}) {
           <input
             type='text'
             className='rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-2'
-            placeholder='Add Todo'
+            placeholder='Quick Add Todo'
             onChange={handleChange}
             name='content'
             id='add-todo'
+            required
           />
         </p>
         <button
