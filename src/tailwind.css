@@ -129,3 +129,12 @@ html {
 #hangarFinder:focus {
   width: 100%;
 }
+
+input[type='date' i] {
+  outline: none;
+  color: #172b4d;
+}
+
+input[type='date' i]:focus {
+  outline: none;
+}
