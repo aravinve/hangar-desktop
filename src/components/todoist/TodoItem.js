@@ -13,17 +13,17 @@ function TodoItem({todo, handleCheckBox, handleDelete, handleEdit, editMode, han
   const [todoImportance, setTodoImportance] = useState(todo.importance)
   const [todoCategory, setTodoCategory] = useState(todo.category)
 
-  const importanceSelectData = [{title: "Highly Important", icon: "fas fa-info-circle text-red-600"}, {title: "Important", icon: "fas fa-info-circle text-primary"}, {title: "Medium", icon: "fas fa-info-circle text-indigo-600"}, {title: "Normal", icon: "fas fa-info-circle text-green-600"}, {title: "Low", icon: "fas fa-info-circle text-gray-600"}]
+  const importanceSelectData = [{title: "Urgent", icon: "fas fa-info-circle text-red-600"}, {title: "Important", icon: "fas fa-info-circle text-primary"}, {title: "Medium", icon: "fas fa-info-circle text-indigo-600"}, {title: "Normal", icon: "fas fa-info-circle text-green-600"}, {title: "Low", icon: "fas fa-info-circle text-gray-600"}]
 
-  const categorySelectData = [{title: "Default" , icon: "fas fa-info-circle text-gray-600"}, {title: "Personal" , icon: "fas fa-home text-primary"}, {title: "Work" , icon: "fas fa-building text-red-600"}, {title: "Study" , icon: "fas fa-school text-indigo-600"}, {title: "Vacation" , icon: "fas fa-plane text-green-600"}]
+  const categorySelectData = [{title: "Default" , icon: "fas fa-info-circle text-gray-600"}, {title: "Personal" , icon: "fas fa-home text-primary"}, {title: "Work" , icon: "fas fa-building text-red-600"}, {title: "Study" , icon: "fas fa-school text-indigo-600"}, {title: "Travel" , icon: "fas fa-plane text-green-600"}]
 
   return (
     <div className='bg-secondary text-primary shadow-md rounded-md p-4 m-2'>
       <div className='flex flex-row items-center justify-start'>
         {editMode.status && editMode.id===todo.id ? null : (<div className='flex-shrink-0'>
-          <input
+        <input
             type='checkbox'
-            className='m-2 rounded-sm w-4 h-4'
+            className='m-2 rounded-sm'
             onClick={() => handleCheckBox(todo.id)}
           />
         </div>)}
@@ -34,7 +34,6 @@ function TodoItem({todo, handleCheckBox, handleDelete, handleEdit, editMode, han
             placeholder={todo.title}
             onChange={(e) => setTodoTitle(e.target.value)}
             value={todoTitle}
-            id='edit-todo'
           />
         </div>) : (<div className='flex-1 text-primary text-xl truncate select-none' style={todoStyle}>
           {todo.title}
@@ -46,8 +45,8 @@ function TodoItem({todo, handleCheckBox, handleDelete, handleEdit, editMode, han
               type='date'
               onChange={(e) => setTodoDeadline(e.target.value)}
               value={todoDeadline}
-              min={moment(new Date()).format("YYYY-MM-DD")}
-              className='rounded-sm shadow-md p-2 text-sm text-primary w-full outline-none focus:outline-none' />
+              // min={moment(new Date()).format("YYYY-MM-DD")}
+              className='cursor-pointer rounded-sm shadow-md p-2 text-sm text-primary w-full outline-none focus:outline-none' />
             </div>
             <div className="flex-1 mr-2">
               <TodoDrop listItems={categorySelectData} defaultTitle={todoCategory.title} defaultIcon={todoCategory.icon} setValueFunction={setTodoCategory} />
