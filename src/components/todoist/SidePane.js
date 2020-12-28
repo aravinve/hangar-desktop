@@ -1,6 +1,6 @@
 import AddTodo from './AddTodo'
 
-function SidePane({addTodo, handleChange, searchTodo, handleSelectChange, resetAllFilters, resetDateFilter, resetCategoryFilter, resetImportanceFilter, showFilters}) {
+function SidePane({addTodo, handleChange, searchTodo, handleSelectChange, modifyPaneState, resetDateFilter, resetCategoryFilter, resetImportanceFilter, showFilters, clearAddTerm, clearSearchTerm}) {
 
   const paneStyle = {
     top: '2rem',
@@ -17,19 +17,24 @@ function SidePane({addTodo, handleChange, searchTodo, handleSelectChange, resetA
         <nav>
           <p className={`bg-primary w-full p-2 ${classListFilter} inline-flex items-center text-secondary text-xl select-none`}>
           <i className="fas fa-check-square mr-2"></i> Todoist</p>
-          <AddTodo addTodo={addTodo} />
+          <AddTodo addTodo={addTodo} clearAddTerm={clearAddTerm} />
           <div className='flex flex-row pt-4 pl-4 pr-4 pb-0'>
             <div className="flex-1 inline-flex">
             <p className='text-primary text-sm inline-flex items-center'>
             <i className='fas fa-search mr-2'></i>
-              <input
-                className='rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-2'
-                type='text'
-                name='searchTerm'
-                placeholder='Search Todo'
-                onChange={handleChange}
-                id='search-filter-todo'
-              />
+              <div className="inline-flex bg-white items-center justify-center rounded-md shadow-md mr-2">
+                <input
+                  className='text-sm text-primary p-1 rounded-l-md outline-none focus:outline-none disabled:cursor-not-allowed'
+                  type='text'
+                  name='searchTerm'
+                  placeholder='Search Todo'
+                  onChange={handleChange}
+                  id='search-filter-todo'
+                />
+                 <div className="rounded-r-md p-1 bg-gray-400">
+                  <i className='fas fa-times cursor-pointer text-primary text-xs' onClick={clearSearchTerm}></i>
+                </div>
+              </div>
             </p>
             <button
               className='bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none'
@@ -43,7 +48,7 @@ function SidePane({addTodo, handleChange, searchTodo, handleSelectChange, resetA
               <p className="text-primary text-sm mr-24 select-none">
               <i className='fas fa-filter mr-2'></i> Todo Filters
               </p>
-              <button className="p-1 text-secondary text-sm bg-primary rounded-sm focus:outline-none outline-none cursor-pointer" onClick={resetAllFilters}>
+              <button className="p-1 ml-4 text-secondary text-sm bg-primary rounded-sm focus:outline-none outline-none cursor-pointer" onClick={modifyPaneState}>
                 {showFilters ? 'Clear All Filters' : 'Show Filters'}
               </button>
               </div>

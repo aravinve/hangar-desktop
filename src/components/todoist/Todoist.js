@@ -1,9 +1,10 @@
-import  { useState } from 'react'
+import  { useState, useEffect } from 'react'
+import firebase from '../../firebase'
 import Dashboard from '../home/Dashboard'
 import SidePane from './SidePane'
-import { v4 as uuid } from 'uuid'
 import TodoItem from './TodoItem'
 import moment from 'moment'
+import Loader from '../../Loader'
 
 function Todoist() {
 
@@ -15,19 +16,42 @@ function Todoist() {
   const [filterTitle, setFilterTitle] = useState('')
   const [filterIcon, setFilterIcon] = useState('')
   const [showFilters, setShowFilters] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleCheckBox = (id) => {
+  useEffect(() => {
+    setLoading(true)
+    firebase.firestore().collection('todoist').onSnapshot(serverUpdate => {
+      const todosFromStore = serverUpdate.docs.map(doc => {
+        const data = doc.data()
+        data['id'] = doc.id
+        return data
+      })
+      if(todosFromStore.length > 0){
+        setTodos(todosFromStore)
+        setLoading(false)
+      } else {
+        setTodos('')
+        setLoading(false)
+      }
+    })
+  }, [])
+
+  const handleCheckBox = (id, checkState) => {
+    firebase.firestore().collection('todoist').doc(id).update({
+      completed: !checkState
+    })
     setTodos(todos.map((todo) => {
       if (todo.id === id) {
-        todo.completed = !todo.completed;
+        todo.completed = !todo.completed
       }
       return todo
     }))
   }
 
-  const handleDelete = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id))
-    setFilterTodos(filterTodos.filter((todo) => todo.id !== id))
+  const handleDelete = async (id) => {
+    await setTodos(todos.filter((todo) => todo.id !== id))
+    await setFilterTodos(filterTodos.filter((todo) => todo.id !== id))
+    await firebase.firestore().collection('todoist').doc(id).delete()
   }
 
   const handleEdit = (id) => {
@@ -38,7 +62,13 @@ function Todoist() {
   }
 
   const handleSave = async ({id, title, importance, category, deadline, completed}) => {
-    
+    firebase.firestore().collection('todoist').doc(id).update({
+      title: title,
+      importance: importance,
+      category: category,
+      deadline: moment(deadline).format("YYYY-MM-DD"),
+      completed: completed
+    })
     setTodos(todos.map(todo => {
       if(todo.id === id) {
         todo.title = title
@@ -53,6 +83,7 @@ function Todoist() {
       status: false,
       id: null
     })
+    resetAllFilters()
   }
 
   const handleCancel = (id) => {
@@ -60,9 +91,10 @@ function Todoist() {
       status: false,
       id: null
     })
+    console.log("Save Cancelled For Id:", id)
   }
 
-  const addTodo = (content) => {
+  const addTodo = async (content) => {
     if(content !== ''){
       const today = new Date()
       const categoryDefault = {
@@ -74,21 +106,37 @@ function Todoist() {
         icon: 'fas fa-info-circle text-primary',
       }
       const newContent =  {
-        id: uuid(),
         title: content,
         deadline: moment(today).format("YYYY-MM-DD"),
         completed: false,
         category: categoryDefault,
         importance: importanceDefault
       }
-      setTodos([...todos, newContent])
-      setFilterTodos([])
-      if(document.getElementById('add-todo') !== undefined){
-        document.getElementById('add-todo').value = ''
-      }
-      resetDateFilter()
-      resetCategoryFilter()
-      resetImportanceFilter()
+      await firebase.firestore().collection('todoist').add({
+        title: newContent.title,
+        deadline: newContent.deadline,
+        completed: newContent.completed,
+        category: {
+          title: newContent.category.title,
+          icon: newContent.category.icon
+        },
+        importance: {
+          title: newContent.importance.title,
+          icon: newContent.importance.icon
+        },
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      })
+      await setTodos([...todos, newContent])
+      await setFilterTodos([])
+      clearAddTerm()
+      resetSearchInputDisable()
+      resetAllFilters()
+    }
+  }
+
+  const resetSearchInputDisable = () => {
+    if(document.getElementById('search-filter-todo') !== null){
+      document.getElementById('search-filter-todo').disabled = false
     }
   }
 
@@ -116,10 +164,12 @@ function Todoist() {
   </div>
   <div className="cursor-pointer text-sm underline mt-4" onClick={() => {
      if(document.getElementById('search-filter-todo') !== null){
+      document.getElementById('search-filter-todo').disabled = false
       document.getElementById('search-filter-todo').value = ''
     }
     setFilterTodos([])
     setFilterTitle('')
+    resetAllFilters()
   }}>
   <i className='fas fa-ban mr-2'></i>
     Clear Search Keyword
@@ -131,9 +181,7 @@ function Todoist() {
     <i className='fas fa-filter mr-2'></i> No Todo Available In This Filter
   </div>
   <div className="cursor-pointer text-sm underline mt-4" onClick={() => {
-    resetCategoryFilter()
-    resetDateFilter()
-    resetImportanceFilter()
+    resetAllFilters()
   }}>
   <i className='fas fa-ban mr-2'></i>
     Clear Filters
@@ -149,23 +197,21 @@ function Todoist() {
   }
 
   const searchTodo = () => {
-    resetCategoryFilter()
-    resetDateFilter()
-    resetImportanceFilter()
-    const filteredTodo = todos.filter((todo) =>
+    const targetTodoArray = filterTitle !== '' ? filterTodos : todos
+    const filteredTodo = targetTodoArray.filter((todo) =>
       todo.title.toLowerCase().includes(searchTerm)
-    );
+    )
     if (filteredTodo.length === 0) {
       setAlert(searchTerm.concat(' not found'))
+      setFilterIcon('fas fa-search text-primary')
+      setFilterTitle(searchTerm)
+      if(document.getElementById('search-filter-todo') !== null){
+        document.getElementById('search-filter-todo').disabled = true
+      }
     } else {
       setAlert('')
     }
-    if(document.getElementById('search-filter-todo') !== null){
-      document.getElementById('search-filter-todo').value = ''
-    }
     setFilterTodos(filteredTodo)
-    setFilterIcon('fas fa-search text-primary')
-    setFilterTitle(searchTerm)
   }
 
   const handleSelectChange = (e) => {
@@ -173,21 +219,23 @@ function Todoist() {
     const performFilterByDate = () => {
       resetImportanceFilter()
       resetCategoryFilter()
+      const targetTodoArray = todos
+      const targetValue = e.target.value
       setFilterIcon('fas fa-calendar-alt text-primary')
-      if(e.target.value === "today"){
-        const todayTodoList = todos.length > 0 ? todos.filter(todo => checkValidToday(todo.deadline)) : []
+      if(targetValue === "today"){
+        const todayTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => checkValidToday(todo.deadline)) : []
         setFilterTodos(todayTodoList)
         setFilterTitle('Today')
-      } else if(e.target.value === "next"){
-        const nextSevenDaysTodoList = todos.length > 0 ? todos.filter(todo => checkValidNextSeven(todo.deadline)).sort((a,b) => new Date(a.deadline) - new Date(b.deadline)) : []
+      } else if(targetValue === "next"){
+        const nextSevenDaysTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => checkValidNextSeven(todo.deadline)).sort((a,b) => new Date(a.deadline) - new Date(b.deadline)) : []
         setFilterTodos(nextSevenDaysTodoList)
         setFilterTitle('Next 7 Days')
-      } else if(e.target.value === "past"){
-        const pastTodoList = todos.length > 0 ? todos.filter(todo => checkPastDates(todo.deadline)).sort((a,b) => new Date(b.deadline) - new Date(a.deadline)) : []
+      } else if(targetValue === "past"){
+        const pastTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => checkPastDates(todo.deadline)).sort((a,b) => new Date(b.deadline) - new Date(a.deadline)) : []
         setFilterTodos(pastTodoList)
         setFilterTitle('Archived')
-      } else if(e.target.value === "future"){
-        const futureTodoList = todos.length > 0 ? todos.filter(todo => checkFutureDates(todo.deadline)).sort((a,b) => new Date(b.deadline) - new Date(a.deadline)) : []
+      } else if(targetValue === "future"){
+        const futureTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => checkFutureDates(todo.deadline)).sort((a,b) => new Date(a.deadline) - new Date(b.deadline)) : []
         setFilterTodos(futureTodoList)
         setFilterTitle('Upcoming')
       } else {
@@ -200,28 +248,30 @@ function Todoist() {
     const performFilterByCategory= () => {
       resetDateFilter()
       resetImportanceFilter()
-      if(e.target.value === "default"){
-        const defaultTodoList = todos.length > 0 ? todos.filter(todo => todo.category.title === "Default") : []
+      const targetTodoArray = todos
+      const targetValue = e.target.value
+      if(targetValue === "default"){
+        const defaultTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => todo.category.title === "Default") : []
         setFilterTodos(defaultTodoList)
         setFilterTitle('Default')
         setFilterIcon('fas fa-info-circle text-gray-600')
-      } else if(e.target.value === "home"){
-        const homeTodoList = todos.length > 0 ? todos.filter(todo => todo.category.title === "Personal") : []
+      } else if(targetValue === "home"){
+        const homeTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => todo.category.title === "Personal") : []
         setFilterTodos(homeTodoList)
         setFilterTitle('Personal')
         setFilterIcon('fas fa-home text-primary')
-      } else if(e.target.value === "work"){
-        const workTodoList = todos.length > 0 ? todos.filter(todo => todo.category.title === "Work") : []
+      } else if(targetValue === "work"){
+        const workTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => todo.category.title === "Work") : []
         setFilterTodos(workTodoList)
         setFilterTitle('Work')
         setFilterIcon('fas fa-building text-red-600')
-      } else if(e.target.value === "study"){
-        const studyTodoList = todos.length > 0 ? todos.filter(todo => todo.category.title === "Study") : []
+      } else if(targetValue === "study"){
+        const studyTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => todo.category.title === "Study") : []
         setFilterTodos(studyTodoList)
         setFilterTitle('Study')
         setFilterIcon('fas fa-school text-indigo-600')
-      } else if(e.target.value === "travel"){
-        const travelTodoList = todos.length > 0 ? todos.filter(todo => todo.category.title === "Travel") : []
+      } else if(targetValue === "travel"){
+        const travelTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => todo.category.title === "Travel") : []
         setFilterTodos(travelTodoList)
         setFilterTitle('Travel')
         setFilterIcon('fas fa-plane text-green-600')
@@ -237,28 +287,30 @@ function Todoist() {
     const performFilterByImportance = () => {
       resetCategoryFilter()
       resetDateFilter()
-      if(e.target.value === "high"){
-        const highImpTodoList = todos.length > 0 ? todos.filter(todo => todo.importance.title === "Urgent") : []
+      const targetTodoArray = todos
+      const targetValue = e.target.value
+      if(targetValue === "high"){
+        const highImpTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => todo.importance.title === "Urgent") : []
         setFilterTodos(highImpTodoList)
         setFilterTitle('Urgent')
         setFilterIcon('fas fa-info-circle text-red-600')
-      } else if(e.target.value === "imp"){
-        const importantTodoList = todos.length > 0 ? todos.filter(todo => todo.importance.title === "Important") : []
+      } else if(targetValue === "imp"){
+        const importantTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => todo.importance.title === "Important") : []
         setFilterTodos(importantTodoList)
         setFilterTitle('Important')
         setFilterIcon('fas fa-info-circle text-primary')
-      } else if(e.target.value === "med"){
-        const mediumTodoList = todos.length > 0 ? todos.filter(todo => todo.importance.title === "Medium") : []
+      } else if(targetValue === "med"){
+        const mediumTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => todo.importance.title === "Medium") : []
         setFilterTodos(mediumTodoList)
         setFilterTitle('Medium')
         setFilterIcon('fas fa-info-circle text-indigo-600')
-      } else if(e.target.value === "nor"){
-        const normalTodoList = todos.length > 0 ? todos.filter(todo => todo.importance.title === "Normal") : []
+      } else if(targetValue === "nor"){
+        const normalTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => todo.importance.title === "Normal") : []
         setFilterTodos(normalTodoList)
         setFilterTitle('Normal')
         setFilterIcon('fas fa-info-circle text-green-600')
-      } else if(e.target.value === "low"){
-        const lowTodoList = todos.length > 0 ? todos.filter(todo => todo.importance.title === "Low") : []
+      } else if(targetValue === "low"){
+        const lowTodoList = targetTodoArray.length > 0 ? targetTodoArray.filter(todo => todo.importance.title === "Low") : []
         setFilterTodos(lowTodoList)
         setFilterTitle('Low')
         setFilterIcon('fas fa-info-circle text-gray-600')
@@ -313,11 +365,33 @@ function Todoist() {
     setFilterTitle('')
   }
 
-  const resetAllFilters = () => {
+  const modifyPaneState = () => {
     setShowFilters(!showFilters)
+    resetAllFilters()
+    clearAddTerm()
+    clearSearchTerm()
+  }
+
+  const resetAllFilters = () => {
     resetDateFilter()
     resetImportanceFilter()
     resetCategoryFilter()
+  }
+
+  const clearAddTerm = () => {
+    if(document.getElementById('add-todo') !== null){
+      document.getElementById('add-todo').value = ''
+    }
+    resetSearchInputDisable()
+  }
+
+  const clearSearchTerm = () => {
+    if(document.getElementById('search-filter-todo') !== null){
+      document.getElementById('search-filter-todo').value = ''
+    }
+    resetSearchInputDisable()
+    setFilterTitle('')
+    setFilterTodos([])
   }
 
   const checkValidToday = (date) => {
@@ -349,8 +423,6 @@ function Todoist() {
 
   const checkFutureDates = (date) => {
     const today = moment(new Date()).format("YYYY-MM-DD")
-    console.log(date, today)
-    console.log(moment(date).diff(today, 'days'))
     if(moment(date).diff(today, 'days') > 7){
       return true
     } else {
@@ -396,21 +468,24 @@ const filteredTodoList = filterTodos.length > 0 ? filterTodos.map((todo) => (
             searchTodo={searchTodo}
             handleChange={handleChange}
             handleSelectChange={handleSelectChange}
-            resetAllFilters={resetAllFilters}
+            modifyPaneState={modifyPaneState}
             resetDateFilter={resetDateFilter}
             resetCategoryFilter={resetCategoryFilter}
             resetImportanceFilter={resetImportanceFilter}
             showFilters={showFilters}
+            clearSearchTerm={clearSearchTerm}
+            clearAddTerm={clearAddTerm}
           />
-          <div className="flex-auto flex flex-col justify-center mt-12 p-4">
-            {filterTitle !== '' ? (<div className="flex-auto text-2xl mb-4">
+          {!loading ? (<div className="flex-auto flex flex-col justify-center mt-12 p-4">
+            {filterTitle !== '' ? (<div className="flex-auto inline-flex items-center text-2xl mb-4 select-none">
             <i className={filterIcon.concat(' mr-2')}></i>
-            <span className='text-primary'>{filterTitle}</span>
+            <span className='text-primary mr-2'>{filterTitle}</span>
+            <span className="text-secondary rounded-sm py-1 px-3 bg-primary text-sm text-center">{filteredTodoList !== null ? filterTodos.length : todos.length}</span>
           </div>) : null}
             <div className='flex-auto p-2'>
               {filteredTodoList !== null ? filteredTodoList : todosList}
             </div>
-          </div>
+          </div>) : <Loader />}
         </div>
         <Dashboard />
     </>

@@ -24,7 +24,8 @@ function TodoItem({todo, handleCheckBox, handleDelete, handleEdit, editMode, han
         <input
             type='checkbox'
             className='m-2 rounded-sm'
-            onClick={() => handleCheckBox(todo.id)}
+            onChange={() => handleCheckBox(todo.id, todo.completed)}
+            checked={todo.completed}
           />
         </div>)}
         {editMode.status && editMode.id===todo.id ? (<div className='flex-1 text-primary text-lg'>
@@ -45,7 +46,7 @@ function TodoItem({todo, handleCheckBox, handleDelete, handleEdit, editMode, han
               type='date'
               onChange={(e) => setTodoDeadline(e.target.value)}
               value={todoDeadline}
-              // min={moment(new Date()).format("YYYY-MM-DD")}
+              min={moment(new Date()).format("YYYY-MM-DD")}
               className='cursor-pointer rounded-sm shadow-md p-2 text-sm text-primary w-full outline-none focus:outline-none' />
             </div>
             <div className="flex-1 mr-2">
