@@ -44,7 +44,7 @@ function Sidebar({selectedNoteIndex, selectNote, newNote, deleteNote, notes }) {
 
     return (
         <>
-            <div className="bg-secondary flex-1 flex flex-col border-r border-primary justify-center p-2">
+            <div className="bg-secondary flex-1 flex flex-col border-r border-primary justify-center p-2 mb-16">
                 <div className="flex-shrink-0 inline-flex flex-row rounded-l-sm shadow-md bg-primary w-full">
                     <p className='bg-primary w-3/4 p-2 rounded-l-sm inline-flex items-center text-secondary text-xl select-none'>
                     <i className="fas fa-book mr-2"></i> Notes
@@ -53,9 +53,6 @@ function Sidebar({selectedNoteIndex, selectNote, newNote, deleteNote, notes }) {
                         className='bg-secondary w-1/4 text-primary cursor-pointer py-1 px-2 rounded-r-sm text-sm focus:outline-none'
                         onClick={openNewNote}> {!addingNote ? (<><span><i className="fas fa-plus-square mr-2"></i>Create New</span></>) : (<><span><i className="fas fa-times mr-2"></i>Cancel</span></>)}
                     </button>
-                </div>
-                <div className="flex-shrink-0 mt-2 mb-2 flex justify-center">
-                   
                 </div>
                 {addingNote ? (<>
                     <div className="flex flex-shrink-0 mt-2 mb-2 bg-white shadow-md rounded-md flex-col">

@@ -19,8 +19,9 @@ function Wikipedia() {
       };
       const myRequest = new Request(testURL, myInit)
       const wikiArticles = await hangarFetch(`wiki-${searchTerm}`, myRequest)
-      if(wikiArticles.length <= 0){
+      if(wikiArticles.length <= 0 || wikiArticles[1].length <= 0){
         setAlert(true)
+        setArticles([])
       } else{
         await setArticles(wikiArticles)
         setAlert(false)
@@ -48,7 +49,7 @@ function Wikipedia() {
 
   let wikiHeader = ''
   let requiredArray = []
-  if (articles !== '') {
+  if (articles !== '' && articles.length > 0) {
     wikiHeader = articles[0]
     const wikiCardHeader = articles[1]
     const wikiUrls = articles[3]
@@ -74,7 +75,7 @@ function Wikipedia() {
             searchArticle={searchArticleFunction}
           />
           <div className='flex-auto flex flex-col justify-center mt-4'>
-            <div className='flex-1 flex flex-row'>
+            <div className='flex-1 flex flex-row mt-1 mb-1 p-2'>
               <div className='flex-auto'>
                 <h4 className='text-4xl text-primary capitalize'>{wikiHeader} </h4>
               </div>

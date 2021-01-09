@@ -80,7 +80,7 @@ function Notes() {
   }
 
   return (
-    <div className='flex flex-row justfy-center'>
+    <div className='flex flex-row justify-center'>
       {!loading ? (<Sidebar selectedNoteIndex={selectedNoteIndex} notes={notes} deleteNote={deleteNote} newNote={newNote} selectNote={selectNote} />) : <Loader />}
       {showEditor && selectNote ? (<Editor selectedNote={selectedNote} selectedNoteIndex={selectedNoteIndex} notes={notes} noteUpdate={noteUpdate} />): null}
       <Dashboard />

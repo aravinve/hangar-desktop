@@ -85,8 +85,7 @@ const toList =
     <>
      <div className='flex flex-col items-center bg-white px-4 py-6 justify-center'>
             <SidePane loadSelectData={loadSelectData} />
-            <div className='flex-auto bg-secondary px-8 pt-10 pb-4 rounded-md shadow-lg mt-1 mb-1'>
-              {fromSelectList.length > 0 ? (
+            {fromSelectList.length > 0 ? (<div className='flex-auto bg-secondary px-8 pt-10 pb-4 rounded-md shadow-lg mt-1 mb-1'>
                 <div className='flex flex-row flex-1 items-center justify-center'>
                   <div className='flex-1 m-2'>
                     <div className='inline-flex items-center m-1'>
@@ -95,8 +94,7 @@ const toList =
                         id='from'
                         name='from'
                         className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none"
-                        onChange={setFromSelectData}
-                      >
+                        onChange={setFromSelectData}>
                         {fromList}
                       </select>
                     </div>
@@ -111,11 +109,11 @@ const toList =
                     </div>
                   </div>
                 </div>
-              ) : null}
             {showKeypad ? (<> <Result result={result} />
               <Keypad buttonClick={buttonClick} convert={convertFunction} />
               </>) : null}
-            </div>
+            </div>)
+            : null}
             {convertResult !== '' ? (
               <div
                 className='flex-auto mt-1 mb-1'>

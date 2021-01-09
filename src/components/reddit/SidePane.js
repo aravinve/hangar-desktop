@@ -24,8 +24,7 @@ function SidePane({handleChange, searchArticle}) {
           </p>
           <button
             className='bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none'
-            onClick={searchArticle}
-          >
+            onClick={searchArticle}>
             Search
           </button>
           </div>

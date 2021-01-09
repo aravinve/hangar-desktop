@@ -31,7 +31,7 @@ function SidePane({addTodo, handleChange, searchTodo, handleSelectChange, modify
                   onChange={handleChange}
                   id='search-filter-todo'
                 />
-                 <div className="rounded-r-md p-1 bg-gray-400">
+                 <div className="rounded-r-md p-1">
                   <i className='fas fa-times cursor-pointer text-primary text-xs' onClick={clearSearchTerm}></i>
                 </div>
               </div>

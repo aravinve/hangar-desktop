@@ -27,7 +27,7 @@ function AddTodo({addTodo, clearAddTerm}) {
             id='add-todo'
             required
           />
-          <div className="rounded-r-md p-1 bg-gray-400">
+          <div className="rounded-r-md p-1">
             <i className='fas fa-times cursor-pointer text-primary text-xs' onClick={clearAddTerm}></i>
           </div>
       </div>
