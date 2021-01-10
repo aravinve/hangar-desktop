@@ -50,8 +50,9 @@ function Dashboard({toggleSettings, toggleFinder, displaySticky, displayFinder, 
   }
 
   const showSplash = () => {
+    const userPreferredData = JSON.parse(localStorage.getItem('userPreferedData'))
     localStorage.clear()
-    ipcRenderer.send('logout')
+    ipcRenderer.send('logout', userPreferredData)
   }
 
   const toggleSettingsFunction = () => {

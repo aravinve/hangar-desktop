@@ -5,16 +5,31 @@ const BrowserWindow = electron.BrowserWindow
 const {autoUpdater} = require('electron-updater');
 const log = require('electron-log');
 const path = require('path')
-const isDev = require('electron-is-dev')
+const isDev = require('electron-is-dev');
+const Store = require('./store');
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
-log.info('Hangar App Starting...');
+log.info('[HANGAR] App Starting');
 
 let splashScreen
 let mainWindow
 
+const DEFAULT_PREFERENCES = {
+  theme: 'light',
+  background: 'mountains',
+  finder: false,
+  stickyNotes: false,
+}
+
+const preferencesStore = new Store({
+  configName: 'user-preferences',
+  userPreferedData: {}
+})
+
 function createMainWindow(){
+
+  log.info('[HANGAR] Launching Main Window');
 
   mainWindow = new BrowserWindow({
     width: 900,
@@ -44,6 +59,8 @@ function createMainWindow(){
 
 function createSplashWindow() {
 
+  log.info('[HANGAR] Launching Splash Window');
+
   splashScreen = new BrowserWindow({
     width: 500,
     height: 480,
@@ -71,11 +88,15 @@ function createSplashWindow() {
 
 app.on('ready', () => {
   autoUpdater.checkForUpdates()
+  if(preferencesStore.get('userPreferedData') === undefined || preferencesStore.get('userPreferedData') === null){
+    preferencesStore.set('userPreferedData', DEFAULT_PREFERENCES)
+  }
   createSplashWindow()
   createMainWindow()
 })
 
 app.on('window-all-closed', () => {
+  log.info('[HANGAR] Exiting App');
   app.quit()
 })
 
@@ -86,14 +107,24 @@ app.on('activate', () => {
 })
 
 ipcMain.on('login', (event, arg) => {
+  const userPreferedData = preferencesStore.get('userPreferedData')
+  log.info('[HANGAR] User Preferences', userPreferedData);
+  const userDataObject = {
+    userArgs: arg,
+    preferences: userPreferedData
+  }
   splashScreen.hide()
   mainWindow.show()
-  mainWindow.webContents.send('userData', arg)
+  mainWindow.webContents.send('userData', userDataObject)
+  log.info('[HANGAR] Login');
 })
 
-ipcMain.on('logout', () => {
+ipcMain.on('logout', (event, arg) => {
+  log.info('[HANGAR] User Preferences', arg);
+  preferencesStore.set('userPreferedData', arg)
   mainWindow.hide()
   splashScreen.show()
+  log.info('[HANGAR] Logout');
 })
 
 ipcMain.on('quit-app', () => {
@@ -117,7 +148,6 @@ autoUpdater.on('checking-for-update', () => {
 })
 
 autoUpdater.on('update-available', (info) => {
-  console.log(info)
   sendStatusToWindow('New update is available!')
 })
 

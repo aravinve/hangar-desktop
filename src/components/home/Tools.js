@@ -1,6 +1,6 @@
 import overlayImage from '../../img/under_construction.png'
 
-function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTerm, currentTheme, enableSticky, enableFinder}) {
+function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTerm, currentTheme, enableSticky, stickyState, enableFinder, finderState}) {
 
   const styleOverlay = {
     width: '100%',
@@ -91,7 +91,7 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
           </div>
           <div className='flex-1'>
             <input type="checkbox" name="enableFinder" className='bg-primary cursor-pointer text-sm text-secondary mt-2 rounded-sm shadow-sm focus:outline-none'
-              onClick={enableFinder} />  
+              onClick={enableFinder} checked={finderState} />  
           </div>
         </div>
         <div className='flex flex-row items-center justify-center mb-4'>
@@ -100,7 +100,7 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
           </div>
           <div className='flex-1'>
           <input type="checkbox" name="enableSticky" className='bg-primary cursor-pointer text-sm text-secondary mt-2 rounded-sm shadow-sm focus:outline-none'
-              onClick={enableSticky} />
+              onClick={enableSticky} checked={stickyState} />
           </div>
         </div>
       </div>

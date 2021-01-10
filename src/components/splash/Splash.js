@@ -74,14 +74,12 @@ function Splash() {
           <div className='text-center text-md'>
             <button
               className='cursor-pointer py-2 px-4 rounded-md shadow-md focus:outline-none mr-8 is-h-blue is-outlined'
-              onClick={toggleForm}
-            >
+              onClick={toggleForm}>
               <i className="fas fa-arrow-circle-left mr-2"></i>Back
             </button>
             <button
               type='submit'
-              className='cursor-pointer py-2 px-4 rounded-md shadow-md focus:outline-none ml-8 is-h-blue is-outlined'
-            >
+              className='cursor-pointer py-2 px-4 rounded-md shadow-md focus:outline-none ml-8 is-h-blue is-outlined'>
               Login <i className="fas fa-arrow-circle-right ml-2"></i>
             </button>
           </div>

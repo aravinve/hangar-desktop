@@ -5,6 +5,7 @@ import dragElement from './drag'
 import StickyNotesList from './StickyNotesList'
 import Finder from './Finder';
 import hangarFetch from '../../HangarFetch'
+import SplashLoader from '../../SplasherLoader'
 
 const electron = window.require('electron')
 const ipcRenderer = electron.ipcRenderer
@@ -12,7 +13,7 @@ const Menu = electron.remote.Menu
 
 function Home() {
   const [searchText, setSearchText] = useState('mountains')
-  const [currentTheme, setCurrentTheme] = useState('Mountains')
+  const [currentTheme, setCurrentTheme] = useState('mountains')
   const [images, setImages] = useState([])
   const [url, setUrl] = useState('')
   const [clock, setClock] = useState('')
@@ -23,15 +24,27 @@ function Home() {
   const [displayFinder, setDisplayFinder] = useState(false)
   const [stickyNote, showStickyNote] = useState(false)
   const [userData, setUserData] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     ipcRenderer.on('userData', (event, arg) => {
-      setUserData(arg)
+      const {userArgs, preferences} = arg
+      setUserData(userArgs)
+      const prefBackground = preferences['background'] !== null ? preferences['background']: 'mountains'
+      const prefSticky = preferences['stickyNotes'] !== null ? preferences['stickyNotes']: false
+      const prefFinder = preferences['finder'] !== null ? preferences['finder']: false
+      setCurrentTheme(prefBackground)
+      setSearchText(prefBackground)
+      setDisplayFinder(prefFinder)
+      setDisplaySticky(prefSticky)
+      loadImages(prefBackground)
+      localStorage.setItem('userPreferedData', JSON.stringify(preferences))
     });
     // initMenu()
-    loadImages(searchText)
     showClock()
     setInterval(showClock, 60000)
+    setLoading(false)
   },[])
 
   useEffect(() => {
@@ -106,8 +119,11 @@ function Home() {
 
   const changeSearchTerm = () => {
     document.getElementById('searchText').value = '';
+    const userPreferredData = JSON.parse(localStorage.getItem('userPreferedData'))
+    userPreferredData['background'] = searchText
     loadImages(searchText)
     setCurrentTheme(searchText)
+    localStorage.setItem('userPreferedData', JSON.stringify(userPreferredData))
   }
 
   const changeSettingsMenu = (e) => {
@@ -177,15 +193,22 @@ function Home() {
   }
 
   const enableSticky = () => {
+    const userPreferredData = JSON.parse(localStorage.getItem('userPreferedData'))
+    userPreferredData['stickyNotes'] = !displaySticky
     setDisplaySticky(!displaySticky)
+    localStorage.setItem('userPreferedData', JSON.stringify(userPreferredData))
   }
 
   const enableFinder = () => {
+    const userPreferredData = JSON.parse(localStorage.getItem('userPreferedData'))
+    userPreferredData['finder'] = !displayFinder
     setDisplayFinder(!displayFinder)
+    localStorage.setItem('userPreferedData', JSON.stringify(userPreferredData))
   }
 
     return (
     <>
+    {!loading ? (<>
      <Overlay
           imageUrl={url}
           changeOverlay={changeOverlay}
@@ -197,7 +220,9 @@ function Home() {
           clock={clock}
           currentTheme={currentTheme}
           enableSticky={enableSticky}
+          stickyState={displaySticky}
           enableFinder={enableFinder}
+          finderState={displayFinder}
         />
         {stickyNote && displaySticky ? <StickyNotesList /> : null}
         {showFinder && displayFinder ? <Finder handleChangeFinder={handleChangeFinder} /> : null}
@@ -209,6 +234,7 @@ function Home() {
           showStickyNote={toggleStickyNote}
           finderVal={finderValue}
         /> 
+    </>) : <SplashLoader />}
     </>
   )
 }
