@@ -22,8 +22,7 @@ function SidePane({loadSelectData}) {
               name='mapOptionName'
               id='map-option-name'
               className="cursor-pointer rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none"
-              onChange={loadSelectData}
-            >
+              onChange={loadSelectData}>
               <option value='' selected disabled hidden>
                 Choose
               </option>
