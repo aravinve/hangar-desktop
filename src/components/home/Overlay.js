@@ -25,7 +25,7 @@ function Overlay({imageUrl, userName, showSettings, handleChange, changeOverlay,
             <h1 className='text-5xl text-primary'>
               Welcome, {userName}{' '}
             </h1>
-            <h3 className='text-xl text-primary'>{clock}</h3>
+            <p className='text-xl text-primary'>{clock}</p>
           </div>
         </div>
       </div>

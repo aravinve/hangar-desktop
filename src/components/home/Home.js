@@ -6,6 +6,7 @@ import StickyNotesList from './StickyNotesList'
 import Finder from './Finder';
 import hangarFetch from '../../HangarFetch'
 import SplashLoader from '../../SplasherLoader'
+import useTime from '../clock/useTime'
 
 const electron = window.require('electron')
 const ipcRenderer = electron.ipcRenderer
@@ -16,7 +17,7 @@ function Home() {
   const [currentTheme, setCurrentTheme] = useState('mountains')
   const [images, setImages] = useState([])
   const [url, setUrl] = useState('')
-  const [clock, setClock] = useState('')
+  const clock = useTime(1000)
   const [showSettings, setShowSettings] = useState(false)
   const [showFinder, setShowFinder] = useState(false)
   const [finderValue, setFinderValue] = useState('')
@@ -31,9 +32,9 @@ function Home() {
     ipcRenderer.on('userData', (event, arg) => {
       const {userArgs, preferences} = arg
       setUserData(userArgs)
-      const prefBackground = preferences['background'] !== null ? preferences['background']: 'mountains'
-      const prefSticky = preferences['stickyNotes'] !== null ? preferences['stickyNotes']: false
-      const prefFinder = preferences['finder'] !== null ? preferences['finder']: false
+      const prefBackground = preferences !== null && preferences['background'] !== null ? preferences['background']: 'mountains'
+      const prefSticky = preferences !== null && preferences['stickyNotes'] !== null ? preferences['stickyNotes']: false
+      const prefFinder = preferences !== null && preferences['finder'] !== null ? preferences['finder']: false
       setCurrentTheme(prefBackground)
       setSearchText(prefBackground)
       setDisplayFinder(prefFinder)
@@ -42,8 +43,6 @@ function Home() {
       localStorage.setItem('userPreferedData', JSON.stringify(preferences))
     });
     // initMenu()
-    showClock()
-    setInterval(showClock, 60000)
     setLoading(false)
   },[])
 
@@ -168,19 +167,6 @@ function Home() {
 
   const toggleFinder = () => {
     setShowFinder(!showFinder)
-  }
-
-  const addZero = (n) => (n < 10 ? '0' + n : n)
-
-  const showClock = () => {
-    const dateObject = new Date();
-    const date = dateObject.getDate();
-    const month = dateObject.getMonth() + 1;
-    const year = dateObject.getFullYear();
-    const hours = dateObject.getHours();
-    const minutes = addZero(dateObject.getMinutes());
-    const timeString = `${date}-${month}-${year}  ${hours}:${minutes}`;
-    setClock(timeString)
   }
 
   const toggleStickyNote = () => {
