@@ -4,7 +4,7 @@ import Home from './components/home/Home';
 import Splash from './components/splash/Splash';
 import News from './components/news/News';
 import Reddit from './components/reddit/Reddit';
-import Music from './components/music/Music';
+import Music from './components/musicapp/Music';
 import Gallery from './components/gallery/Gallery';
 import Maps from './components/maps/Maps';
 import Notes from './components/notes/Notes';

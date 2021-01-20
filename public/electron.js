@@ -2,11 +2,16 @@ const electron = require('electron')
 const ipcMain = electron.ipcMain
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
+const dialog = electron.dialog
 const {autoUpdater} = require('electron-updater');
 const log = require('electron-log');
 const path = require('path')
 const isDev = require('electron-is-dev');
 const Store = require('./store');
+const fs = require('fs')
+const dataUrl = require("dataurl");
+const mimeTypes = require("mime-types");
+const uuid = require('uuid')
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
@@ -134,6 +139,71 @@ ipcMain.on('quit-app', () => {
   if(mainWindow !== null){
     mainWindow.close()
   }
+})
+
+const readSound = (location) => {
+  const pm = new Promise((resolve, reject) => {
+		fs.readFile(location, (err, data) => {
+      if (err) {reject(err);}
+      console.log(data)
+			resolve(dataUrl.convert({data, mimetype: mimeTypes.lookup(location)}));
+		});
+	});
+  return pm;
+}
+
+ipcMain.on("readSound", (event, musicData) => {
+  const {id, location} = musicData
+	readSound(location)
+		.then((url) => {
+			event.sender.send("soundLoaded", {dataStream: url, id: id});
+		});
+});
+
+async function parseFile(file, scanDir) {
+	let stat = fs.lstatSync(file);
+	if (stat.isDirectory()) {
+		if (!scanDir)
+			return;
+		let files = fs.readdirSync(file);
+		let output = [];
+		for (let child of files) {
+			let p = (await parseFile(path.join(file, child)));
+			if (p)
+				output.push(p[0]);
+		}
+		return output;
+	} else {
+		let ext = path.extname(file);
+		if (ext !== ".mp3")
+      return;
+		let out = {id: uuid.v4(), songData: null, date: stat.ctimeMs, extension: ext, location: file, name: path.basename(file).split('.').slice(0, -1).join('.')};
+		return [out];
+	}
+}
+
+ipcMain.on('get-folder', async (event, arg) => {
+  const {baseMusicFolder} = arg
+  let files = dialog.showOpenDialogSync({
+		title: "Add music",
+		filters: [
+			{name: "Sound (.mp3)", extensions: ["mp3"]}
+		],
+		properties: ["multiSelections", baseMusicFolder ? "openDirectory" : "openFile"]
+	});
+	if (!files) {
+		event.returnValue = []
+		return null;
+	}
+	let output = [];
+	for (let file of files) {
+		let arr = await parseFile(file, true);
+		if (arr)
+			output = output.concat(arr);
+  }
+  output.sort((a,b) => (a.name - b.name))
+  console.log(output)
+	event.returnValue = output
 })
 
 const sendStatusToWindow = (message) => {
