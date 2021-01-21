@@ -3,12 +3,13 @@ import React, {useState} from 'react'
 function CalendarEventModal({closeModal, data, saveData, deleteEvent}) {
     const [eventTitle, setEventTitle] = useState(data.title)
     const [eventDate, setEventDate] = useState(data.date)
+    const [eventColor, setEventColor] = useState(data.color)
     const [alert, setAlert] = useState(false)
 
     const handleSave = () => {
         if(eventTitle !== ''){
             setAlert(false)
-            saveData({id: data.id, title: eventTitle, date: eventDate})
+            saveData({id: data.id, title: eventTitle, date: eventDate, color: eventColor})
         } else {
             setAlert(true)
         }
@@ -28,6 +29,8 @@ function CalendarEventModal({closeModal, data, saveData, deleteEvent}) {
             </div>
         </div>
     </>) : null
+
+    const colorsArray = ['blue', 'red', 'green', 'yellow', 'indigo', 'purple', 'pink']
 
     return (
         <div className="fixed w-screen overflow-hidden" style={modalStyle}>
@@ -59,6 +62,13 @@ function CalendarEventModal({closeModal, data, saveData, deleteEvent}) {
                             onChange={(e) => setEventDate(e.target.value)}
                             value={eventDate}
                         />
+                    </div>
+                    <div className="flex-1 my-1 flex flex-row justify-center">
+                        {colorsArray.map(color => (
+                            <div key={color} className={color === eventColor ? `bg-${color}-600 w-10 h-10 px-1 py-2 mx-2 b-1 border border-gray-600 cursor-pointer`: `bg-${color}-600 w-8 h-8 px-1 py-2 mx-2 b-1 border border-gray-600 cursor-pointer`} onClick={() => setEventColor(color)}>
+                                &nbsp;
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

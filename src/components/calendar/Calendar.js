@@ -51,19 +51,20 @@ function Calendar() {
   const today = getToday().toDateString()
 
   const saveData = (data) => {
-    const {id, title, date} = data
+    const {id, title, date, color} = data
     const updateEvent = events.find(ev => ev.id === id)
     if(updateEvent){
       setEvents(events.map(ev => {
         if(ev.id === id){
           ev.title = title
           ev.date = date
+          ev.color = color
         }
         return ev
       }))
     } else {
       setEvents(events.concat({
-        id, title, date
+        id, title, date, color
       }))
     }
     setModal({
@@ -86,7 +87,8 @@ function Calendar() {
       data: {
         id: v4(),
         title: '',
-        date: moment(dayObject).format("YYYY-MM-DD")
+        date: moment(dayObject).format("YYYY-MM-DD"),
+        color: 'red'
       }
     })
   }
@@ -97,7 +99,8 @@ function Calendar() {
       data: {
         id: targetEvent.id,
         title: targetEvent.title,
-        date: targetEvent.date
+        date: targetEvent.date,
+        color: targetEvent.color
       }
     })
   }
@@ -118,7 +121,7 @@ function Calendar() {
         <>
         {limitTargetEvents.map(targetEvent => (
             <>
-              <div className='flex-1 my-0.5 w-full bg-primary text-secondary text-sm cursor-pointer' id={targetEvent.id} key={targetEvent.id} onClick={() => openModalEditMode(targetEvent)}>
+              <div className={`flex-1 my-0.5 w-full bg-${targetEvent.color}-600 text-secondary text-sm cursor-pointer`} id={targetEvent.id} key={targetEvent.id} onClick={() => openModalEditMode(targetEvent)}>
                 {targetEvent.title}
               </div>
             </>
