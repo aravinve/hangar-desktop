@@ -23,6 +23,12 @@ const hangarMenu = [{
     division: 'explore',
   },
   {
+    title: 'board',
+    icon: 'fas fa-palette',
+    path: '/board',
+    division: 'explore',
+  },
+  {
     title: 'maps',
     icon: 'fas fa-map-marker-alt',
     path: '/maps',
@@ -74,12 +80,6 @@ const hangarMenu = [{
     title: 'notes',
     icon: 'fas fa-book',
     path: '/notes',
-    division: 'tools',
-  },
-  {
-    title: 'board',
-    icon: 'fas fa-chalkboard',
-    path: '/board',
     division: 'tools',
   },
   {

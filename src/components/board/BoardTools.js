@@ -15,6 +15,7 @@ function BoardTools({loading, colors, activeColor, modifyActiveColor, refreshCol
                </div>) }
                <div className="flex-shrink-0 flex flex-row justify-end">
                     <div className="mx-2 px-2 py-1 inline-flex items-center justify-center">
+                        <i className="fas fa-paint-brush mx-1 text-primary"></i>
                        <input type="range" className="slider" value={lineWidth} min={1} max={16} onChange={handleLineWidth} onMouseMove={(e) => {
                            const element = e.target
                            element.style.background = `linear-gradient(90deg, #172b4d ${Math.ceil((lineWidth/16) * 100)}%, #f2f2f2 ${Math.ceil((lineWidth/16) * 100)}%)`

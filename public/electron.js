@@ -5,13 +5,15 @@ const BrowserWindow = electron.BrowserWindow
 const dialog = electron.dialog
 const {autoUpdater} = require('electron-updater');
 const log = require('electron-log');
-const path = require('path')
+const path = require('path');
 const isDev = require('electron-is-dev');
 const Store = require('./store');
-const fs = require('fs')
+const fs = require('fs');
 const dataUrl = require("dataurl");
 const mimeTypes = require("mime-types");
-const uuid = require('uuid')
+const uuid = require('uuid');
+const mm = require('music-metadata');
+
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
@@ -145,7 +147,6 @@ const readSound = (location) => {
   const pm = new Promise((resolve, reject) => {
 		fs.readFile(location, (err, data) => {
       if (err) {reject(err);}
-      console.log(data)
 			resolve(dataUrl.convert({data, mimetype: mimeTypes.lookup(location)}));
 		});
 	});
@@ -177,7 +178,10 @@ async function parseFile(file, scanDir) {
 		let ext = path.extname(file);
 		if (ext !== ".mp3")
       return;
-		let out = {id: uuid.v4(), songData: null, date: stat.ctimeMs, extension: ext, location: file, name: path.basename(file).split('.').slice(0, -1).join('.')};
+    let out = {id: uuid.v4(), songData: null, date: stat.ctimeMs, extension: ext, location: file, name: path.basename(file).split('.').slice(0, -1).join('.')};
+    if (ext == ".mp3") {
+			out.tags = await mm.parseFile(file, {native: true});
+    }
 		return [out];
 	}
 }
@@ -202,7 +206,6 @@ ipcMain.on('get-folder', async (event, arg) => {
 			output = output.concat(arr);
   }
   output.sort((a,b) => (a.name - b.name))
-  console.log(output)
 	event.returnValue = output
 })
 

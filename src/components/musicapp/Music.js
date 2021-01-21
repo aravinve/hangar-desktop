@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import Dashboard from '../home/Dashboard'
-import MusicFolder from './MusicFolder'
+import SidePane from './SidePane'
 import Player from './Player'
 
 const electron = window.require('electron')
@@ -8,8 +8,7 @@ const ipcRenderer = electron.ipcRenderer
 
 function Music() {
   const [songs, setSongs] = useState([])
-  const [baseMusicFolder, setBaseMusicFolder] = useState('')
-  const [albumArt, setAlbumArt] = useState('')
+  const [baseMusicFolder, setBaseMusicFolder] = useState(true)
 
   const soundLoadedHandler = (event, arg) => {
     const {id, dataStream} = arg
@@ -27,30 +26,30 @@ function Music() {
     return () => ipcRenderer.removeListener("soundLoaded", soundLoadedHandler)
   }, [songs])
 
-  const handleChange = (e) => {
-    const value = e.target.value.replaceAll("\\", "/")
-    setBaseMusicFolder(value)
+  const handleChange = () => {
+    setBaseMusicFolder(!baseMusicFolder)
   }
 
   const getFolder = () => {
     let musicData = ipcRenderer.sendSync('get-folder', {baseMusicFolder})
-    setSongs(musicData)
-    musicData.map(music => {
-      ipcRenderer.send("readSound", music)
-    })
+    if(musicData.length > 0 && musicData !== null){
+      setSongs(songs.concat(musicData))
+      musicData.map(music => {
+        ipcRenderer.send("readSound", music)
+      })
+    }
   }
 
-  const playSong = (songLocation) => {
-    
-    
+  const clearSongs = () => {
+    setSongs([])
   }
 
   return (
     <>
         <div
-          className='mt-16 text-center flex flex-col justify-center'>
-            <MusicFolder handleChange={handleChange} getFolder={getFolder} />
-            <Player baseMusicFolder={baseMusicFolder} albumArt={albumArt} songsList={songs} playSong={playSong} />
+          className='mt-8 text-center flex flex-col justify-center'>
+            <SidePane handleChange={handleChange} folderPath={baseMusicFolder} getFolder={getFolder} />
+            <Player songsList={songs} clearSongs={clearSongs} />
         </div>
         <Dashboard />
       </>

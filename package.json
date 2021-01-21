@@ -21,6 +21,7 @@
     "mime-types": "^2.1.28",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.32",
+    "music-metadata": "^7.6.4",
     "postcss": "^8.1.14",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
