@@ -5,6 +5,7 @@ function SidePane({handleChange, folderPath, getFolder}) {
     top: '0.5rem',
     left: '0.5rem'
   }
+
   return (
     <div
       className='absolute w-auto h-auto shadow-md rounded-md bg-secondary'

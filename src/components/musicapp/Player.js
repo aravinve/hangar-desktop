@@ -36,7 +36,7 @@ function Player({songsList, clearSongs}) {
 
     useEffect(() => {
        setPlayerGif(nilImage)
-       setActiveColor(colorsArray[Math.floor(Math.random() * colorsArray.length)])
+       setActiveColor(colorsArray[0])
     }, [])
 
     useEffect(() => {
@@ -47,7 +47,6 @@ function Player({songsList, clearSongs}) {
 
     useEffect(() => {
         if(songs.length > 0){
-            console.log(songs[index], index)
             playerRef.current.src = songs[index].songData
             playerRef.current.play()
             setIsPlaying(true)
@@ -150,7 +149,7 @@ function Player({songsList, clearSongs}) {
                     </div>) : null}
                     <div className="flex-shrink-0 mx-2">
                         <button className='px-2 py-1 rounded-sm shadow-sm bg-primary text-secondary focus:outline-none outline-none cursor-pointer' onClick={handlePlaySong}>
-                            {isPlaying ? (<i className='fas fa-pause'></i>) : <i className='fas fa-play'></i>}
+                            {isPlaying ? (<i className='fas fa-stop'></i>) : <i className='fas fa-play'></i>}
                         </button>
                     </div>
                     <div className="flex-shrink-0 mx-2">

@@ -150,14 +150,7 @@ input[type='date' i]:focus {
     var(--secondary-color) 50%
   );
   outline: none;
-  opacity: 0.8;
-  -webkit-transition: 0.2s;
-  transition: opacity 0.2s;
   border-radius: 4px;
-}
-
-.slider:hover {
-  opacity: 1;
 }
 
 .slider::-webkit-slider-thumb {

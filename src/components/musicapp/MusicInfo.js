@@ -19,6 +19,11 @@ function MusicInfo({songsMetaList, playSong, nowPlaying, isPlaying, showPlaylist
                         </div>
                     </div>
                 </div>
+                {songsMetaList.length > 0 ? (<div className="flex inline-flex flex-row justify-center mr-8">
+                        <div className='text-primary my-2 text-lg'>
+                            Playlist Count: {songsMetaList.length}
+                        </div>
+                    </div>) : null}
                 {songsMetaList.length > 0 ? (<div className='cursor-pointer grid grid-cols-2 gap-2 mt-4 mb-40 px-4 rounded-b-sm'>
                     {songsMetaList.map((song, index) => (
                         <div key={index} className={nowPlaying === index && isPlaying ? `bg-${activeColor}-600 text-secondary rounded-sm shadow-sm my-2 w-full px-4 py-2 cursor-pointer` : 'bg-secondary text-primary rounded-sm shadow-sm my-2 w-full px-4 py-2 cursor-pointer'} id={song.id} onClick={() => playSong(song.id, index)}>

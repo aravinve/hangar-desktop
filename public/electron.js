@@ -175,7 +175,7 @@ async function parseFile(file, scanDir) {
 		}
 		return output;
 	} else {
-		let ext = path.extname(file);
+    let ext = path.extname(file);
 		if (ext !== ".mp3")
       return;
     let out = {id: uuid.v4(), songData: null, date: stat.ctimeMs, extension: ext, location: file, name: path.basename(file).split('.').slice(0, -1).join('.')};
@@ -189,12 +189,12 @@ async function parseFile(file, scanDir) {
 ipcMain.on('get-folder', async (event, arg) => {
   const {baseMusicFolder} = arg
   let files = dialog.showOpenDialogSync({
-		title: "Add music",
+		title: baseMusicFolder ? "Import Album":"Import Songs",
 		filters: [
 			{name: "Sound (.mp3)", extensions: ["mp3"]}
 		],
 		properties: ["multiSelections", baseMusicFolder ? "openDirectory" : "openFile"]
-	});
+  });
 	if (!files) {
 		event.returnValue = []
 		return null;
