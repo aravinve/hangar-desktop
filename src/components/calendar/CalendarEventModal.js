@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import {useState} from 'react'
 
 function CalendarEventModal({closeModal, data, saveData, deleteEvent}) {
     const [eventTitle, setEventTitle] = useState(data.title)

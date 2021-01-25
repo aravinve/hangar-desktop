@@ -178,7 +178,7 @@ async function parseFile(file, scanDir) {
     let ext = path.extname(file);
 		if (ext !== ".mp3")
       return;
-    let out = {id: uuid.v4(), songData: null, date: stat.ctimeMs, extension: ext, location: file, name: path.basename(file).split('.').slice(0, -1).join('.')};
+    let out = {id: uuid.v4(), songData: null, playlist:'default', date: stat.ctimeMs, extension: ext, location: file, name: path.basename(file).split('.').slice(0, -1).join('.')};
     if (ext == ".mp3") {
 			out.tags = await mm.parseFile(file, {native: true});
     }

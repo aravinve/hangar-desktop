@@ -1,8 +1,9 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Dashboard from '../home/Dashboard'
-import CalendarEventModal from './CalendarEventModal';
-import {v4} from 'uuid'
+import CalendarEventModal from './CalendarEventModal'
 import moment from 'moment'
+import firebase from '../../firebase'
+import Loader from '../../Loader';
 
 function Calendar() {
     const generateDays = (year, month) => {
@@ -48,12 +49,38 @@ function Calendar() {
     data: null
   })
   const [viewEventsGrid, setViewEventsGrid] = useState(true)
+  const [loading, setLoading] = useState(false)
   const today = getToday().toDateString()
 
-  const saveData = (data) => {
+  useEffect(() => {
+    setLoading(true)
+    firebase.firestore().collection('calendar').onSnapshot(serverUpdate => {
+      const calendarEventsFromStore = serverUpdate.docs.map(doc => {
+        const data = doc.data()
+        data['id'] = doc.id
+        return data
+      })
+      if(calendarEventsFromStore.length > 0){
+        setEvents(calendarEventsFromStore)
+        setLoading(false)
+      } else {
+        setEvents([])
+        setLoading(false)
+      }
+    })
+  }, [])
+
+  const saveData = async (data) => {
     const {id, title, date, color} = data
     const updateEvent = events.find(ev => ev.id === id)
-    if(updateEvent){
+    setModal({
+      display: false,
+      data: null
+    })
+    if(updateEvent && id){
+      firebase.firestore().collection('calendar').doc(id).update({
+        title, date, color
+      })
       setEvents(events.map(ev => {
         if(ev.id === id){
           ev.title = title
@@ -63,29 +90,30 @@ function Calendar() {
         return ev
       }))
     } else {
-      setEvents(events.concat({
-        id, title, date, color
+      const returnData = await firebase.firestore().collection('calendar').add({
+        title, date, color
+      })
+      await setEvents(events.concat({
+        id: returnData.id, title, date, color
       }))
     }
-    setModal({
-      display: false,
-      data: null
-    })
   }
 
-  const deleteEvent = (targetId) => {
-    setEvents(events.filter(ev => ev.id !== targetId))
+  const deleteEvent = (targetId) => {    
     setModal({
       display: false,
       data: null
     })
+    if(targetId !== undefined){
+      setEvents(events.filter(ev => ev.id !== targetId))
+      firebase.firestore().collection('calendar').doc(targetId).delete()
+    }
   }
 
   const openModal = (dayObject) => {    
     setModal({
       display: true,
       data: {
-        id: v4(),
         title: '',
         date: moment(dayObject).format("YYYY-MM-DD"),
         color: 'red'
@@ -206,9 +234,9 @@ function Calendar() {
             <div className="flex-auto grid grid-cols-7 shadow-sm rounded-sm">
               {days}
             </div>
-            <div className="flex-auto grid grid-cols-7 shadow-sm rounded-sm">
+            {!loading ? ( <div className="flex-auto grid grid-cols-7 shadow-sm rounded-sm">
               {dates}
-            </div>
+            </div>) : <Loader />}
             {modal.display && modal.data ? <CalendarEventModal closeModal={closeModal} data={modal.data} saveData={saveData} deleteEvent={deleteEvent} /> : null}
         </div>
         <Dashboard />
