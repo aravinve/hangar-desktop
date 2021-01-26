@@ -17,10 +17,10 @@ function AddTodo({addTodo, clearAddTerm}) {
       <div className="flex-1 inline-flex">
       <p className='text-primary text-sm inline-flex items-center'>
       <i className='fas fa-plus mr-2'></i>
-      <div className="inline-flex bg-white items-center justify-center rounded-md shadow-md mr-2">
+      <div className="inline-flex bg-body border-primary items-center justify-center rounded-md shadow-md mr-2">
         <input
             type='text'
-            className='text-sm text-primary p-1 rounded-l-md outline-none focus:outline-none'
+            className='text-sm text-primary border-0 p-1 rounded-l-md outline-none focus:outline-none'
             placeholder='Quick Add Todo'
             onChange={handleChange}
             name='content'

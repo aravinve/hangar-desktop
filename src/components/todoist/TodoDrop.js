@@ -30,7 +30,7 @@ function TodoDrop({listItems, defaultTitle, defaultIcon, setValueFunction}) {
     }
     
     const selectOptions = listItems.map((item, index) => (
-        <div key={index} className=" cursor-pointer flex-auto p-2 mt-2 mb-1 bg-white" onClick={(e) => selectOption(item)}>
+        <div key={index} className=" cursor-pointer flex-auto p-2 mt-2 mb-1 bg-body" onClick={(e) => selectOption(item)}>
             <div className="inline-flex flex-row items-center justify-center">
                 <i className={`${item.icon} mr-2`}></i>
                 <span className="text-sm text-primary">
@@ -41,7 +41,7 @@ function TodoDrop({listItems, defaultTitle, defaultIcon, setValueFunction}) {
     ))
 
     return (
-        <div className="w-full flex flex-row justify-center bg-white p-2 focus:outline-none outline-none rounded-sm shadow-md">
+        <div className="w-full flex flex-row justify-center bg-body border-primary p-2 focus:outline-none outline-none rounded-sm shadow-md">
             <div className="flex-auto cursor-pointer inline-flex items-center justify-between">
                 <div className="inline-flex flex-row items-center justify-center">
                     <i className={`${icon} mr-2`}></i>
@@ -53,7 +53,7 @@ function TodoDrop({listItems, defaultTitle, defaultIcon, setValueFunction}) {
                     <i className="fas fa-chevron-down"></i>
                 </div>
             </div>
-            {openPane ? (<div className="absolute w-48 mt-6 flex flex-col justify-center z-40 rounded-b-md shadow-sm bg-white text-primary">
+            {openPane ? (<div className="absolute w-48 mt-8 flex flex-col justify-center z-40 rounded-b-sm shadow-sm bg-body border-t-0 border-primary text-primary">
                 {selectOptions}
             </div>) : null}
         </div>

@@ -79,6 +79,7 @@ function createSplashWindow() {
     transparent: true,
     frame: false,
     alwaysOnTop: true,
+    resizable: false
   })
  
   splashScreen.loadURL(
@@ -100,6 +101,8 @@ app.on('ready', () => {
   }
   createSplashWindow()
   createMainWindow()
+  const userPreferedData = preferencesStore.get('userPreferedData')
+  splashScreen.webContents.send('userData', userPreferedData)
 })
 
 app.on('window-all-closed', () => {
@@ -130,6 +133,7 @@ ipcMain.on('logout', (event, arg) => {
   log.info('[HANGAR] User Preferences', arg);
   preferencesStore.set('userPreferedData', arg)
   mainWindow.hide()
+  splashScreen.webContents.send('userData', arg)
   splashScreen.show()
   log.info('[HANGAR] Logout');
 })

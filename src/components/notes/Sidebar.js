@@ -37,7 +37,7 @@ function Sidebar({selectedNoteIndex, selectNote, newNote, deleteNote, notes }) {
     }
 
     const notesList = notes !== null && notes.length > 0 ? notes.map((note, index) => (
-        <div key={index} className='bg-white text-primary rounded-sm shadow-sm p-2 m-2'>
+        <div key={index} className='bg-body text-primary border-primary rounded-sm shadow-sm p-2 m-2'>
             <SidebarItem note={note} index={index} selectedNoteIndex={selectedNoteIndex} selectNote={selectNoteFunction} deleteNote={deleteNoteFunction} />
         </div>
     )) : null
@@ -55,7 +55,7 @@ function Sidebar({selectedNoteIndex, selectNote, newNote, deleteNote, notes }) {
                     </button>
                 </div>
                 {addingNote ? (<>
-                    <div className="flex flex-shrink-0 mt-2 mb-2 bg-white shadow-md rounded-md flex-col">
+                    <div className="flex flex-shrink-0 mt-2 mb-2 bg-body shadow-md rounded-md flex-col">
                     <div className='flex-shrink-0 text-center text-md inline-flex justify-center mt-2 mb-2'>
                         <i className="fas fa-heading mt-3 mb-2 ml-2 mr-2 text-primary"></i>
                         <input

@@ -19,7 +19,7 @@ function CalendarEventModal({closeModal, data, saveData, deleteEvent}) {
         top: '10rem',
         left: '0rem',
         zIndex: '9',
-        height: '400px'
+        height: '420px'
     }
 
     const alertMessage = alert ? (<>
@@ -39,10 +39,10 @@ function CalendarEventModal({closeModal, data, saveData, deleteEvent}) {
                     <i className="fas fa-times"></i>
                 </div>
             </div>
-            <div className="flex flex-row bg-primary rounded-t-sm shadow-md mx-16 justify-center p-8">
+            <div className="flex flex-row bg-body rounded-t-sm shadow-md mx-16 justify-center p-8">
                 <div className="flex-1 flex flex-col">
                     <div className="flex-1 my-2">
-                        <h2 className="text-3xl text-secondary">
+                        <h2 className="text-3xl text-primary">
                         <i className='fas fa-calendar-plus mr-2'></i>Create Event
                         </h2>
                     </div>

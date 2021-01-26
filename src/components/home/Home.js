@@ -23,6 +23,7 @@ function Home() {
   const [finderValue, setFinderValue] = useState('')
   const [displaySticky, setDisplaySticky] = useState(false)
   const [displayFinder, setDisplayFinder] = useState(false)
+  const [darkTheme, setDarkTheme] = useState(false)
   const [stickyNote, showStickyNote] = useState(false)
   const [userData, setUserData] = useState('')
   const [loading, setLoading] = useState(false)
@@ -35,10 +36,13 @@ function Home() {
       const prefBackground = preferences !== null && preferences['background'] !== null ? preferences['background']: 'mountains'
       const prefSticky = preferences !== null && preferences['stickyNotes'] !== null ? preferences['stickyNotes']: false
       const prefFinder = preferences !== null && preferences['finder'] !== null ? preferences['finder']: false
+      const prefTheme = preferences !== null && preferences['theme'] !== null && preferences['theme']
+      document.documentElement.setAttribute('data-theme', prefTheme ? 'dark' : 'light')
       setCurrentTheme(prefBackground)
       setSearchText(prefBackground)
       setDisplayFinder(prefFinder)
       setDisplaySticky(prefSticky)
+      setDarkTheme(prefTheme)
       loadImages(prefBackground)
       localStorage.setItem('userPreferedData', JSON.stringify(preferences))
     });
@@ -192,6 +196,14 @@ function Home() {
     localStorage.setItem('userPreferedData', JSON.stringify(userPreferredData))
   }
 
+  const enableDarkTheme = () => {
+    const userPreferredData = JSON.parse(localStorage.getItem('userPreferedData'))
+    userPreferredData['theme'] = !darkTheme
+    setDarkTheme(!darkTheme)
+    document.documentElement.setAttribute('data-theme', !darkTheme ? 'dark' : 'light');
+    localStorage.setItem('userPreferedData', JSON.stringify(userPreferredData))
+  }
+
     return (
     <>
     {!loading ? (<>
@@ -209,6 +221,8 @@ function Home() {
           stickyState={displaySticky}
           enableFinder={enableFinder}
           finderState={displayFinder}
+          enableDarkTheme={enableDarkTheme}
+          darkThemeState={darkTheme}
         />
         {stickyNote && displaySticky ? <StickyNotesList /> : null}
         {showFinder && displayFinder ? <Finder handleChangeFinder={handleChangeFinder} /> : null}
@@ -219,6 +233,7 @@ function Home() {
           displayFinder={displayFinder}
           showStickyNote={toggleStickyNote}
           finderVal={finderValue}
+          darkTheme={darkTheme}
         /> 
     </>) : <SplashLoader />}
     </>

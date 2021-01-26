@@ -3,7 +3,7 @@ function WeatherBar({weatherData}) {
   return (
     <div className='flex flex-row'>
       <div className='flex-auto flex flex-row shadow-lg'>
-        <div className='flex-1 bg-secondary rounded-l-md shadow-md p-4'>
+        <div className='flex-1 bg-secondary border-primary rounded-l-md shadow-md p-4'>
           <div className='flex flex-row justify-center'>
             <div className='flex-auto flex flex-row justify-between'>
               <div className='flex-auto text-sm flex flex-col items-center text-primary select-none justify-center p-2'>

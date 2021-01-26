@@ -1,11 +1,12 @@
-import overlayImage from '../../img/under_construction.png'
+import constructionDark from '../../img/under_construction_dark.png'
+import constructionLight from '../../img/under_construction_light.png'
 
-function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTerm, currentTheme, enableSticky, stickyState, enableFinder, finderState}) {
+function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTerm, currentTheme, enableSticky, stickyState, enableFinder, finderState, enableDarkTheme, darkThemeState}) {
 
   const styleOverlay = {
     width: '100%',
     height: '24vh',
-    backgroundImage: 'url(' + overlayImage + ')',
+    backgroundImage: 'url(' + darkThemeState ? constructionDark : constructionLight + ')',
     backgroundSize: 'cover',
     backgroundClip: 'border-box',
     backgroundPosition: 'center',
@@ -14,7 +15,7 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
   }
 
   return (
-    <div className='flex-shrink-0 fadein bg-white shadow-sm p-4'>
+    <div className='flex-shrink-0 fadein bg-body shadow-sm p-4'>
     <h2 className='ml-2 text-5xl text-primary mb-4 p-2'>
     <i className='fas fa-cogs'></i> Settings</h2>
       <div className='flex flex-row p-2 mb-2'>
@@ -41,7 +42,7 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
         <h4 className='text-primary text-3xl mb-4'><i className='fas fa-image m-2'></i> Display</h4>
         <div className='flex flex-row mb-4'>
           <div className='flex-1'>
-            <p className="text-sm text-black">Change Background</p>
+            <p className="text-sm text-primary">Change Background</p>
           </div>
           <div className='flex-1'>
             <button
@@ -53,20 +54,20 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
         </div>
         <div className="flex flex-row mb-4">
           <div className="flex-1">
-            <p className="text-sm text-black">Current Theme</p>
+            <p className="text-sm text-primary">Current Theme</p>
           </div>
           <div className="flex-1">
-            <p className="text-sm text-black capitalize">{currentTheme} </p>
+            <p className="text-sm text-primary capitalize">{currentTheme} </p>
           </div>
         </div>
         <div className='flex flex-row mb-4'>
           <div className='flex-1'>
-            <p className="text-sm text-black">Modify Theme</p>
+            <p className="text-sm text-primary">Modify Theme</p>
           </div>
           <div className='flex-1'>
             <input
               type='text'
-              className='block w-full text-sm border-gray-300 shadow-sm rounded-sm px-1 py-1 focus:outline-none mb-2'
+              className='block w-full text-sm shadow-sm rounded-sm px-1 py-1 focus:outline-none mb-2'
               name='searchText'
               onChange={handleChange}
               placeholder='Buzz Theme'
@@ -87,7 +88,16 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
         <h4 className='text-primary text-3xl mb-4'>Preferences</h4>
         <div className='flex flex-row items-center justify-center mb-4'>
           <div className='flex-1'>
-            <p className="text-sm text-black">Hangar Finder</p>
+            <p className="text-sm text-primary">Dark Theme</p>
+          </div>
+          <div className='flex-1'>
+            <input type="checkbox" name="enableDarkTheme" className='bg-primary cursor-pointer text-sm text-secondary mt-2 rounded-sm shadow-sm focus:outline-none'
+              onClick={enableDarkTheme} checked={darkThemeState} />  
+          </div>
+        </div>
+        <div className='flex flex-row items-center justify-center mb-4'>
+          <div className='flex-1'>
+            <p className="text-sm text-primary">Hangar Finder</p>
           </div>
           <div className='flex-1'>
             <input type="checkbox" name="enableFinder" className='bg-primary cursor-pointer text-sm text-secondary mt-2 rounded-sm shadow-sm focus:outline-none'
@@ -96,7 +106,7 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
         </div>
         <div className='flex flex-row items-center justify-center mb-4'>
           <div className='flex-1'>
-            <p className="text-sm text-black">Sticky Notes</p>
+            <p className="text-sm text-primary">Sticky Notes</p>
           </div>
           <div className='flex-1'>
           <input type="checkbox" name="enableSticky" className='bg-primary cursor-pointer text-sm text-secondary mt-2 rounded-sm shadow-sm focus:outline-none'
@@ -114,7 +124,7 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
           <div className='container' style={styleOverlay}></div>
         </div>
       </div>
-      <div className="flex flex-col select-none justify-center items-center">
+      <div className="flex flex-col select-none justify-center items-center mt-2">
       <div className="text-primary text-sm">
           V1.0
         </div>

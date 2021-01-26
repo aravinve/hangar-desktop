@@ -22,9 +22,9 @@ function SidePane({addTodo, handleChange, searchTodo, handleSelectChange, modify
             <div className="flex-1 inline-flex">
             <p className='text-primary text-sm inline-flex items-center'>
             <i className='fas fa-search mr-2'></i>
-              <div className="inline-flex bg-white items-center justify-center rounded-md shadow-md mr-2">
+              <div className="inline-flex bg-body border-primary items-center justify-center rounded-md shadow-md mr-2">
                 <input
-                  className='text-sm text-primary p-1 rounded-l-md outline-none focus:outline-none disabled:cursor-not-allowed'
+                  className='text-sm text-primary border-0 p-1 rounded-l-md outline-none focus:outline-none disabled:cursor-not-allowed'
                   type='text'
                   name='searchTerm'
                   placeholder='Search Todo'

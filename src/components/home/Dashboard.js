@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
-import image from '../../img/Logo_Hangar.png'
+import logoDark from '../../img/logo_hangar_dark.png'
+import logoLight from '../../img/logo_hangar_light.png'
 import { Link } from 'react-router-dom'
 import ExploreMenu from './ExploreMenu'
 import ToolsMenu from './ToolsMenu'
@@ -10,7 +11,7 @@ import hangarMenu from './MenuMeta'
 const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
 
-function Dashboard({toggleSettings, toggleFinder, displaySticky, displayFinder, showStickyNote, finderVal}) {
+function Dashboard({toggleSettings, toggleFinder, displaySticky, displayFinder, showStickyNote, finderVal, darkTheme}) {
 
   const [showExplore, setShowExplore] = useState(false)
   const [showTools, setShowTools] = useState(false)
@@ -82,9 +83,9 @@ function Dashboard({toggleSettings, toggleFinder, displaySticky, displayFinder, 
     {showTools ? <ToolsMenu  /> : null}
     {showSocial ? <SocialMenu  /> : null}
     {showHangarMenu ? <HangarMenu shortListedMenu={shortListedMenu} /> : null}
-    <nav className='fixed bg-secondary text-primary w-full h-18 flex items-center' style={navbarStyle}>
+    <nav className='fixed bg-body text-primary w-full h-18 flex items-center' style={navbarStyle}>
        <div className='flex flex-auto justify-start items-center p-2'>
-         <Link className="block" to='/home'><img src={image} className="cursor-pointer h-16" /></Link>
+         <Link className="block" to='/home'><img src={darkTheme ? logoDark : logoLight} className="cursor-pointer h-16" /></Link>
        </div>
         <div className='flex-auto justify-center'>
           <div className='flex flex-row text-center'>

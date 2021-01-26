@@ -29,12 +29,12 @@ function RecipeCard({recipe}) {
               <div className='flex-auto p-2 flex flex-col mt-2 mb-2 justify-start'>
               <div className='text-sm text-primary m-2'><i className="fas fa-user mr-2"></i>Source: {recipe.source}</div>
               <div className="flex flex-row justify-start">
-                {recipe.url !== null ? (  <div className='text-primary m-2 bg-white px-4 py-2 rounded-md shadow-lg'>
+                {recipe.url !== null ? (  <div className='text-primary m-2 bg-body px-4 py-2 rounded-md shadow-lg'>
                   <a href={recipe.url} target='_blank'>
                   <i className="fas fa-external-link-alt mr-2"></i> Visit
                   </a>
                 </div>) : null}
-                <div className="text-primary m-2 bg-white px-4 py-2 rounded-md shadow-lg text-md">
+                <div className="text-primary m-2 bg-body px-4 py-2 rounded-md shadow-lg text-md">
                   <button className='outline-none focus:outline-none' onClick={() => setAccordion(!accordion)}>
                   <i className="fas fa-info-circle mr-2"></i> {accordion ? 'Hide Detail' : 'Show Detail'}
                   </button>
@@ -60,8 +60,8 @@ function RecipeCard({recipe}) {
                       {recipe.ingredients.map((element) => (
                         <>
                           <tr className="p-2">
-                            <td className="p-2">{element.text} </td>
-                            <td className="p-2">{element.weight} </td>
+                            <td className="p-2 text-primary">{element.text} </td>
+                            <td className="p-2 text-primary">{element.weight} </td>
                           </tr>
                         </>
                       ))}
@@ -73,7 +73,7 @@ function RecipeCard({recipe}) {
                 <p className='text-primary text-lg mt-4 mb-4'>Method To Prepare:</p>
                 <ol>
                   {recipe.ingredientLines.map((element) => (
-                    <li>{element} </li>
+                    <li className='text-primary'>{element} </li>
                   ))}
                 </ol>
               </div>
