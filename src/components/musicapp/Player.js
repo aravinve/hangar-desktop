@@ -22,6 +22,7 @@ function Player({songsList, clearSongs}) {
     const playerGifArray = ['https://media.giphy.com/media/l1J9PnuDqssiDjSve/giphy.gif', 'https://media.giphy.com/media/24FQKrld82giZfXVcu/giphy.gif', 'https://media.giphy.com/media/l3vR8iPOwKry6hcD6/giphy.gif', 'https://media.giphy.com/media/3o7TKRV3MuEfhOtEas/giphy.gif', 'https://media.giphy.com/media/26u4jNRRHk3SVtZ5K/giphy.gif']
     const playerRef = useRef({src: songs.length > 0 ? songs[index].songData : null, volume: 0.5, duration: 0, currentTime: 0})
     const colorsArray = ['gray','blue', 'red', 'green', 'yellow', 'indigo', 'purple', 'pink']
+    const allSongsImportedList = songsList
 
     const playerStyle = {
         bottom: '5rem',
@@ -54,7 +55,16 @@ function Player({songsList, clearSongs}) {
     }, [])
 
     useEffect(() => {
-        if(songsList.length > 0){
+        if(songsList.length > 0 && playlists.length === 0){
+            setPlaylists(playlists.concat(
+                {
+                    name: activePlaylist,
+                    songs: []
+                }
+            ))
+            console.log(playlists, 'ep pl')
+        } 
+        if(songsList.length > 0 && playlists.length > 0){
             setPlaylists(playlists.map(pl => {
                 if(pl.name.toLowerCase() === activePlaylist.toLowerCase()){
                     pl.songs = songsList
@@ -62,6 +72,7 @@ function Player({songsList, clearSongs}) {
                 return pl
             }))
             setSongs(songsList)
+            console.log(playlists, 'playlists')
         }
     }, [songsList])
 
@@ -213,7 +224,7 @@ function Player({songsList, clearSongs}) {
                 <div className='col-span-1 flex flex-row cursor-pointer' onClick={handlePlayerGif} style={styleOverlay}>&nbsp;</div>
                 <MusicInfo songsMetaList={songs} playSong={playSong} nowPlaying={index} isPlaying={isPlaying} showPlaylist={showPlaylist} modifyShowPlaylist={modifyShowPlaylist} activeColor={activeColor} clearPlaylist={clearPlaylist} managePlaylist={managePlaylistDialog} handlePlaylistChange={handlePlaylistChange} playlistMeta={playlists} />
             </div>
-            {showPlaylistDialog ? <PlaylistDialog closeModal={managePlaylistDialog} songs={songs} publishPlaylists={publishPlaylists} existingPlaylistData={playlists} /> : null}
+            {showPlaylistDialog ? <PlaylistDialog closeModal={managePlaylistDialog} songs={allSongsImportedList} publishPlaylists={publishPlaylists} existingPlaylistData={playlists} /> : null}
            <audio ref={playerRef} src={songs.length > 0 ? songs[index].songData : null} hidden onEnded={songEndedHandler} onTimeUpdate={timeUpdateHandler}></audio>
            <div className={`bg-${activeColor}-200 fixed w-full rounded-sm shadow-sm outline-none focus:outline-none cursor-pointer`} style={playerStyle} onClick={modifyActiveColor}>
                 <div className="flex flex-row items-center mt-1 py-2">

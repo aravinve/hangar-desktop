@@ -3,7 +3,7 @@ function MusicFolder({handleChange,folderPath,getFolder}) {
         <div className='flex flex-row justify-center py-2 px-4'>
             <div className="flex-1 inline-flex">
           <p className='text-primary text-sm inline-flex items-center'>
-            <span className='cursor-pointer' onClick={handleChange}>
+            <span className='cursor-pointer' onClick={handleChange} title='Click Icon To Change Mode'>
               {folderPath ? (<i className='fas fa-folder mr-2'></i>) : (<i className='fas fa-music mr-2'></i>)}
             </span>
           </p>

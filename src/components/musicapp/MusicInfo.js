@@ -6,8 +6,7 @@ function MusicInfo({songsMetaList, playSong, nowPlaying, isPlaying, showPlaylist
                     <div className="flex-auto flex flex-row justify-center">
                         <h2 className='text-primary mt-2 ml-8 mb-1 text-2xl'>
                             <i className="fas fa-music mr-2"></i>
-                            <select name='playlistSelect' className="rounded-sm shadow-sm px-1 text-2xl text-primary outline-none focus:outline-none mr-1" onChange={handlePlaylistChange}>
-                                {console.log(playlistMeta)}
+                            <select name='playlistSelect' className="rounded-sm shadow-sm px-1 text-2xl text-primary outline-none focus:outline-none mr-1 cursor-pointer" onChange={handlePlaylistChange}>
                                 {playlistMeta.length > 0 ? playlistMeta.map(pl => (
                                       <option key={pl.name} value={pl.name} className='text-primary text-lg'>
                                           {pl.name}

@@ -14,6 +14,7 @@ function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistDa
     const [selectedPlaylist, setSelectedPlayList] = useState('Default')
     const [playlists, setPlaylists] = useState([])
     const [alert, setAlert] = useState('')
+    const [publishAlert, setPublishAlert] = useState(false)
     
     useEffect(() => {
         if(existingPlaylistData !== null && existingPlaylistData.length > 0){
@@ -62,6 +63,7 @@ function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistDa
                 }))
                 setSelectedPlaylistSongs([])
                 handleShowCreate()
+                setPublishAlert(true)
             } else {
                 setAlert(playListName.concat(' already exists!'))
                 resetAlert()
@@ -100,6 +102,7 @@ function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistDa
                 return pl
             }))
         }
+        setPublishAlert(true)
     }
 
     const checkSongPresentCommon = (songId) => {
@@ -107,6 +110,7 @@ function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistDa
     }
 
     const handlePublish = () => {
+        setPublishAlert(false)
         publishPlaylists(playlists)
         setAlert('All Playlists Published Successfully!')
         resetAlert()
@@ -122,6 +126,7 @@ function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistDa
             setPlaylists(playlists.filter(pl => pl.name !== selectedPlaylist))
             setSelectedPlayList(playlists[0].name)
             setSelectedPlaylistSongs(playlists[0].songs)
+            setPublishAlert(true)
         }
     }
 
@@ -131,6 +136,12 @@ function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistDa
                 {alert}
             </div>
         </div>
+    </>) : null
+
+    const publishAlertMessage = publishAlert ? (<>
+    <div className="flex flex-row text-secondary items-center justify-center text-sm mx-1">
+        Click Publish To Save Changes <i className="fas fa-arrow-right mx-1"></i>
+    </div>
     </>) : null
 
     return (
@@ -147,6 +158,7 @@ function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistDa
                     <span>Manage Playlists</span>
                 </div>
             </div>
+            {publishAlertMessage}
             <div className="flex-shrink-0 mr-8 ml-1 my-2 flex flex-row justify-end">
                 <div className="px-2 py-1 bg-secondary text-primary text-sm cursor-pointer" title='Publish Playlists' onClick={handlePublish}>
                     <i className='fas fa-upload mx-1'></i>Publish
@@ -171,7 +183,7 @@ function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistDa
                     <div className='flex-shrink-0 m-1'>
                         <button
                             className='cursor-pointer text-secondary bg-primary text-sm px-1 py-2 rounded-r-sm focus:outline-none' onClick={handleSave}>
-                            <i className='fas fa-save'></i> Save
+                            <i className='fas fa-save'></i> Create
                         </button>
                     </div>
                 </>) : <>
@@ -181,7 +193,7 @@ function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistDa
                         </div>
                     </div>
                     <div className="flex-shrink-0 mr-2 flex flex-row justify-end">
-                        <div className='text-secondary text-xl cursor-pointer' title='Delete Selected Playlist' onClick={deleteSelectedPlaylist}>
+                        <div className='text-secondary text-lg cursor-pointer' title='Delete Selected Playlist' onClick={deleteSelectedPlaylist}>
                             <i className="fas fa-trash"></i>
                         </div>
                     </div>
