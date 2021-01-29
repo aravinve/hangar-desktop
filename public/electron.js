@@ -88,6 +88,14 @@ function createSplashWindow() {
       : `file://${path.join(__dirname, '../build/index.html')}`
   )
 
+  splashScreen.on('ready-to-show', () => {
+    if(preferencesStore.get('userPreferedData') === undefined || preferencesStore.get('userPreferedData') === null){
+        preferencesStore.set('userPreferedData', DEFAULT_PREFERENCES)
+    }
+    const userPreferedData = preferencesStore.get('userPreferedData')
+    splashScreen.webContents.send('userData', userPreferedData)
+  })
+
   splashScreen.on('closed', () => {
     splashScreen = null
   })
@@ -101,8 +109,6 @@ app.on('ready', () => {
   }
   createSplashWindow()
   createMainWindow()
-  const userPreferedData = preferencesStore.get('userPreferedData')
-  splashScreen.webContents.send('userData', userPreferedData)
 })
 
 app.on('window-all-closed', () => {

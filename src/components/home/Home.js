@@ -27,24 +27,36 @@ function Home() {
   const [stickyNote, showStickyNote] = useState(false)
   const [userData, setUserData] = useState('')
   const [loading, setLoading] = useState(false)
+  const [subloading, setSubloading] = useState('')
+  const [logout, setLogout] = useState(false)
+
+  const performHomeInit = (userArgs, preferences) => {
+    setUserData(userArgs)
+    const prefBackground = preferences !== null && preferences['background'] !== null ? preferences['background']: 'mountains'
+    const prefSticky = preferences !== null && preferences['stickyNotes'] !== null ? preferences['stickyNotes']: false
+    const prefFinder = preferences !== null && preferences['finder'] !== null ? preferences['finder']: false
+    const prefTheme = preferences !== null && preferences['theme'] !== null && preferences['theme']
+    document.documentElement.setAttribute('data-theme', prefTheme ? 'dark' : 'light')
+    setCurrentTheme(prefBackground)
+    setSearchText(prefBackground)
+    setDisplayFinder(prefFinder)
+    setDisplaySticky(prefSticky)
+    setDarkTheme(prefTheme)
+    loadImages(prefBackground)
+  }
 
   useEffect(() => {
     setLoading(true)
+    const userArgsFromStore = JSON.parse(localStorage.getItem('userArgsData'))
+    const userPrefFromStore = JSON.parse(localStorage.getItem('userPreferedData'))
+    if(userArgsFromStore !== null && userPrefFromStore !== null){
+      performHomeInit(userArgsFromStore, userPrefFromStore)
+    }
     ipcRenderer.on('userData', (event, arg) => {
       const {userArgs, preferences} = arg
-      setUserData(userArgs)
-      const prefBackground = preferences !== null && preferences['background'] !== null ? preferences['background']: 'mountains'
-      const prefSticky = preferences !== null && preferences['stickyNotes'] !== null ? preferences['stickyNotes']: false
-      const prefFinder = preferences !== null && preferences['finder'] !== null ? preferences['finder']: false
-      const prefTheme = preferences !== null && preferences['theme'] !== null && preferences['theme']
-      document.documentElement.setAttribute('data-theme', prefTheme ? 'dark' : 'light')
-      setCurrentTheme(prefBackground)
-      setSearchText(prefBackground)
-      setDisplayFinder(prefFinder)
-      setDisplaySticky(prefSticky)
-      setDarkTheme(prefTheme)
-      loadImages(prefBackground)
+      performHomeInit(userArgs, preferences)
       localStorage.setItem('userPreferedData', JSON.stringify(preferences))
+      localStorage.setItem('userArgsData', JSON.stringify(userArgs))
     });
     // initMenu()
     setLoading(false)
@@ -102,6 +114,7 @@ function Home() {
     const imagesArray = images
     const randomImage = imagesArray[Math.floor(Math.random() * imagesArray.length)];
     setUrl(randomImage.largeImageURL)
+    handleOverlayOnLoad(randomImage.largeImageURL)
   }
 
   const loadImages = async (searchTerm) => {
@@ -114,6 +127,7 @@ function Home() {
     const randomImage = imagesArray[Math.floor(Math.random() * imagesArray.length)]
     setImages(imagesArray)
     setUrl(randomImage.largeImageURL)
+    handleOverlayOnLoad(randomImage.largeImageURL)
   }
 
   const handleChange = (e) => {
@@ -204,13 +218,22 @@ function Home() {
     localStorage.setItem('userPreferedData', JSON.stringify(userPreferredData))
   }
 
+  const handleOverlayOnLoad = (localUrl) => {
+    const image = new Image()
+    image.src = localUrl
+    image.onload = () => setSubloading(localUrl)
+  }
+
+  const logoutHandler = () => {
+    setLogout(true)
+  }
+
     return (
     <>
     {!loading ? (<>
      <Overlay
-          imageUrl={url}
           changeOverlay={changeOverlay}
-          userName={userData.hangarId}
+          userData={userData}
           handleChange={handleChange}
           changeSearchTerm={changeSearchTerm}
           changeSettingsMenu={changeSettingsMenu}
@@ -223,6 +246,8 @@ function Home() {
           finderState={displayFinder}
           enableDarkTheme={enableDarkTheme}
           darkThemeState={darkTheme}
+          subloading={subloading}
+          logoutHandler={logoutHandler}
         />
         {stickyNote && displaySticky ? <StickyNotesList /> : null}
         {showFinder && displayFinder ? <Finder handleChangeFinder={handleChangeFinder} /> : null}
@@ -234,6 +259,7 @@ function Home() {
           showStickyNote={toggleStickyNote}
           finderVal={finderValue}
           darkTheme={darkTheme}
+          logout={logout}
         /> 
     </>) : <SplashLoader />}
     </>

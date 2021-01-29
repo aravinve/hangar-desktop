@@ -18,10 +18,11 @@ function Player({songsList, clearSongs}) {
     const [songTotalTime, setSongTotalTime] = useState('00:00')
     const [songCurrentTime, setSongCurrentTime] = useState('00:00')
     const [playerGif, setPlayerGif] = useState('https://media.giphy.com/media/l1J9PnuDqssiDjSve/giphy.gif')
+    const [playerTheme, setPlayerTheme] = useState(false)
     const [activeColor, setActiveColor] = useState('gray')
     const playerGifArray = ['https://media.giphy.com/media/l1J9PnuDqssiDjSve/giphy.gif', 'https://media.giphy.com/media/24FQKrld82giZfXVcu/giphy.gif', 'https://media.giphy.com/media/l3vR8iPOwKry6hcD6/giphy.gif', 'https://media.giphy.com/media/3o7TKRV3MuEfhOtEas/giphy.gif', 'https://media.giphy.com/media/26u4jNRRHk3SVtZ5K/giphy.gif']
     const playerRef = useRef({src: songs.length > 0 ? songs[index].songData : null, volume: 0.5, duration: 0, currentTime: 0})
-    const colorsArray = ['gray','blue', 'red', 'green', 'yellow', 'indigo', 'purple', 'pink']
+    const colorsArray = ['gray', 'blue', 'red', 'green', 'yellow', 'indigo', 'purple', 'pink']
     const allSongsImportedList = songsList
 
     const playerStyle = {
@@ -45,7 +46,9 @@ function Player({songsList, clearSongs}) {
 
     useEffect(() => {
        setPlayerGif(nilImage)
-       setActiveColor(colorsArray[0])
+       const userPreferredData = JSON.parse(localStorage.getItem('userPreferedData'))
+       setPlayerTheme(userPreferredData['theme'])
+       setActiveColor(userPreferredData['theme'] ? 'yellow' : 'gray')
        setPlaylists(playlists.concat(
         {
             name: activePlaylist,
@@ -62,7 +65,6 @@ function Player({songsList, clearSongs}) {
                     songs: []
                 }
             ))
-            console.log(playlists, 'ep pl')
         } 
         if(songsList.length > 0 && playlists.length > 0){
             setPlaylists(playlists.map(pl => {
@@ -72,7 +74,6 @@ function Player({songsList, clearSongs}) {
                 return pl
             }))
             setSongs(songsList)
-            console.log(playlists, 'playlists')
         }
     }, [songsList])
 
@@ -222,7 +223,7 @@ function Player({songsList, clearSongs}) {
         <>
             <div className="grid grid-cols-2 gap-2 mt-2 mb-2">
                 <div className='col-span-1 flex flex-row cursor-pointer' onClick={handlePlayerGif} style={styleOverlay}>&nbsp;</div>
-                <MusicInfo songsMetaList={songs} playSong={playSong} nowPlaying={index} isPlaying={isPlaying} showPlaylist={showPlaylist} modifyShowPlaylist={modifyShowPlaylist} activeColor={activeColor} clearPlaylist={clearPlaylist} managePlaylist={managePlaylistDialog} handlePlaylistChange={handlePlaylistChange} playlistMeta={playlists} />
+                <MusicInfo playerTheme={playerTheme} songsMetaList={songs} playSong={playSong} nowPlaying={index} isPlaying={isPlaying} showPlaylist={showPlaylist} modifyShowPlaylist={modifyShowPlaylist} activeColor={activeColor} clearPlaylist={clearPlaylist} managePlaylist={managePlaylistDialog} handlePlaylistChange={handlePlaylistChange} playlistMeta={playlists} />
             </div>
             {showPlaylistDialog ? <PlaylistDialog closeModal={managePlaylistDialog} songs={allSongsImportedList} publishPlaylists={publishPlaylists} existingPlaylistData={playlists} /> : null}
            <audio ref={playerRef} src={songs.length > 0 ? songs[index].songData : null} hidden onEnded={songEndedHandler} onTimeUpdate={timeUpdateHandler}></audio>
@@ -238,7 +239,7 @@ function Player({songsList, clearSongs}) {
                         </p>
                     </div>) : null}
                     <div className="flex-shrink-0 mx-2">
-                        <button className='px-2 py-1 rounded-sm shadow-sm bg-primary text-secondary focus:outline-none outline-none cursor-pointer' onClick={handlePlaySong}>
+                        <button className={playerTheme ? 'px-2 py-1 rounded-sm shadow-sm bg-secondary text-primary focus:outline-none outline-none cursor-pointer' : 'px-2 py-1 rounded-sm shadow-sm bg-primary text-secondary focus:outline-none outline-none cursor-pointer'} onClick={handlePlaySong}>
                             {isPlaying ? (<i className='fas fa-stop'></i>) : <i className='fas fa-play'></i>}
                         </button>
                     </div>
@@ -256,26 +257,26 @@ function Player({songsList, clearSongs}) {
                             setSeeking(false)
                         }}
                         /> 
-                        <span className="inline-flex justify-center mx-1 text-sm text-primary">
+                        <span className={ playerTheme ? 'inline-flex justify-center mx-1 text-sm text-secondary': 'inline-flex justify-center mx-1 text-sm text-primary'}>
                             <span>{songCurrentTime}</span>
                             <span>/ </span>
                             <span>{songTotalTime}</span>
                         </span>
                     </div>
                     <div className="flex-shrink-0 mx-2">
-                        <button className='px-2 py-1 mx-1 rounded-sm shadow-sm bg-primary text-secondary focus:outline-none outline-none cursor-pointer' onClick={() => changeSong(index - 1)}>
+                        <button className={playerTheme ? 'px-2 py-1 mx-1 rounded-sm shadow-sm bg-secondary text-primary focus:outline-none outline-none cursor-pointer' : 'px-2 py-1 mx-1 rounded-sm shadow-sm bg-primary text-secondary focus:outline-none outline-none cursor-pointer'} onClick={() => changeSong(index - 1)}>
                             <i className='fas fa-backward'></i>
                         </button>
-                        <button className='px-2 py-1 mx-1 rounded-sm shadow-sm bg-primary text-secondary focus:outline-none outline-none cursor-pointer' onClick={() => changeSong(index + 1)}>
+                        <button className={playerTheme ? 'px-2 py-1 mx-1 rounded-sm shadow-sm bg-secondary text-primary focus:outline-none outline-none cursor-pointer' : 'px-2 py-1 mx-1 rounded-sm shadow-sm bg-primary text-secondary focus:outline-none outline-none cursor-pointer'} onClick={() => changeSong(index + 1)}>
                             <i className='fas fa-forward'></i>
                         </button>
                     </div>
                     <div className="flex-shrink-0 px-2 py-1 inline-flex items-center justify-center">
-                        <i className={volumeValue > 0 ? 'fas fa-volume-up mx-1 text-primary' : 'fas fa-volume-off mx-1 text-primary'}></i>
+                        <i className={volumeValue > 0 ? `fas fa-volume-up mx-1 ${playerTheme ? `text-secondary` : `text-primary`}` : `fas fa-volume-off mx-1 ${playerTheme ? `text-secondary` : `text-primary`}`}></i>
                         <input type="range" className="slider" value={volumeValue} min={0} max={1} step={0.1} onChange={handleVolume} onMouseMove={(e) => {
                            const element = e.target
-                           element.style.background = `linear-gradient(90deg, #172b4d ${Math.ceil((volumeValue) * 100)}%, #f2f2f2 ${Math.ceil((volumeValue) * 100)}%)`
-                       }} /> <span className="mx-1 text-md text-primary">{volumeValue * 100}</span>
+                           element.style.background = `linear-gradient(90deg, var(--primary-color) ${Math.ceil((volumeValue) * 100)}%, var(--secondary-color) ${Math.ceil((volumeValue) * 100)}%)`
+                       }} /> <span className={playerTheme ? 'mx-1 text-md text-secondary': 'mx-1 text-md text-primary'}>{volumeValue * 100}</span>
                     </div>
                 </div>
            </div>

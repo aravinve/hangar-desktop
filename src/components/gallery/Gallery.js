@@ -42,7 +42,6 @@ function Gallery() {
     const myRequest = `${apiUrl}/?key=${apiKey}&q=${searchTerm}&image_type=all&per_page=${limit}&safeSearch=true`
     const imagesFetch = await hangarFetch(`pixabay-${galleryMode}-${searchTerm}`, myRequest)
     const imagesArray = await imagesFetch.hits
-    console.log(imagesArray)
     if(imagesArray.length > 0){
       setImages(imagesArray)
       setAlert(false)

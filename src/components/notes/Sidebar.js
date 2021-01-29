@@ -14,10 +14,12 @@ function Sidebar({selectedNoteIndex, selectNote, newNote, deleteNote, notes }) {
     }
 
     const callNewNote = () => {
-        newNote(title, content)
-        setTitle(null)
-        setContent(null)
-        setAddingNote(!addingNote)
+        if(title !== null && content !== null){
+            newNote(title, content)
+            setTitle(null)
+            setContent(null)
+            setAddingNote(!addingNote)
+        }
     }
 
     const updateTitle = (val) => {

@@ -3,7 +3,7 @@ import MusicFolder from './MusicFolder'
 function SidePane({handleChange, folderPath, getFolder}) {
   const paneStyle = {
     top: '0.5rem',
-    left: '0.5rem'
+    left: '0rem'
   }
 
   return (

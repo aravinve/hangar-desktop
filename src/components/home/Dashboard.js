@@ -11,13 +11,25 @@ import hangarMenu from './MenuMeta'
 const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
 
-function Dashboard({toggleSettings, toggleFinder, displaySticky, displayFinder, showStickyNote, finderVal, darkTheme}) {
+function Dashboard({toggleSettings, toggleFinder, displaySticky, displayFinder, showStickyNote, finderVal, darkTheme, logout}) {
 
+  const [dark, setDark] = useState(false)
   const [showExplore, setShowExplore] = useState(false)
   const [showTools, setShowTools] = useState(false)
   const [showSocial, setShowSocial] = useState(false)
   const [showHangarMenu, setShowHangarMenu] = useState(false)
   const [shortListedMenu, setShortListedMenu] = useState([])
+
+  useEffect(() => {
+    if(logout!== undefined && logout){
+      showSplash()
+    }
+  }, [logout])
+
+  useEffect(() => {
+    const userPreferredData = JSON.parse(localStorage.getItem('userPreferedData'))
+    setDark(userPreferredData['theme'])
+  }, [darkTheme])
 
   useEffect(() => {
     if(finderVal !== ''){
@@ -85,7 +97,7 @@ function Dashboard({toggleSettings, toggleFinder, displaySticky, displayFinder, 
     {showHangarMenu ? <HangarMenu shortListedMenu={shortListedMenu} /> : null}
     <nav className='fixed bg-body text-primary w-full h-18 flex items-center' style={navbarStyle}>
        <div className='flex flex-auto justify-start items-center p-2'>
-         <Link className="block" to='/home'><img src={darkTheme ? logoDark : logoLight} className="cursor-pointer h-16" /></Link>
+         <Link className="block" to='/home'><img src={dark ? logoDark : logoLight} className="cursor-pointer h-16" /></Link>
        </div>
         <div className='flex-auto justify-center'>
           <div className='flex flex-row text-center'>

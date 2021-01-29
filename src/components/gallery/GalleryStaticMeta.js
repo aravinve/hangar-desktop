@@ -40,11 +40,7 @@ function GalleryStaticMeta({image, downloadAllowed}) {
                 href={image.largeImageURL}
                 className='bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none m-2' download>
                 <i className="fas fa-download ml-1 mr-1"></i>Download
-            </a>):null }
-            <button
-                className='bg-primary cursor-pointer text-secondary text-sm p-1 rounded-sm focus:outline-none m-2'>
-                <i className="fas fa-heart ml-1 mr-1"></i>Add to Favourites
-            </button>
+            </a>):null}
         </div>
         </div>
     </div>

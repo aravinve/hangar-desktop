@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistData}) {
     const modalStyle = {
         top: '2.5rem',
-        left: '0.5rem',
+        left: '0rem',
         zIndex: '9',
         height: '500px'
     }
@@ -166,12 +166,12 @@ function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistDa
             </div>
         </div>
        <div className="flex flex-row px-8">
-           <div className="inline-flex flex-row justify-start flex-auto w-2/3 text-secondary border-t-2 border-b-2 border-l-2 border-gray-600 mx-1 my-1">
+           <div className="inline-flex flex-row justify-start flex-auto w-2/3 text-secondary border-2 border-gray-600 mx-1 my-1">
                 <div className="text-lg text-secondary inline-flex items-center capitalize">
                     <i className='fas fa-music mx-1'></i> {selectedPlaylist} Playlist
                 </div>
            </div>
-            <div className='inline-flex flex-row justify-end flex-auto w-1/3 text-primary border-t-2 border-b-2 border-r-2 border-gray-600 my-1'>
+            <div className='inline-flex flex-row justify-end flex-auto w-1/3 text-primary border-2 border-gray-600 my-1'>
                 {showCreateNew ? (<>
                     <input
                         type='text'
@@ -208,7 +208,7 @@ function PlaylistDialog({closeModal, songs, publishPlaylists, existingPlaylistDa
                         {`Playlist Count: ${playlists.length}`}
                     </div>
                     {playlists.length > 0 ? playlists.map((pl, index) => (
-                        <div className={pl.name === selectedPlaylist ? 'bg-primary text-secondary text-sm shadow-md rounded-md p-1 m-1 cursor-pointer' : 'bg-white text-primary text-sm shadow-md rounded-md p-1 m-1 cursor-pointer'} key={index}>
+                        <div className={pl.name === selectedPlaylist ? 'bg-primary text-secondary text-sm shadow-md rounded-md p-1 m-1 cursor-pointer' : 'bg-secondary text-primary text-sm shadow-md rounded-md p-1 m-1 cursor-pointer'} key={index}>
                         <div className='flex flex-row items-center justify-start' onClick={() => handlePlaylistSelection(pl.name)}>
                             <div className='flex-1 text-sm truncate capitalize select-none'>
                                 {pl.name}

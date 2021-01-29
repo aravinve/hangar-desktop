@@ -11,15 +11,22 @@ function Notes() {
   const [notes, setNotes] = useState(null)
   const [loading, setLoading] = useState(false)
   const [showEditor, setShowEditor] = useState(false)
+  const [editorTheme, setEditorTheme] = useState('snow')
+  const [primaryKey, setPrimaryKey] = useState('')
 
   useEffect(() => {
     setLoading(true)
+    const userPreferredData = JSON.parse(localStorage.getItem('userPreferedData'))
+    const userArgsData = JSON.parse(localStorage.getItem('userArgsData'))
+    setPrimaryKey(userArgsData['hangarEmail'])
+    setEditorTheme(userPreferredData['theme'] ? 'bubble' : 'snow')
     firebase.firestore().collection('notes').onSnapshot(serverUpdate => {
       const notesFromStore = serverUpdate.docs.map(doc => {
-        const data = doc.data();
-        data['id'] = doc.id;
+        const data = doc.data()
+        data['id'] = doc.id
         return data
       })
+      console.log(notesFromStore)
       setNotes(notesFromStore)
       setLoading(false)
     })
@@ -47,6 +54,7 @@ function Notes() {
       content: content
     }
     const dataFromDb = await firebase.firestore().collection('notes').add({
+      primary: primaryKey,
       title: note.title,
       content: note.content,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -82,7 +90,7 @@ function Notes() {
   return (
     <div className='flex flex-row justify-center'>
       {!loading ? (<Sidebar selectedNoteIndex={selectedNoteIndex} notes={notes} deleteNote={deleteNote} newNote={newNote} selectNote={selectNote} />) : <Loader />}
-      {showEditor && selectNote ? (<Editor selectedNote={selectedNote} selectedNoteIndex={selectedNoteIndex} notes={notes} noteUpdate={noteUpdate} />): null}
+      {showEditor && selectNote ? (<Editor editorTheme={editorTheme} selectedNote={selectedNote} noteUpdate={noteUpdate} />): null}
       <Dashboard />
     </div>
   )
