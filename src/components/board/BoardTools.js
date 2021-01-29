@@ -18,7 +18,7 @@ function BoardTools({loading, colors, activeColor, modifyActiveColor, refreshCol
                         <i className="fas fa-paint-brush mx-1 text-primary"></i>
                        <input type="range" className="slider" value={lineWidth} min={1} max={16} onChange={handleLineWidth} onMouseMove={(e) => {
                            const element = e.target
-                           element.style.background = `linear-gradient(90deg, #172b4d ${Math.ceil((lineWidth/16) * 100)}%, #f2f2f2 ${Math.ceil((lineWidth/16) * 100)}%)`
+                           element.style.background = `linear-gradient(90deg, var(--primary-color) ${Math.ceil((lineWidth/16) * 100)}%, var(--secondary-color) ${Math.ceil((lineWidth/16) * 100)}%)`
                        }} /> <span className="mx-1 text-md text-primary">{lineWidth}</span>
                    </div>
                    <div className="mx-2 cursor-pointer text-secondary text-xl px-2 py-1 bg-primary" onClick={refreshColors}>
