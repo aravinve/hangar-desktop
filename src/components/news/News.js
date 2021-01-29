@@ -11,6 +11,7 @@ function News() {
   const [searchCountry, setSearchCountry]  = useState('us')
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState(false) 
+  const [serviceError, setServiceError] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -32,11 +33,15 @@ function News() {
     const myRequest = new Request(testURL, myInit);
     const key = searchArticle !== '' ? `news-${searchCountry}-${searchArticle}` : `news-${searchCountry}`
     const newsArticles = await hangarFetch(key, myRequest)
-    await setArticles(newsArticles.articles)
-    if(newsArticles.totalResults === 0){
-      setAlert(true)
-    } else{
-      setAlert(false)
+    if(newsArticles.status === "sdf"){
+      await setArticles(newsArticles.articles)
+      if(newsArticles.totalResults === 0){
+        setAlert(true)
+      } else{
+        setAlert(false)
+      }
+    } else {
+      setServiceError(true)
     }
     setLoading(false)
   }
@@ -71,6 +76,11 @@ function News() {
   <h2 className='text-4xl text-primary'> {'Try to search for a different article keyword!!!'} </h2>
   </div>) : null
 
+  const serviceMessage = serviceError ? (<div className='flex flex-col text-center justify-center mt-20'>
+  <h2 className='text-2xl text-red-600'>Sorry, This service is unavailable in your region!!!</h2>
+  <h2 className='text-4xl text-primary'>Please Report The Issue To Hangar Team</h2>
+  </div>) : null
+
   return (
     <>
       <div className='flex flex-row items-center mt-56 mb-8 px-4 py-6 justify-center'>
@@ -82,6 +92,7 @@ function News() {
           <div className='flex-auto flex flex-col mt-4 mb-4 justify-center container'>
             {!loading ? articlesData : <Loader />}
             {alertMessage}
+            {serviceMessage}
           </div>
         </div>
         <Dashboard />

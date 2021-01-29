@@ -27,7 +27,6 @@ function Hackernews() {
         };
         const fetchRequest = new Request(fetchUrl, myInit);
         const jsonDetailData = await hangarFetch(`hacker-news-new-detail-${id}`, fetchRequest)
-        console.log(jsonDetailData)
         return jsonDetailData
       })
     ) 

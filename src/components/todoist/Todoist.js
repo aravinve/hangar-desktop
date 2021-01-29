@@ -95,7 +95,6 @@ function Todoist() {
       status: false,
       id: null
     })
-    console.log("Save Cancelled For Id:", id)
   }
 
   const addTodo = async (content) => {

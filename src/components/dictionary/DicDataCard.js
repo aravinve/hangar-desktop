@@ -1,5 +1,4 @@
 function DicDataCard({data}) {
-  console.log(data)
   return (
     <div className='flex flex-row bg-primary rounded-sm shadow-md px-1 py-2 m-1'>
       <div className='flex-auto'>
