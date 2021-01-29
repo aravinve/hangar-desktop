@@ -12,21 +12,21 @@ function Notes() {
   const [loading, setLoading] = useState(false)
   const [showEditor, setShowEditor] = useState(false)
   const [editorTheme, setEditorTheme] = useState('snow')
-  const [primaryKey, setPrimaryKey] = useState('')
+  const [primary, setPrimary] = useState('')
 
   useEffect(() => {
     setLoading(true)
     const userPreferredData = JSON.parse(localStorage.getItem('userPreferedData'))
     const userArgsData = JSON.parse(localStorage.getItem('userArgsData'))
-    setPrimaryKey(userArgsData['hangarEmail'])
+    const userEmail = userArgsData !== null && userArgsData['hangarEmail'] !== null ? userArgsData['hangarEmail']: ''
+    setPrimary(userEmail)
     setEditorTheme(userPreferredData['theme'] ? 'bubble' : 'snow')
-    firebase.firestore().collection('notes').onSnapshot(serverUpdate => {
+    firebase.firestore().collection('notes').where('primary', '==', userEmail).onSnapshot(serverUpdate => {
       const notesFromStore = serverUpdate.docs.map(doc => {
-        const data = doc.data()
-        data['id'] = doc.id
-        return data
+          const data = doc.data()
+          data['id'] = doc.id
+          return data
       })
-      console.log(notesFromStore)
       setNotes(notesFromStore)
       setLoading(false)
     })
@@ -54,7 +54,7 @@ function Notes() {
       content: content
     }
     const dataFromDb = await firebase.firestore().collection('notes').add({
-      primary: primaryKey,
+      primary: primary,
       title: note.title,
       content: note.content,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()

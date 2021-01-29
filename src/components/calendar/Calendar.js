@@ -50,11 +50,15 @@ function Calendar() {
   })
   const [viewEventsGrid, setViewEventsGrid] = useState(true)
   const [loading, setLoading] = useState(false)
+  const [primary, setPrimary] = useState('')
   const today = getToday().toDateString()
 
   useEffect(() => {
     setLoading(true)
-    firebase.firestore().collection('calendar').onSnapshot(serverUpdate => {
+    const userArgsData = JSON.parse(localStorage.getItem('userArgsData'))
+    const userEmail = userArgsData !== null && userArgsData['hangarEmail'] !== null ? userArgsData['hangarEmail']: ''
+    setPrimary(userEmail)
+    firebase.firestore().collection('calendar').where('primary', '==', userEmail).onSnapshot(serverUpdate => {
       const calendarEventsFromStore = serverUpdate.docs.map(doc => {
         const data = doc.data()
         data['id'] = doc.id
@@ -91,7 +95,7 @@ function Calendar() {
       }))
     } else {
       const returnData = await firebase.firestore().collection('calendar').add({
-        title, date, color
+        title, date, color, primary
       })
       await setEvents(events.concat({
         id: returnData.id, title, date, color

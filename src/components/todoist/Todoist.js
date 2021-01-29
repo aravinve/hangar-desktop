@@ -17,10 +17,14 @@ function Todoist() {
   const [filterIcon, setFilterIcon] = useState('')
   const [showFilters, setShowFilters] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [primary, setPrimary] = useState('')
 
   useEffect(() => {
     setLoading(true)
-    firebase.firestore().collection('todoist').onSnapshot(serverUpdate => {
+    const userArgsData = JSON.parse(localStorage.getItem('userArgsData'))
+    const userEmail = userArgsData !== null && userArgsData['hangarEmail'] !== null ? userArgsData['hangarEmail']: ''
+    setPrimary(userEmail)
+    firebase.firestore().collection('todoist').where('primary', '==', userEmail).onSnapshot(serverUpdate => {
       const todosFromStore = serverUpdate.docs.map(doc => {
         const data = doc.data()
         data['id'] = doc.id
@@ -113,6 +117,7 @@ function Todoist() {
         importance: importanceDefault
       }
       await firebase.firestore().collection('todoist').add({
+        primary: primary,
         title: newContent.title,
         deadline: newContent.deadline,
         completed: newContent.completed,

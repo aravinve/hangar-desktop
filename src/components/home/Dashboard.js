@@ -28,7 +28,9 @@ function Dashboard({toggleSettings, toggleFinder, displaySticky, displayFinder, 
 
   useEffect(() => {
     const userPreferredData = JSON.parse(localStorage.getItem('userPreferedData'))
-    setDark(userPreferredData['theme'])
+    if(userPreferredData !== null && userPreferredData['theme'] !== null){
+      setDark(userPreferredData['theme'])
+    }
   }, [darkTheme])
 
   useEffect(() => {
