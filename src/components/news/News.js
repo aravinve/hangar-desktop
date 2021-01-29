@@ -58,7 +58,7 @@ function News() {
     loadArticle(searchArticle, searchCountry);
   }
 
-  const articlesData = articles !== null ? articles.map((article) => (
+  const articlesData = articles !== undefined && articles !== null && articles.length > 0 ? articles.map((article) => (
             <Article
               key={article.publishedAt}
               article={article}
