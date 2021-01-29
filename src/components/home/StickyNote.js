@@ -10,7 +10,7 @@ function StickyNote({data, displayNote, deleteNote, closeNote, handleChange}) {
   return (
     <>
     {displayNote ? (
-      <div className='bg-secondary text-black shadow-md rounded-md fixed w-48' id={data.id} style={cardStyle}>
+      <div className='bg-secondary text-primary shadow-md rounded-md fixed w-48' id={data.id} style={cardStyle}>
         <div
           className='flex bg-primary rounded-t-md items-center justify-start'
           id={data.id.toString().concat("header")}

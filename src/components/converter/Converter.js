@@ -83,10 +83,9 @@ const toList =
 
   return (
     <>
-     <div className='flex flex-col items-center mt-8 px-4 py-6 justify-center'>
+     <div className='flex flex-col items-center bg-body px-4 py-6 justify-center'>
             <SidePane loadSelectData={loadSelectData} />
-            <div className='flex-auto mt-1 mb-1'>
-              {fromSelectList.length > 0 ? (
+            {fromSelectList.length > 0 ? (<div className='flex-auto bg-secondary border-primary px-8 pt-10 pb-4 rounded-md shadow-lg mt-1 mb-1'>
                 <div className='flex flex-row flex-1 items-center justify-center'>
                   <div className='flex-1 m-2'>
                     <div className='inline-flex items-center m-1'>
@@ -95,8 +94,7 @@ const toList =
                         id='from'
                         name='from'
                         className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none"
-                        onChange={setFromSelectData}
-                      >
+                        onChange={setFromSelectData}>
                         {fromList}
                       </select>
                     </div>
@@ -111,18 +109,18 @@ const toList =
                     </div>
                   </div>
                 </div>
-              ) : null}
             {showKeypad ? (<> <Result result={result} />
               <Keypad buttonClick={buttonClick} convert={convertFunction} />
               </>) : null}
-            </div>
+            </div>)
+            : null}
             {convertResult !== '' ? (
               <div
                 className='flex-auto mt-1 mb-1'>
                 <div
-                  className='bg-secondary text-primary py-4 px-6 text-lg text-center select-none rounded-md shadow-md' style={{ overflowWrap: 'break-word' }}>
-                  <h4 className='text-primary text-xl select-none'>Result</h4>
-                  <div className='text-primary text-lg mt-4'>
+                  className='bg-primary text-secondary py-4 px-16 text-lg text-center select-none rounded-sm shadow-sm' style={{ overflowWrap: 'break-word' }}>
+                  <h4 className='text-secondary text-xl select-none'>Result</h4>
+                  <div className='text-secondary text-lg mt-4'>
                     {result}
                     {from} = {convertResult}
                     {to}

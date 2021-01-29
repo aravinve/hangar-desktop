@@ -5,6 +5,21 @@
 :root {
   --primary-color: #172b4d;
   --secondary-color: #f2f2f2;
+  --body-color: #ffffff;
+  --gray-shade-color: #555555;
+  --border-data: none;
+}
+
+[data-theme='dark'] {
+  --primary-color: #f2f2f2;
+  --secondary-color: #121212;
+  --body-color: #121212;
+  --gray-shade-color: #555555;
+  --border-data: 1px solid var(--primary-color);
+}
+
+body {
+  background-color: var(--body-color);
 }
 
 h1,
@@ -39,7 +54,7 @@ html {
 }
 
 .border-primary {
-  border-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
 }
 
 .text-secondary {
@@ -51,7 +66,19 @@ html {
 }
 
 .border-secondary {
-  border-color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+}
+
+.bg-body {
+  background-color: var(--body-color);
+}
+
+.text-body {
+  color: var(--body-color);
+}
+
+.border-body {
+  border: 1px solid var(--body-color);
 }
 
 ::-moz-selection {
@@ -65,24 +92,24 @@ html {
 }
 
 .is-h-blue {
-  background-color: #172b4d;
-  color: #ffffff;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 .is-h-blue:hover {
-  color: #ffffff;
+  color: var(--secondary-color);
 }
 
 .is-h-blue.is-outlined {
-  background-color: #ffffff;
-  color: #172b4d;
-  border-color: #172b4d;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
   transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .is-h-blue.is-outlined:hover {
-  background-color: #172b4d;
-  color: #ffffff;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 .center-box {
@@ -95,7 +122,7 @@ html {
 
 .center-form-box {
   position: fixed;
-  top: 10.5rem;
+  top: 7.5rem;
   left: 2rem;
 }
 
@@ -109,15 +136,15 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f2f2f2;
+  background: var(--secondary-color);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #172b4d;
+  background: var(--primary-color);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555555;
+  background: var(--gray-shade-color);
 }
 
 #hangarFinder {
@@ -128,4 +155,44 @@ html {
 
 #hangarFinder:focus {
   width: 100%;
+}
+
+input[type='date' i] {
+  outline: none;
+  color: var(--primary-color);
+}
+
+input[type='date' i]:focus {
+  outline: none;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 12px;
+  background: linear-gradient(
+    90deg,
+    var(--secondary-color) 50%,
+    var(--secondary-color) 50%
+  );
+  outline: none;
+  border-radius: 4px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  background: var(--body-color);
+  color: var(--primary-color);
+  border: var(--border-data);
 }

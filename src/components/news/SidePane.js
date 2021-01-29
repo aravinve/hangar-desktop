@@ -18,7 +18,7 @@ function SidePane({handleSearchChange, handleSelectChange, searchArticle}) {
               className='rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-2'
               type='text'
               name='searchArticle'
-              placeholder='Search'
+              placeholder='Search News Article'
               onChange={handleSearchChange}
             />
           </p>
@@ -33,9 +33,9 @@ function SidePane({handleSearchChange, handleSelectChange, searchArticle}) {
           <div className="flex-1 inline-flex">
           <p className='text-primary text-sm inline-flex items-center'>
           <i className='fas fa-flag mr-2'></i></p>
-            <div className='inline-flex items-center m-1'>
-              <select onChange={handleSelectChange} name='searchCountry' className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-6">
-                <option value='us'>Select dropdown</option>
+            <div className='inline-flex items-center'>
+              <select onChange={handleSelectChange} name='searchCountry' className="cursor-pointer rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-2">
+                <option value='us'>Filter Country Based</option>
                 <option value='us'>USA</option>
                 <option value='in'>India</option>
                 <option value='au'>Australia</option>

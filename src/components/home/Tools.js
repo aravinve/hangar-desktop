@@ -1,20 +1,7 @@
-import overlayImage from '../../img/under_construction.png'
-
-function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTerm, currentTheme, enableSticky, enableFinder}) {
-
-  const styleOverlay = {
-    width: '100%',
-    height: '24vh',
-    backgroundImage: 'url(' + overlayImage + ')',
-    backgroundSize: 'cover',
-    backgroundClip: 'border-box',
-    backgroundPosition: 'center',
-    opacity: '100%',
-    backgroundRepeat: 'no-repeat',
-  }
+function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTerm, currentTheme, enableSticky, stickyState, enableFinder, finderState, enableDarkTheme, darkThemeState, userData, logoutHandler}) {
 
   return (
-    <div className='flex-shrink-0 fadein bg-white shadow-sm p-4'>
+    <div className='flex-shrink-0 fadein bg-body shadow-sm p-4'>
     <h2 className='ml-2 text-5xl text-primary mb-4 p-2'>
     <i className='fas fa-cogs'></i> Settings</h2>
       <div className='flex flex-row p-2 mb-2'>
@@ -38,10 +25,10 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
       </div>
       <div className='p-4 rounded-md shadow-sm bg-secondary text-primary fadein' id='settings-background'
       style={{display: 'none'}}>
-        <h4 className='text-primary text-3xl mb-4'><i className='fas fa-image m-2'></i> Display</h4>
+        <h4 className='text-primary text-3xl mb-4'><i className='fas fa-image mr-2'></i> Display</h4>
         <div className='flex flex-row mb-4'>
           <div className='flex-1'>
-            <p className="text-sm text-black">Change Background</p>
+            <p className="text-sm text-primary">Change Background</p>
           </div>
           <div className='flex-1'>
             <button
@@ -53,20 +40,20 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
         </div>
         <div className="flex flex-row mb-4">
           <div className="flex-1">
-            <p className="text-sm text-black">Current Theme</p>
+            <p className="text-sm text-primary">Current Theme</p>
           </div>
           <div className="flex-1">
-            <p className="text-sm text-black capitalize">{currentTheme} </p>
+            <p className="text-sm text-primary capitalize">{currentTheme} </p>
           </div>
         </div>
         <div className='flex flex-row mb-4'>
           <div className='flex-1'>
-            <p className="text-sm text-black">Modify Theme</p>
+            <p className="text-sm text-primary">Modify Theme</p>
           </div>
           <div className='flex-1'>
             <input
               type='text'
-              className='block w-full text-sm border-gray-300 shadow-sm rounded-sm px-1 py-1 focus:outline-none mb-2'
+              className='block w-full text-sm shadow-sm rounded-sm px-1 py-1 focus:outline-none mb-2'
               name='searchText'
               onChange={handleChange}
               placeholder='Buzz Theme'
@@ -84,29 +71,32 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
         className='p-4 rounded-md shadow-sm bg-secondary text-primary fadein'
         id='settings-preference'
         style={{display: 'none'}}>
-        <h4 className='text-primary text-3xl mb-4'>Preferences</h4>
-        <div className='flex flex-row justify-center mb-4'>
+        <h4 className='text-primary text-3xl mb-4'><i className='fas fa-heart mr-2'></i>Preferences</h4>
+        <div className='flex flex-row items-center justify-center mb-4'>
           <div className='flex-1'>
-            <p className="text-sm text-black">Hangar Finder</p>
+            <p className="text-sm text-primary">Dark Theme</p>
           </div>
           <div className='flex-1'>
-            <button
-              className='bg-primary cursor-pointer text-sm text-secondary py-1 px-2 rounded-sm shadow-sm focus:outline-none'
-              onClick={enableFinder}>
-                Enable
-            </button>
+            <input type="checkbox" name="enableDarkTheme" className='bg-primary cursor-pointer text-sm text-secondary mt-2 rounded-sm shadow-sm focus:outline-none'
+              onChange={enableDarkTheme} checked={darkThemeState} />  
           </div>
         </div>
-        <div className='flex flex-row justify-center mb-4'>
+        <div className='flex flex-row items-center justify-center mb-4'>
           <div className='flex-1'>
-            <p className="text-sm text-black">Sticky Notes</p>
+            <p className="text-sm text-primary">Hangar Finder</p>
           </div>
           <div className='flex-1'>
-            <button
-              className='bg-primary cursor-pointer text-sm text-secondary py-1 px-2 rounded-sm shadow-sm focus:outline-none'
-              onClick={enableSticky}>
-                Enable
-            </button>
+            <input type="checkbox" name="enableFinder" className='bg-primary cursor-pointer text-sm text-secondary mt-2 rounded-sm shadow-sm focus:outline-none'
+              onChange={enableFinder} checked={finderState} />  
+          </div>
+        </div>
+        <div className='flex flex-row items-center justify-center mb-4'>
+          <div className='flex-1'>
+            <p className="text-sm text-primary">Sticky Notes</p>
+          </div>
+          <div className='flex-1'>
+          <input type="checkbox" name="enableSticky" className='bg-primary cursor-pointer text-sm text-secondary mt-2 rounded-sm shadow-sm focus:outline-none'
+              onChange={enableSticky} checked={stickyState} />
           </div>
         </div>
       </div>
@@ -114,13 +104,46 @@ function Tools({changeSettingsMenu, changeOverlay, handleChange, changeSearchTer
         className='p-4 rounded-md shadow-sm bg-secondary text-primary fadein'
         id='settings-account'
         style={{display: 'none'}}>
-        <h4 className='text-primary text-3xl mb-4'>Account</h4>
-        <div className='container' style={{ textAlign: 'center' }}>
-          <h6 className='text-xl text-primary mb-4'>Under Construction</h6>
-          <div className='container' style={styleOverlay}></div>
+        <h4 className='text-primary text-3xl mb-2'><i className='fas fa-user-alt mr-2'></i>Account</h4>
+        {userData && (<>
+          <div className='flex flex-col items-center justify-center mb-1'>
+          <div className='flex-1 my-1'>
+            <p className="text-lg text-primary underline">Hangar Account Holder</p>
+          </div>
+          <div className='flex-1 my-0.5'>
+            <p className="text-xs text-primary">
+              {userData.hangarData.displayName}
+            </p>
+          </div>
+        </div>
+        <div className='flex flex-col items-center justify-center mb-1'>
+          <div className='flex-1 my-1'>
+            <p className="text-lg text-primary underline">Hangar Account Email</p>
+          </div>
+          <div className='flex-1 my-0.5'>
+            <p className="text-xs text-primary">
+              {userData.hangarData.email}
+            </p>
+          </div>
+        </div>
+        <div className='flex flex-col items-center justify-center my-1'>
+          <div className='flex-1 my-1'>
+            <p className="text-lg text-primary underline">Hangar Account Type</p>
+          </div>
+          <div className='flex-1 my-0.5'>
+            <p className="text-xs text-primary">
+              {userData.hangarData.planName}
+            </p>
+          </div>
+        </div></>)}
+        <div className='flex flex-row items-center justify-center mt-4 mb-1'>
+            <button
+              className='bg-primary cursor-pointer text-sm text-secondary py-1 px-2 rounded-sm shadow-sm focus:outline-none' onClick={logoutHandler}>
+                Logout
+            </button>
         </div>
       </div>
-      <div className="flex flex-col select-none justify-center items-center">
+      <div className="flex flex-col select-none justify-center items-center mt-2">
       <div className="text-primary text-sm">
           V1.0
         </div>

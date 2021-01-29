@@ -11,14 +11,21 @@ function Notes() {
   const [notes, setNotes] = useState(null)
   const [loading, setLoading] = useState(false)
   const [showEditor, setShowEditor] = useState(false)
+  const [editorTheme, setEditorTheme] = useState('snow')
+  const [primary, setPrimary] = useState('')
 
   useEffect(() => {
     setLoading(true)
-    firebase.firestore().collection('notes').onSnapshot(serverUpdate => {
+    const userPreferredData = JSON.parse(localStorage.getItem('userPreferedData'))
+    const userArgsData = JSON.parse(localStorage.getItem('userArgsData'))
+    const userEmail = userArgsData !== null && userArgsData['hangarEmail'] !== null ? userArgsData['hangarEmail']: ''
+    setPrimary(userEmail)
+    setEditorTheme(userPreferredData['theme'] ? 'bubble' : 'snow')
+    firebase.firestore().collection('notes').where('primary', '==', userEmail).onSnapshot(serverUpdate => {
       const notesFromStore = serverUpdate.docs.map(doc => {
-        const data = doc.data();
-        data['id'] = doc.id;
-        return data
+          const data = doc.data()
+          data['id'] = doc.id
+          return data
       })
       setNotes(notesFromStore)
       setLoading(false)
@@ -47,6 +54,7 @@ function Notes() {
       content: content
     }
     const dataFromDb = await firebase.firestore().collection('notes').add({
+      primary: primary,
       title: note.title,
       content: note.content,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -80,9 +88,9 @@ function Notes() {
   }
 
   return (
-    <div className='flex flex-row justfy-center'>
+    <div className='flex flex-row justify-center'>
       {!loading ? (<Sidebar selectedNoteIndex={selectedNoteIndex} notes={notes} deleteNote={deleteNote} newNote={newNote} selectNote={selectNote} />) : <Loader />}
-      {showEditor && selectNote ? (<Editor selectedNote={selectedNote} selectedNoteIndex={selectedNoteIndex} notes={notes} noteUpdate={noteUpdate} />): null}
+      {showEditor && selectNote ? (<Editor editorTheme={editorTheme} selectedNote={selectedNote} noteUpdate={noteUpdate} />): null}
       <Dashboard />
     </div>
   )

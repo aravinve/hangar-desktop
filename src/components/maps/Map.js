@@ -8,7 +8,7 @@ function Map({eventData, center, zoom}) {
     const markers = eventData !== undefined ?
          eventData.map(ev => {
             if(ev.categories[0].id === 8){
-               return  <LocationMarker lat={ev.geometries[0].coordinates[1]} lng={ev.geometries[0].coordinates[0]} onClick={() => setLocationInfo({id: ev.id, title: ev.title})} />
+               return  <LocationMarker key={ev.id} lat={ev.geometries[0].coordinates[1]} lng={ev.geometries[0].coordinates[0]} onClick={() => setLocationInfo({id: ev.id, title: ev.title})} />
             }
         })
     : null
@@ -20,17 +20,17 @@ function Map({eventData, center, zoom}) {
            defaultZoom={zoom}>
                {markers}
        </GoogleMapReact>
-       {locationInfo && <LocationInfoBox info={locationInfo} />}
+       {locationInfo && <LocationInfoBox info={locationInfo} clickHandler={() => setLocationInfo(null)} />}
       </div>
     )
 }
 
 Map.defaultProps = {
     center: {
-        lat: 42.3265,
-        lng: -122.8756
+        lat: 1.3521,
+        lng: 103.8198
     },
-    zoom: 6
+    zoom: 2
 }
 
 export default Map

@@ -2,9 +2,10 @@ import {useState, useEffect} from 'react'
 import ReactQuill from 'react-quill'
 import debounce from './helpers'
 import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
 
 
-function Editor({selectedNoteIndex, selectedNote, notes, noteUpdate}) {
+function Editor({selectedNote, noteUpdate, editorTheme}) {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [id, setId] = useState('')
@@ -56,7 +57,7 @@ function Editor({selectedNoteIndex, selectedNote, notes, noteUpdate}) {
                 className='block bg-primary text-secondary w-full border-gray-300 rounded-md px-4 py-2 focus:outline-none'
                 />
             </div>
-            <ReactQuill theme="snow" value={content} onChange={updateBody} className='flex-1 h-screen w-full'>
+            <ReactQuill theme={editorTheme} value={content} onChange={updateBody} className='flex-1 h-screen w-full text-primary'>
             </ReactQuill>
         </div>
     )

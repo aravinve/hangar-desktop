@@ -18,7 +18,7 @@ function SidePane({handleChange, searchRecipe}) {
               className='rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-2'
               type='text'
               name='searchRecipe'
-              placeholder='Search'
+              placeholder='Recipe'
               onChange={handleChange}
             />
           </p>

@@ -10,9 +10,8 @@ function ContentFrame({contentTitle, contentData, contentUrl}) {
               <a
                 href={contentUrl}
                 className='bg-primary cursor-pointer text-secondary text-sm px-4 py-2 m-1 rounded-sm focus:outline-none'
-                target='_blank'
-              >
-                <i class='fas fa-external-link-alt'></i> Read More
+                target='_blank'>
+                <i className='fas fa-external-link-alt'></i> Read More
               </a>
             </div>
           </div>

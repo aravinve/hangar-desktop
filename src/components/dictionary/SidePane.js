@@ -19,7 +19,7 @@ function SidePane({handleChange, searchWord}) {
               className='rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none mr-2'
               type='text'
               name='searchWord'
-              placeholder='word'
+              placeholder='Search Word'
               onChange={handleChange}
             />
           </p>

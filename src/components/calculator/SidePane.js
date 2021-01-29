@@ -18,8 +18,7 @@ function SidePane({handleChange}) {
                     name='modeChange'
                     id='mode-changer'
                     className="rounded-md shadow-md p-1 text-sm text-primary outline-none focus:outline-none"
-                    onChange={handleChange}
-                  >
+                    onChange={handleChange}>
                     <option value='simple'>Simple</option>
                     <option value='scientific'>Scientific</option>
                   </select>

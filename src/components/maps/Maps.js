@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
-import Dashboard from '../home/Dashboard';
+import { useState, useEffect } from 'react'
+import Dashboard from '../home/Dashboard'
 import Map from './Map'
-import SidePane from './SidePane';
+import SidePane from './SidePane'
 import Loader from '../../Loader'
+import hangarFetch from '../../HangarFetch'
 
 function Maps() {
 
@@ -14,9 +15,9 @@ function Maps() {
   useEffect(() => {
     const fetchEvent = async () => {
         setLoading(true)
-        const res = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events')
-        const { events } = await res.json()
-        setEventData(events)
+        const myRequest = 'https://eonet.sci.gsfc.nasa.gov/api/v2.1/events'
+        const mapsApiResponse = await hangarFetch(`maps-events-response`, myRequest)
+        await setEventData(mapsApiResponse.events)
         setLoading(false)
     }
     fetchEvent()

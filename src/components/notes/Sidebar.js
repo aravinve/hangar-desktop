@@ -14,10 +14,12 @@ function Sidebar({selectedNoteIndex, selectNote, newNote, deleteNote, notes }) {
     }
 
     const callNewNote = () => {
-        newNote(title, content)
-        setTitle(null)
-        setContent(null)
-        setAddingNote(!addingNote)
+        if(title !== null && content !== null){
+            newNote(title, content)
+            setTitle(null)
+            setContent(null)
+            setAddingNote(!addingNote)
+        }
     }
 
     const updateTitle = (val) => {
@@ -37,14 +39,14 @@ function Sidebar({selectedNoteIndex, selectNote, newNote, deleteNote, notes }) {
     }
 
     const notesList = notes !== null && notes.length > 0 ? notes.map((note, index) => (
-        <div key={index} className='bg-white text-primary rounded-sm shadow-sm p-2 m-2'>
+        <div key={index} className='bg-body text-primary border-primary rounded-sm shadow-sm p-2 m-2'>
             <SidebarItem note={note} index={index} selectedNoteIndex={selectedNoteIndex} selectNote={selectNoteFunction} deleteNote={deleteNoteFunction} />
         </div>
     )) : null
 
     return (
         <>
-            <div className="bg-secondary flex-1 flex flex-col border-r border-primary justify-center p-2">
+            <div className="bg-secondary flex-1 flex flex-col border-r border-primary justify-center p-2 mb-16">
                 <div className="flex-shrink-0 inline-flex flex-row rounded-l-sm shadow-md bg-primary w-full">
                     <p className='bg-primary w-3/4 p-2 rounded-l-sm inline-flex items-center text-secondary text-xl select-none'>
                     <i className="fas fa-book mr-2"></i> Notes
@@ -54,11 +56,8 @@ function Sidebar({selectedNoteIndex, selectNote, newNote, deleteNote, notes }) {
                         onClick={openNewNote}> {!addingNote ? (<><span><i className="fas fa-plus-square mr-2"></i>Create New</span></>) : (<><span><i className="fas fa-times mr-2"></i>Cancel</span></>)}
                     </button>
                 </div>
-                <div className="flex-shrink-0 mt-2 mb-2 flex justify-center">
-                   
-                </div>
                 {addingNote ? (<>
-                    <div className="flex flex-shrink-0 mt-2 mb-2 bg-white shadow-md rounded-md flex-col">
+                    <div className="flex flex-shrink-0 mt-2 mb-2 bg-body shadow-md rounded-md flex-col">
                     <div className='flex-shrink-0 text-center text-md inline-flex justify-center mt-2 mb-2'>
                         <i className="fas fa-heading mt-3 mb-2 ml-2 mr-2 text-primary"></i>
                         <input
