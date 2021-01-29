@@ -1,6 +1,6 @@
 {
   "name": "hangar",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "All Apps In Your Hangar",
   "private": true,
   "dependencies": {
