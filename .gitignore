@@ -4,6 +4,7 @@
 .eslintcache
 .vscode/
 index.css
+/releases
 
 # dependencies
 /node_modules
