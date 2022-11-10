@@ -78,7 +78,7 @@
   },
   "homepage": "./",
   "devDependencies": {
-    "electron": "^11.0.3",
+    "electron": "^18.3.7",
     "electron-builder": "^22.9.1"
   }
 }
